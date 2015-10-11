@@ -20,10 +20,11 @@ public class Player {
     
     init() {
         self.skills = Dictionary<String, Int>()
-        skills["Strength"] = 3
-        skills["Stamina"] = 3
-        skills["Smarts"] = 3
-        skills["Sanity"] = 3
+        skills["Strength"] = 0
+        skills["Stamina"] = 0
+        skills["Smarts"] = 0
+        skills["Sanity"] = 0
+        skills["Health"] = 8
         self.currentEffects = []
         self.items = []
         self.currentHappenings = []
@@ -34,10 +35,11 @@ public class Player {
     }
     
     func isPlayerAlive() -> Bool {
-        for (_, value) in skills {
-            if(value <= 0){ return false }
-        }
-        return true
+        //for (_, value) in skills {
+        //    if(value <= 0){ return false }
+        //}
+        //return true
+        return skills["Health"] > 0
     }
     
     func setHeading() {

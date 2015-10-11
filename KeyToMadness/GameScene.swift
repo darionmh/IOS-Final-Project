@@ -75,6 +75,7 @@ class GameScene: SKScene {
                                 // door leads to undiscovered room
                                 app.createRoom(door!-1)
                                 app.processEffects()
+                                app.generateMonster()
                             }else{
                                 // a room exists at this location
                                 let roomAtLocation:Room = app.houseLayout[location.y+7][location.x+7]!
@@ -86,6 +87,7 @@ class GameScene: SKScene {
                                     // room has been visited and is not a special room
                                     app.applyVisitedRoom(roomAtLocation, door: door!-1)
                                     print("This room looks oddly familiar.")
+                                    app.checkForMonsters()
                                 }
                             }
                         }else{
@@ -93,6 +95,7 @@ class GameScene: SKScene {
                             print("The door opens... to a brick wall.")
                             app.updateFalseDoor(door!-1)
                         }
+                        app.moveMonsters()
                     }else if(app.currentRoom.attachedRooms[door!-1]!.name == "EMPTY"){
                         print("Not a valid door!")
                     }else if(app.currentRoom.attachedRooms[door!-1]!.name == "Exit"){
@@ -105,6 +108,7 @@ class GameScene: SKScene {
                         // room already discovered
                         app.currentRoom = app.currentRoom.attachedRooms[door!-1]!
                         app.player.headingNum = (door!+1)%4
+                        app.checkForMonsters()
                     }
                 }else{
                     print("Not a valid door!")
