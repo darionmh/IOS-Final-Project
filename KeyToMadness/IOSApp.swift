@@ -57,8 +57,8 @@ public class IOSApp {
         let x:Int = currentRoom.location.x+7
         var y:Int = currentRoom.location.y+7
         houseLayout[y][x] = start
-        for(var i = y; i>=0;i--){
-            houseLayout[y--][x] = Room()
+        for(var i = y; i>0;i--){
+            houseLayout[--y][x] = Room()
         }
         monstersInGame = []
     }
