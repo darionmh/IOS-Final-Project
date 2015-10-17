@@ -8,37 +8,162 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
-    override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
-        myLabel.fontSize = 45;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-        
-        self.addChild(myLabel)
-    }
+let kAnalogStickdiameter: CGFloat = 200
+
+enum BodyType: UInt32 {
+    case player = 1
+    case door = 2
+    case item = 4
+}
+
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
+    var appleNode: SKSpriteNode?
+    var removed: Bool = false
+    var applesCollected = 0
+    let score = SKLabelNode(text: "Apples: 0")
+    
+    private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
+    
+    var isSetJoystickStickImage: Bool {
         
-        for touch in touches {
-            let location = touch.locationInNode(self)
+        get { return _isSetJoystickStickImage }
+        
+        set {
             
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
+            _isSetJoystickStickImage = newValue
+            let image = UIImage(named: "magic_ball")
+            moveAnalogStick.stickImage = image
+            rotateAnalogStick.stickImage = image
         }
     }
-   
+    
+    var isSetJoystickSubstrateImage: Bool {
+        
+        get { return _isSetJoystickSubstrateImage }
+        
+        set {
+            
+            _isSetJoystickSubstrateImage = newValue
+            let image = newValue ? UIImage(named: "jSubstrate") : nil
+            moveAnalogStick.substrateImage = image
+            rotateAnalogStick.substrateImage = image
+        }
+    }
+    
+    var joysticksdiameters: CGFloat {
+        
+        get { return max(moveAnalogStick.diameter, rotateAnalogStick.diameter) }
+        
+        set(newdiameter) {
+            
+            moveAnalogStick.diameter = newdiameter
+            rotateAnalogStick.diameter = newdiameter
+        }
+    }
+    
+    let moveAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
+    let rotateAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
+    
+    override func didMoveToView(view: SKView) {
+        /* Setup your scene here */
+        backgroundColor = UIColor.greenColor()
+        addChild(addRoom())
+        let jRadius = kAnalogStickdiameter / 2
+        
+        
+        moveAnalogStick.diameter = kAnalogStickdiameter
+        moveAnalogStick.position = CGPointMake(jRadius + 75, jRadius + 150)
+        moveAnalogStick.trackingHandler = { analogStick in
+            
+            guard let aN = self.appleNode else { return }
+            
+            aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.12), aN.position.y + (analogStick.data.velocity.y * 0.12))
+        }
+        addChild(moveAnalogStick)
+        
+        rotateAnalogStick.diameter = kAnalogStickdiameter
+        rotateAnalogStick.position = CGPointMake(CGRectGetMaxX(self.frame) - jRadius - 75, jRadius + 150)
+        rotateAnalogStick.trackingHandler = { analogStick in
+            
+            self.appleNode?.zRotation = analogStick.data.angular
+        }
+        
+        addChild(rotateAnalogStick)
+        
+        appleNode = appendAppleToPoint(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)))
+        insertChild(appleNode!, atIndex: 0)
+        physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        
+        isSetJoystickStickImage = _isSetJoystickStickImage
+        isSetJoystickSubstrateImage = _isSetJoystickSubstrateImage
+        let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
+        let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
+        addChild(addDoor(CGPointMake(x,y)))
+        
+        physicsWorld.contactDelegate = self
+        setupLabels()
+    }
+    
+    func appendAppleToPoint(position: CGPoint) -> SKSpriteNode {
+        
+        let playerImage = UIImage(named: "penguin")
+        
+        precondition(playerImage != nil, "Please set right image")
+        
+        let texture = SKTexture(image: playerImage!)
+        
+        let player = SKSpriteNode(texture: texture)
+        player.physicsBody = SKPhysicsBody(texture: texture, size: player.size)
+        player.physicsBody!.affectedByGravity = false
+        player.position = position
+        player.physicsBody?.categoryBitMask = BodyType.player.rawValue
+        player.physicsBody?.contactTestBitMask = BodyType.door.rawValue
+        player.physicsBody?.collisionBitMask = 0
+        
+        return player
+    }
+    
+    func addRoom() -> SKSpriteNode {
+        let roomImage = UIImage(named: "room")
+        let texture = SKTexture(image: roomImage!)
+        let room = SKSpriteNode(texture: texture)
+        room.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        room.zPosition = -3
+        
+       return room
+    }
+    
+    func addDoor(position: CGPoint) -> SKSpriteNode {
+        let doorImage = UIImage(named: "apple")
+        let texture = SKTexture(image: doorImage!)
+        let door = SKSpriteNode(texture: texture)
+        door.physicsBody = SKPhysicsBody(texture: texture, size: door.size)
+        door.position = position
+        door.physicsBody?.allowsRotation = false
+        door.physicsBody?.affectedByGravity = false
+        door.physicsBody?.categoryBitMask = BodyType.door.rawValue
+        door.physicsBody?.contactTestBitMask = BodyType.player.rawValue
+        door.physicsBody?.collisionBitMask = 0
+        
+        return door
+    }
+    
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        /* Called when a touch begins */
+//        super.touchesBegan(touches, withEvent: event)
+//        
+//        if let touch = touches.first {
+//            
+//            let node = nodeAtPoint(touch.locationInNode(self))
+//            
+//            switch node {
+//            default:
+//                appleNode?.position = touch.locationInNode(self)
+//            }
+//        }
+//    }
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
@@ -129,5 +254,47 @@ class GameScene: SKScene {
             print("Maybe the key was never there.")
             print("----- YOU LOSE -----")
         }
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        switch(contactMask){
+        case BodyType.player.rawValue | BodyType.door.rawValue:
+            let firstNode = contact.bodyA.node
+            if(contact.bodyA.categoryBitMask == BodyType.player.rawValue){
+                let secondNode = contact.bodyB.node
+                secondNode?.removeFromParent()
+            }else{
+                firstNode?.removeFromParent()
+            }
+            removed = true;
+        default:
+            return
+        }
+    }
+    
+    override func didFinishUpdate() {
+        if(removed){
+            let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
+            let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
+            addChild(addDoor(CGPointMake(x, y)))
+            removed = false;
+            score.text = "Apples: \(++applesCollected)"
+        }
+    }
+    
+    func setupLabels() {
+        score.position = CGPoint(x: frame.size.width/2, y: frame.size.height * 0.15)
+        score.fontColor = UIColor.whiteColor();
+        score.fontSize = 40
+        addChild(score)
+    }
+}
+
+extension UIColor {
+    
+    static func random() -> UIColor {
+        
+        return UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1)
     }
 }

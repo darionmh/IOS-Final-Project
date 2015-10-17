@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		47271B9D1BD1928B00151A79 /* AnalogStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47271B9C1BD1928B00151A79 /* AnalogStick.swift */; settings = {ASSET_TAGS = (); }; };
+		47271BA81BD192D800151A79 /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271B9E1BD192D800151A79 /* apple.png */; settings = {ASSET_TAGS = (); }; };
+		47271BA91BD192D800151A79 /* apple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271B9F1BD192D800151A79 /* apple@2x.png */; settings = {ASSET_TAGS = (); }; };
+		47271BAA1BD192D800151A79 /* jStick.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA01BD192D800151A79 /* jStick.png */; settings = {ASSET_TAGS = (); }; };
+		47271BAB1BD192D800151A79 /* jStick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA11BD192D800151A79 /* jStick@2x.png */; settings = {ASSET_TAGS = (); }; };
+		47271BAC1BD192D800151A79 /* jSubstrate.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA21BD192D800151A79 /* jSubstrate.png */; settings = {ASSET_TAGS = (); }; };
+		47271BAD1BD192D800151A79 /* jSubstrate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA31BD192D800151A79 /* jSubstrate@2x.png */; settings = {ASSET_TAGS = (); }; };
+		47271BAE1BD192D800151A79 /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA41BD192D800151A79 /* minus.png */; settings = {ASSET_TAGS = (); }; };
+		47271BAF1BD192D800151A79 /* minus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA51BD192D800151A79 /* minus@2x.png */; settings = {ASSET_TAGS = (); }; };
+		47271BB01BD192D800151A79 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA61BD192D800151A79 /* plus.png */; settings = {ASSET_TAGS = (); }; };
+		47271BB11BD192D800151A79 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA71BD192D800151A79 /* plus@2x.png */; settings = {ASSET_TAGS = (); }; };
+		47271BBD1BD2AAAA00151A79 /* penguin.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BBC1BD2AAAA00151A79 /* penguin.png */; settings = {ASSET_TAGS = (); }; };
+		47271BBF1BD2AB7D00151A79 /* magic_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BBE1BD2AB7D00151A79 /* magic_ball.png */; settings = {ASSET_TAGS = (); }; };
+		47271BC11BD2CDEF00151A79 /* room.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BC01BD2CDEF00151A79 /* room.png */; settings = {ASSET_TAGS = (); }; };
 		473F3F5D1BC7481D00D42327 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F5C1BC7481D00D42327 /* AppDelegate.swift */; };
 		473F3F5F1BC7481D00D42327 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 473F3F5E1BC7481D00D42327 /* GameScene.sks */; };
 		473F3F611BC7481D00D42327 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F601BC7481D00D42327 /* GameScene.swift */; };
@@ -45,6 +59,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		47271B9C1BD1928B00151A79 /* AnalogStick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalogStick.swift; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/AnalogStick/AnalogStick.swift"; sourceTree = "<group>"; };
+		47271B9E1BD192D800151A79 /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = apple.png; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/apple.png"; sourceTree = "<group>"; };
+		47271B9F1BD192D800151A79 /* apple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "apple@2x.png"; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/apple@2x.png"; sourceTree = "<group>"; };
+		47271BA01BD192D800151A79 /* jStick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jStick.png; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/jStick.png"; sourceTree = "<group>"; };
+		47271BA11BD192D800151A79 /* jStick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "jStick@2x.png"; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/jStick@2x.png"; sourceTree = "<group>"; };
+		47271BA21BD192D800151A79 /* jSubstrate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jSubstrate.png; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/jSubstrate.png"; sourceTree = "<group>"; };
+		47271BA31BD192D800151A79 /* jSubstrate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "jSubstrate@2x.png"; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/jSubstrate@2x.png"; sourceTree = "<group>"; };
+		47271BA41BD192D800151A79 /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = minus.png; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/minus.png"; sourceTree = "<group>"; };
+		47271BA51BD192D800151A79 /* minus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus@2x.png"; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/minus@2x.png"; sourceTree = "<group>"; };
+		47271BA61BD192D800151A79 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/plus.png"; sourceTree = "<group>"; };
+		47271BA71BD192D800151A79 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@2x.png"; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/plus@2x.png"; sourceTree = "<group>"; };
+		47271BBC1BD2AAAA00151A79 /* penguin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = penguin.png; path = ../../../../Documents/penguin.png; sourceTree = "<group>"; };
+		47271BBE1BD2AB7D00151A79 /* magic_ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magic_ball.png; path = ../../../magic_ball.png; sourceTree = "<group>"; };
+		47271BC01BD2CDEF00151A79 /* room.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = room.png; path = ../../../../Documents/room.png; sourceTree = "<group>"; };
 		473F3F591BC7481D00D42327 /* KeyToMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KeyToMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		473F3F5C1BC7481D00D42327 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		473F3F5E1BC7481D00D42327 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -121,6 +149,7 @@
 				473F3F5C1BC7481D00D42327 /* AppDelegate.swift */,
 				473F3F5E1BC7481D00D42327 /* GameScene.sks */,
 				473F3F601BC7481D00D42327 /* GameScene.swift */,
+				47271B9C1BD1928B00151A79 /* AnalogStick.swift */,
 				473F3F621BC7481D00D42327 /* GameViewController.swift */,
 				473F3FA01BC74D0600D42327 /* MainMenuViewController.swift */,
 				473F3F641BC7481D00D42327 /* Main.storyboard */,
@@ -135,6 +164,19 @@
 				473F3F9A1BC7496400D42327 /* Point.swift */,
 				473F3F9C1BC7497400D42327 /* Room.swift */,
 				473F3F9E1BC7499900D42327 /* IOSApp.swift */,
+				47271B9E1BD192D800151A79 /* apple.png */,
+				47271B9F1BD192D800151A79 /* apple@2x.png */,
+				47271BA01BD192D800151A79 /* jStick.png */,
+				47271BA11BD192D800151A79 /* jStick@2x.png */,
+				47271BC01BD2CDEF00151A79 /* room.png */,
+				47271BBC1BD2AAAA00151A79 /* penguin.png */,
+				47271BA21BD192D800151A79 /* jSubstrate.png */,
+				47271BBE1BD2AB7D00151A79 /* magic_ball.png */,
+				47271BA31BD192D800151A79 /* jSubstrate@2x.png */,
+				47271BA41BD192D800151A79 /* minus.png */,
+				47271BA51BD192D800151A79 /* minus@2x.png */,
+				47271BA61BD192D800151A79 /* plus.png */,
+				47271BA71BD192D800151A79 /* plus@2x.png */,
 				473F3F741BC7481D00D42327 /* KeyToMadnessTests */,
 			);
 			path = KeyToMadness;
@@ -265,9 +307,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				473F3F5F1BC7481D00D42327 /* GameScene.sks in Resources */,
+				47271BAE1BD192D800151A79 /* minus.png in Resources */,
 				473F3F6B1BC7481D00D42327 /* LaunchScreen.storyboard in Resources */,
+				47271BBD1BD2AAAA00151A79 /* penguin.png in Resources */,
+				47271BAB1BD192D800151A79 /* jStick@2x.png in Resources */,
+				47271BAA1BD192D800151A79 /* jStick.png in Resources */,
 				473F3F681BC7481D00D42327 /* Assets.xcassets in Resources */,
+				47271BB01BD192D800151A79 /* plus.png in Resources */,
+				47271BAD1BD192D800151A79 /* jSubstrate@2x.png in Resources */,
+				47271BA91BD192D800151A79 /* apple@2x.png in Resources */,
 				473F3F661BC7481D00D42327 /* Main.storyboard in Resources */,
+				47271BB11BD192D800151A79 /* plus@2x.png in Resources */,
+				47271BC11BD2CDEF00151A79 /* room.png in Resources */,
+				47271BBF1BD2AB7D00151A79 /* magic_ball.png in Resources */,
+				47271BAF1BD192D800151A79 /* minus@2x.png in Resources */,
+				47271BAC1BD192D800151A79 /* jSubstrate.png in Resources */,
+				47271BA81BD192D800151A79 /* apple.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +357,7 @@
 				473F3F911BC7484D00D42327 /* Player.swift in Sources */,
 				473F3F5D1BC7481D00D42327 /* AppDelegate.swift in Sources */,
 				473F3F951BC7487E00D42327 /* Monster.swift in Sources */,
+				47271B9D1BD1928B00151A79 /* AnalogStick.swift in Sources */,
 				473F3F9F1BC7499900D42327 /* IOSApp.swift in Sources */,
 				473F3F9D1BC7497400D42327 /* Room.swift in Sources */,
 			);
@@ -532,6 +588,7 @@
 				473F3F871BC7481D00D42327 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		473F3F881BC7481D00D42327 /* Build configuration list for PBXNativeTarget "KeyToMadnessTests" */ = {
 			isa = XCConfigurationList;
@@ -540,6 +597,7 @@
 				473F3F8A1BC7481D00D42327 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		473F3F8B1BC7481D00D42327 /* Build configuration list for PBXNativeTarget "KeyToMadnessUITests" */ = {
 			isa = XCConfigurationList;
@@ -548,6 +606,7 @@
 				473F3F8D1BC7481D00D42327 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
