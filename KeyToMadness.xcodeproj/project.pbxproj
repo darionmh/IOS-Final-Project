@@ -30,6 +30,7 @@
 		47C4CE021BD434C900074668 /* room.png in Resources */ = {isa = PBXBuildFile; fileRef = 47C4CE011BD434C900074668 /* room.png */; settings = {ASSET_TAGS = (); }; };
 		47C4CE041BD434D900074668 /* penguin.png in Resources */ = {isa = PBXBuildFile; fileRef = 47C4CE031BD434D900074668 /* penguin.png */; settings = {ASSET_TAGS = (); }; };
 		47C4CE061BD434EF00074668 /* magic_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 47C4CE051BD434EF00074668 /* magic_ball.png */; settings = {ASSET_TAGS = (); }; };
+		47C4CE081BD4363800074668 /* gameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47C4CE071BD4363800074668 /* gameData.plist */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		47C4CE011BD434C900074668 /* room.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = room.png; sourceTree = "<group>"; };
 		47C4CE031BD434D900074668 /* penguin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = penguin.png; sourceTree = "<group>"; };
 		47C4CE051BD434EF00074668 /* magic_ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magic_ball.png; sourceTree = "<group>"; };
+		47C4CE071BD4363800074668 /* gameData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gameData.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				47C4CDFF1BD4349200074668 /* apple.png */,
 				47C4CE031BD434D900074668 /* penguin.png */,
 				47C4CE011BD434C900074668 /* room.png */,
+				47C4CE071BD4363800074668 /* gameData.plist */,
 				47C4CE051BD434EF00074668 /* magic_ball.png */,
 				473F3F741BC7481D00D42327 /* KeyToMadnessTests */,
 			);
@@ -282,6 +285,7 @@
 				47C4CE041BD434D900074668 /* penguin.png in Resources */,
 				473F3F5F1BC7481D00D42327 /* GameScene.sks in Resources */,
 				473F3F6B1BC7481D00D42327 /* LaunchScreen.storyboard in Resources */,
+				47C4CE081BD4363800074668 /* gameData.plist in Resources */,
 				47C4CE061BD434EF00074668 /* magic_ball.png in Resources */,
 				47C4CE021BD434C900074668 /* room.png in Resources */,
 				47C4CE001BD4349200074668 /* apple.png in Resources */,

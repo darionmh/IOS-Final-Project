@@ -12,7 +12,6 @@ public class IOSApp {
     var houseLayout:Array<Array<Room?>> = Array<Array<Room?>>()
     var hasWon:Bool = false
     var currentRoom:Room
-    //var properties
     var player:Player
     var itemCount:Int = 0
     var goodEffectCount:Int = 0
@@ -31,10 +30,8 @@ public class IOSApp {
     var monstersInGame:[Monster]
     
     init(){
-        //let path = NSBundle.mainBundle().pathForResource("test", ofType: "plist")
-        let path1 = NSSearchPathForDirectoriesInDomains(.DownloadsDirectory, .UserDomainMask, true)[0]
-        //print(path)
-        let properties = NSDictionary(contentsOfFile: path1+"/AndrewIOS/IOSAppConsole/IOSAppConsole/test.plist")
+        let path = NSBundle.mainBundle().pathForResource("gameData", ofType: "plist")
+        let properties = NSDictionary(contentsOfFile: path!)
         self.rooms = properties!.objectForKey("Room") as! [String]
         self.roomCount = self.rooms.count
         self.happenings = properties!.objectForKey("Happening") as! Array<Array<AnyObject>>
@@ -327,7 +324,7 @@ public class IOSApp {
                 userInput = String(Input())
                 if(userInput.caseInsensitiveCompare("Y") == NSComparisonResult.OrderedSame && !monster!.encountered){
                     print("You escape the monster... for now")
-                    currentRoom = currentRoom.previousRoom!
+                    currentRoom = player.headingNum%4//  currentRoom.previousRoom!
                     let smarts:Int = player.skills["Smarts"]! + player.skills["Stamina"]!
                     if(smarts>0 && Int(arc4random_uniform(UInt32(smarts))) <= 0){monster!.encountered = true}
                 }else if(userInput.caseInsensitiveCompare("N") == NSComparisonResult.OrderedSame){

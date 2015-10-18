@@ -22,6 +22,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var removed: Bool = false
     var applesCollected = 0
     let score = SKLabelNode(text: "Apples: 0")
+    var door:Int = 0
+    let app:IOSApp = IOSApp()
+    var doorX:CGFloat = 0
+    var doorY:CGFloat = 0
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
@@ -67,6 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        showInstructions(self)
         backgroundColor = UIColor.greenColor()
         addChild(addRoom())
         let jRadius = kAnalogStickdiameter / 2
@@ -97,9 +102,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         isSetJoystickStickImage = _isSetJoystickStickImage
         isSetJoystickSubstrateImage = _isSetJoystickSubstrateImage
-        let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
-        let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
-        addChild(addDoor(CGPointMake(x,y)))
+        //let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
+        //let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
+        addChild(addDoor(CGPointMake(400,200),value: 1))
+        addChild(addDoor(CGPointMake(200,400),value: 2))
+        addChild(addDoor(CGPointMake(400,600),value: 3))
+        addChild(addDoor(CGPointMake(600,400),value: 4))
         
         physicsWorld.contactDelegate = self
         setupLabels()
@@ -134,7 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        return room
     }
     
-    func addDoor(position: CGPoint) -> SKSpriteNode {
+    func addDoor(position: CGPoint, value: Int) -> SKSpriteNode {
         let doorImage = UIImage(named: "apple")
         let texture = SKTexture(image: doorImage!)
         let door = SKSpriteNode(texture: texture)
@@ -145,24 +153,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         door.physicsBody?.categoryBitMask = BodyType.door.rawValue
         door.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         door.physicsBody?.collisionBitMask = 0
-        
+        door.name = "\(value)"
         return door
     }
-    
-//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        /* Called when a touch begins */
-//        super.touchesBegan(touches, withEvent: event)
-//        
-//        if let touch = touches.first {
-//            
-//            let node = nodeAtPoint(touch.locationInNode(self))
-//            
-//            switch node {
-//            default:
-//                appleNode?.position = touch.locationInNode(self)
-//            }
-//        }
-//    }
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
@@ -261,11 +254,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch(contactMask){
         case BodyType.player.rawValue | BodyType.door.rawValue:
             let firstNode = contact.bodyA.node
+            let secondNode = contact.bodyB.node
             if(contact.bodyA.categoryBitMask == BodyType.player.rawValue){
-                let secondNode = contact.bodyB.node
                 secondNode?.removeFromParent()
+                door = Int((secondNode?.name!)!)!
+                doorX = (secondNode?.position.x)!
+                doorY = (secondNode?.position.y)!
+                firstNode?.removeFromParent()
             }else{
                 firstNode?.removeFromParent()
+                door = Int((firstNode?.name!)!)!
+                doorX = (firstNode?.position.x)!
+                doorY = (firstNode?.position.y)!
+                secondNode?.removeFromParent()
             }
             removed = true;
         default:
@@ -275,9 +276,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didFinishUpdate() {
         if(removed){
-            let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
-            let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
-            addChild(addDoor(CGPointMake(x, y)))
+            //let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
+            //let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
+            print("Handling door")
+            handleDoor(door)
+            addChild(addDoor(CGPointMake(doorX, doorY),value: door))
+            appleNode!.position = CGPointMake(400,400)
+            insertChild(appleNode!, atIndex: 0)
+            physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
             removed = false;
             score.text = "Apples: \(++applesCollected)"
         }
@@ -288,6 +294,68 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score.fontColor = UIColor.whiteColor();
         score.fontSize = 40
         addChild(score)
+    }
+    
+    func showInstructions(controller: GameScene) {
+        let alert = UIAlertView(title: "Instructions:", message: "", delegate: self, cancelButtonTitle: "OK")
+        let scroll = UIScrollView(frame: CGRectMake(0, 0, frame.size.width * 0.8, frame.size.height * 0.8) )
+        let field = UITextView()
+        field.frame = CGRectMake(0, 0, frame.size.width, frame.size.height * 0.6)
+        field.editable = false
+        field.userInteractionEnabled = false
+        field.text = "Enter \"exit\" to quit.\nEnter \"stats\" to show player stats.\nEnter \"items\" to show current items.\nEnter \"happenings\" to show current happenings.\nEnter \"effects\" to show current effects.\nEnter \"layout\" to show house layout."
+        scroll.addSubview(field)
+        alert.setValue(scroll, forKey: "accessoryView")
+        alert.show()
+    }
+    
+    func handleDoor(door: Int){
+        if(app.currentRoom.attachedRooms[door-1] == nil){
+            // door is value
+            app.player.headingNum = (door+1)%4
+            let location:Point = app.calcLocation()
+            if(location.x <= 7 && location.x >= -7 && location.y <= 7 && location.y >= -7){
+                // inside the house layout
+                if(app.houseLayout[location.y+7][location.x+7] == nil){
+                    // door leads to undiscovered room
+                    app.createRoom(door-1)
+                    app.processEffects()
+                    app.generateMonster()
+                }else{
+                    // a room exists at this location
+                    let roomAtLocation:Room = app.houseLayout[location.y+7][location.x+7]!
+                    if(roomAtLocation.name == "EMPTY" || (roomAtLocation.attachedRooms[(door+2)%4] != nil && roomAtLocation.attachedRooms[(door+2)%4]!.name == "EMPTY")){
+                        // not a valid room placement like (0,-1) or this door is a false door
+                        print("The door will not opens, weird")
+                        app.updateFalseDoor(door-1)
+                    }else{
+                        // room has been visited and is not a special room
+                        app.applyVisitedRoom(roomAtLocation, door: door-1)
+                        print("This room looks oddly familiar.")
+                        app.checkForMonsters()
+                    }
+                }
+            }else{
+                // outside of range of house
+                print("The door opens... to a brick wall.")
+                app.updateFalseDoor(door-1)
+            }
+            app.moveMonsters()
+        }else if(app.currentRoom.attachedRooms[door-1]!.name == "EMPTY"){
+            print("Not a valid door!")
+        }else if(app.currentRoom.attachedRooms[door-1]!.name == "Exit"){
+            if(app.player.hasKey){
+                app.hasWon = true
+            }else{
+                print("The door is locked and will not opens.")
+            }
+        }else{
+            // room already discovered
+            app.currentRoom = app.currentRoom.attachedRooms[door-1]!
+            app.player.headingNum = (door+1)%4
+            app.checkForMonsters()
+        }
+        print(app.currentRoom.toString())
     }
 }
 

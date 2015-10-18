@@ -1,10 +1,3 @@
-//
-//  AnalogStick.swift
-//  Joystick
-//
-//  Created by Dmitriy Mitrophanskiy on 28.09.14.
-//
-//
 import SpriteKit
 
 public typealias AnalogStickMoveHandler = (AnalogStick) -> ()

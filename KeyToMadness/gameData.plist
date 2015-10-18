@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Room</key>
+	<array>
+		<string>Kitchen</string>
+		<string>Hallway</string>
+		<string>Bedroom</string>
+		<string>Master Bedroom</string>
+		<string>Sitting Room</string>
+		<string>Living Room</string>
+		<string>Sun Room</string>
+		<string>Cemetery</string>
+		<string>Laboratory</string>
+		<string>Office</string>
+		<string>Play Room</string>
+		<string>Theater</string>
+		<string>Game Room</string>
+		<string>Bar</string>
+		<string>Dining Room</string>
+	</array>
+	<key>Happening</key>
+	<array>
+		<array>
+			<true/>
+			<string>The Blessing</string>
+			<string>The Gods grant you strength in this horrid place.</string>
+			<string>+1 Strength</string>
+		</array>
+		<array>
+			<false/>
+			<string>The Curse</string>
+			<string>The Gods punish you for disturbing this place.</string>
+			<string>-1 Strength</string>
+		</array>
+		<array>
+			<false/>
+			<string>The Sighting</string>
+			<string>You see a spirit in the room with you. It looks like you and frightens you.</string>
+			<string>-1 Sanity</string>
+		</array>
+		<array>
+			<true/>
+			<string>Crystal Ball</string>
+			<string>You find a crystal ball. Looking into you see your future.</string>
+			<string>+1 Smarts</string>
+		</array>
+		<array>
+			<false/>
+			<string>Loose Floorboard</string>
+			<string>You trip on a loose board in the floor. As you fall you head a crack.</string>
+			<string>-1 Stamina</string>
+		</array>
+		<array>
+			<true/>
+			<string>New Shoes</string>
+			<string>You see a pair of the old tenants shoes. You try them on and they are extremely light on your feet.</string>
+			<string>+1 Stamina</string>
+		</array>
+		<array>
+			<true/>
+			<string>Old Photographs</string>
+			<string>You stumble upon a box of pictures. Looking at them calms you down.</string>
+			<string>+1 Sanity</string>
+		</array>
+		<array>
+			<false/>
+			<string>Low Hanging Chanelier</string>
+			<string>As you walk into the room you hit your head on the chanedelier.</string>
+			<string>-1 Smarts</string>
+		</array>
+	</array>
+	<key>GoodEffect</key>
+	<array>
+		<string>+1 Strength</string>
+		<string>+1 Sanity</string>
+		<string>+1 Stamina</string>
+		<string>+1 Smarts</string>
+	</array>
+	<key>BadEffect</key>
+	<array>
+		<string>-1 Strength</string>
+		<string>-1 Sanity</string>
+		<string>-1 Stamina</string>
+		<string>-1 Smarts</string>
+	</array>
+	<key>RoomEffect</key>
+	<array>
+		<string>+1 Strength</string>
+		<string>-1 Strength</string>
+		<string>+1 Stamina</string>
+		<string>-1 Stamina</string>
+		<string>+1 Sanity</string>
+		<string>-1 Sanity</string>
+		<string>+1 Smarts</string>
+		<string>-1 Smarts</string>
+	</array>
+	<key>Item</key>
+	<array>
+		<array>
+			<string>Key</string>
+			<string>Your escape awaits.</string>
+			<string>You can escape</string>
+		</array>
+		<array>
+			<string>Med Kit</string>
+			<string>You find some medicine for your cuts and broken bones</string>
+			<string>+1 Strength</string>
+		</array>
+		<array>
+			<string>Unknown Substance</string>
+			<string>You find a jar with pills in it. You take one.</string>
+			<string>-1 Stamina</string>
+		</array>
+		<array>
+			<string>Unknown Substance</string>
+			<string>You find a jar with pills in it. You take one.</string>
+			<string>+1 Stamina</string>
+		</array>
+		<array>
+			<string>Ring</string>
+			<string>You find a ring with ancient symbols on it.</string>
+			<string>You cannot receive de-buffs from items.</string>
+		</array>
+		<array>
+			<string>Puzzle Box</string>
+			<string>You slide the center strip and smoke pours out, burning your hands.</string>
+			<string>-1 Strength</string>
+		</array>
+	</array>
+</dict>
+</plist>
