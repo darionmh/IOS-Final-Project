@@ -324,7 +324,7 @@ public class IOSApp {
                 userInput = String(Input())
                 if(userInput.caseInsensitiveCompare("Y") == NSComparisonResult.OrderedSame && !monster!.encountered){
                     print("You escape the monster... for now")
-                    currentRoom = player.headingNum%4//  currentRoom.previousRoom!
+                    currentRoom = currentRoom.attachedRooms[player.headingNum%4]!//  currentRoom.previousRoom!
                     let smarts:Int = player.skills["Smarts"]! + player.skills["Stamina"]!
                     if(smarts>0 && Int(arc4random_uniform(UInt32(smarts))) <= 0){monster!.encountered = true}
                 }else if(userInput.caseInsensitiveCompare("N") == NSComparisonResult.OrderedSame){
