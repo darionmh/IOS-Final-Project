@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		47271B9D1BD1928B00151A79 /* AnalogStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47271B9C1BD1928B00151A79 /* AnalogStick.swift */; settings = {ASSET_TAGS = (); }; };
 		47271BA81BD192D800151A79 /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271B9E1BD192D800151A79 /* apple.png */; settings = {ASSET_TAGS = (); }; };
 		47271BA91BD192D800151A79 /* apple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271B9F1BD192D800151A79 /* apple@2x.png */; settings = {ASSET_TAGS = (); }; };
 		47271BAA1BD192D800151A79 /* jStick.png in Resources */ = {isa = PBXBuildFile; fileRef = 47271BA01BD192D800151A79 /* jStick.png */; settings = {ASSET_TAGS = (); }; };
@@ -39,6 +38,7 @@
 		473F3F9D1BC7497400D42327 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F9C1BC7497400D42327 /* Room.swift */; settings = {ASSET_TAGS = (); }; };
 		473F3F9F1BC7499900D42327 /* IOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F9E1BC7499900D42327 /* IOSApp.swift */; settings = {ASSET_TAGS = (); }; };
 		473F3FA11BC74D0600D42327 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3FA01BC74D0600D42327 /* MainMenuViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		47C4CDFE1BD4337C00074668 /* AnalogStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C4CDFD1BD4337C00074668 /* AnalogStick.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +59,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		47271B9C1BD1928B00151A79 /* AnalogStick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalogStick.swift; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/AnalogStick/AnalogStick.swift"; sourceTree = "<group>"; };
 		47271B9E1BD192D800151A79 /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = apple.png; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/apple.png"; sourceTree = "<group>"; };
 		47271B9F1BD192D800151A79 /* apple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "apple@2x.png"; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/apple@2x.png"; sourceTree = "<group>"; };
 		47271BA01BD192D800151A79 /* jStick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jStick.png; path = "../../../Swift-SpriteKit-Analog-Stick-master/AnalogStick Demo/AnalogStick Demo/jStick.png"; sourceTree = "<group>"; };
@@ -97,6 +96,7 @@
 		473F3F9C1BC7497400D42327 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		473F3F9E1BC7499900D42327 /* IOSApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSApp.swift; sourceTree = "<group>"; };
 		473F3FA01BC74D0600D42327 /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
+		47C4CDFD1BD4337C00074668 /* AnalogStick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogStick.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,7 +149,7 @@
 				473F3F5C1BC7481D00D42327 /* AppDelegate.swift */,
 				473F3F5E1BC7481D00D42327 /* GameScene.sks */,
 				473F3F601BC7481D00D42327 /* GameScene.swift */,
-				47271B9C1BD1928B00151A79 /* AnalogStick.swift */,
+				47C4CDFD1BD4337C00074668 /* AnalogStick.swift */,
 				473F3F621BC7481D00D42327 /* GameViewController.swift */,
 				473F3FA01BC74D0600D42327 /* MainMenuViewController.swift */,
 				473F3F641BC7481D00D42327 /* Main.storyboard */,
@@ -357,8 +357,8 @@
 				473F3F911BC7484D00D42327 /* Player.swift in Sources */,
 				473F3F5D1BC7481D00D42327 /* AppDelegate.swift in Sources */,
 				473F3F951BC7487E00D42327 /* Monster.swift in Sources */,
-				47271B9D1BD1928B00151A79 /* AnalogStick.swift in Sources */,
 				473F3F9F1BC7499900D42327 /* IOSApp.swift in Sources */,
+				47C4CDFE1BD4337C00074668 /* AnalogStick.swift in Sources */,
 				473F3F9D1BC7497400D42327 /* Room.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
