@@ -83,7 +83,7 @@ public class IOSApp {
     }
     
     func createRoom(door:Int) {
-        let room:Int = Int(arc4random_uniform(UInt32(roomCount)))+1
+        let room:Int = Int(arc4random_uniform(UInt32(roomCount)))
         let openedRoom = Room(name: rooms[room] ,previousRoom: currentRoom ,item: generateItem(), happening: generateHappening(), effect: generateRoomEffect(), heading: player.headingNum)
         houseLayout[openedRoom.location.y+7][openedRoom.location.x+7] = openedRoom
         currentRoom.setAttachedRoom(door, room: openedRoom)

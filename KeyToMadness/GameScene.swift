@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             _isSetJoystickStickImage = newValue
             let image = UIImage(named: "magic_ball")
             moveAnalogStick.stickImage = image
-            rotateAnalogStick.stickImage = image
+            //rotateAnalogStick.stickImage = image
         }
     }
     
@@ -51,23 +51,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             _isSetJoystickSubstrateImage = newValue
             let image = newValue ? UIImage(named: "jSubstrate") : nil
             moveAnalogStick.substrateImage = image
-            rotateAnalogStick.substrateImage = image
+            //rotateAnalogStick.substrateImage = image
         }
     }
     
     var joysticksdiameters: CGFloat {
         
-        get { return max(moveAnalogStick.diameter, rotateAnalogStick.diameter) }
+        //get { return max(moveAnalogStick.diameter, rotateAnalogStick.diameter) }
+        get { return moveAnalogStick.diameter }
         
         set(newdiameter) {
             
             moveAnalogStick.diameter = newdiameter
-            rotateAnalogStick.diameter = newdiameter
+            //rotateAnalogStick.diameter = newdiameter
         }
     }
     
     let moveAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
-    let rotateAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
+    //let rotateAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -100,7 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.appleNode?.zRotation = analogStick.data.angular
         }*/
         
-        addChild(rotateAnalogStick)
+        //addChild(rotateAnalogStick)
         
         appleNode = appendAppleToPoint(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)))
         insertChild(appleNode!, atIndex: 0)
@@ -110,10 +111,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isSetJoystickSubstrateImage = _isSetJoystickSubstrateImage
         //let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
         //let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
-        addChild(addDoor(CGPointMake(400,200),value: 1))
-        addChild(addDoor(CGPointMake(200,400),value: 2))
-        addChild(addDoor(CGPointMake(400,600),value: 3))
-        addChild(addDoor(CGPointMake(600,400),value: 4))
+        
+        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1))
+        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.25, CGRectGetMidY(self.frame)),value: 2))
+        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75),value: 3))
+        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.75, CGRectGetMidY(self.frame)),value: 4))
         
         physicsWorld.contactDelegate = self
         setupLabels()
@@ -287,7 +289,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("Handling door")
             handleDoor(door)
             addChild(addDoor(CGPointMake(doorX, doorY),value: door))
-            appleNode!.position = CGPointMake(400,400)
+            appleNode!.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame))
             insertChild(appleNode!, atIndex: 0)
             physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
             removed = false;
