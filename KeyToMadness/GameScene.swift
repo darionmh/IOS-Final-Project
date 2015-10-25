@@ -83,7 +83,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         moveAnalogStick.diameter = kAnalogStickdiameter
-        moveAnalogStick.position = CGPointMake(jRadius + 75, jRadius + 150)
+        //moveAnalogStick.position = CGPointMake(jRadius + 75, jRadius + 150)
+        moveAnalogStick.position = CGPointMake(CGRectGetMaxX(self.frame) - jRadius - 75, jRadius + 150)
         moveAnalogStick.trackingHandler = { analogStick in
             
             guard let aN = self.appleNode else { return }
@@ -92,12 +93,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         addChild(moveAnalogStick)
         
-        rotateAnalogStick.diameter = kAnalogStickdiameter
+        /*rotateAnalogStick.diameter = kAnalogStickdiameter
         rotateAnalogStick.position = CGPointMake(CGRectGetMaxX(self.frame) - jRadius - 75, jRadius + 150)
         rotateAnalogStick.trackingHandler = { analogStick in
             
             self.appleNode?.zRotation = analogStick.data.angular
-        }
+        }*/
         
         addChild(rotateAnalogStick)
         
