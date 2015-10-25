@@ -72,6 +72,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         showInstructions(self)
+        
+        SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
+        
+        
+        
         backgroundColor = UIColor.greenColor()
         addChild(addRoom())
         let jRadius = kAnalogStickdiameter / 2
