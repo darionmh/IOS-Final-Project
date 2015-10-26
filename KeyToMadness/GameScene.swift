@@ -20,8 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var appleNode: SKSpriteNode?
     var removed: Bool = false
-    var applesCollected = 0
-    let score = SKLabelNode(text: "Apples: 0")
+    let roomName = SKLabelNode(text: "")
     var door:Int = 0
     let app:IOSApp = IOSApp()
     var doorX:CGFloat = 0
@@ -92,6 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.12), aN.position.y + (analogStick.data.velocity.y * 0.12))
         }
+        moveAnalogStick.name = "AnalogStick"
         addChild(moveAnalogStick)
         
         /*rotateAnalogStick.diameter = kAnalogStickdiameter
@@ -116,6 +116,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.25, CGRectGetMidY(self.frame)),value: 2))
         addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75),value: 3))
         addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.75, CGRectGetMidY(self.frame)),value: 4))
+        
+        addChild(addAttackButton())
+        addChild(addRunButton())
         
         physicsWorld.contactDelegate = self
         setupLabels()
@@ -293,15 +296,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             insertChild(appleNode!, atIndex: 0)
             physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
             removed = false;
-            score.text = "Apples: \(++applesCollected)"
         }
     }
     
     func setupLabels() {
-        score.position = CGPoint(x: frame.size.width/2, y: frame.size.height * 0.15)
-        score.fontColor = UIColor.whiteColor();
-        score.fontSize = 40
-        addChild(score)
+        roomName.position = CGPoint(x: frame.size.width/2, y: frame.size.height * 0.15)
+        roomName.fontColor = UIColor.whiteColor();
+        roomName.fontSize = 40
+        roomName.text = app.currentRoom.name
+        addChild(roomName)
     }
     
     func showInstructions(controller: GameScene) {
@@ -317,6 +320,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         alert.show()
     }
     
+    func addAttackButton() -> SKSpriteNode {
+        let attackImage = UIImage(named: "sword")
+        let texture = SKTexture(image: attackImage!)
+        let attackButton = SKSpriteNode(texture: texture)
+        attackButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.1 + (attackImage!.size.width), y: CGRectGetMaxY(self.frame) * 0.1 + (attackImage!.size.height))
+        attackButton.zPosition = 3
+        attackButton.name = "AttackButton"
+        attackButton.hidden = true
+        
+        return attackButton
+    }
+    
+    func addRunButton() -> SKSpriteNode {
+        let runImage = UIImage(named: "run")
+        let texture = SKTexture(image: runImage!)
+        let runButton = SKSpriteNode(texture: texture)
+        runButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.2 + (runImage!.size.width), y: CGRectGetMaxY(self.frame) * 0.1 + (runImage!.size.height))
+        runButton.zPosition = 3
+        runButton.name = "RunButton"
+        runButton.hidden = true
+        
+        return runButton
+    }
+    
+    func addMonster() -> SKSpriteNode{
+        let monsterImage = UIImage(named: "Spaceship")
+        let texture = SKTexture(image: monsterImage!)
+        let monster = SKSpriteNode(texture: texture)
+        monster.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        monster.name = "Monster"
+        monster.size = CGSize(width: monster.size.width/2, height: monster.size.height/2)
+        
+        return monster
+    }
+    
+    
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        touches.forEach { (touch) -> () in
+            let pos = touch.locationInNode(self)
+            let node = self.nodeAtPoint(pos)
+            
+            if let name = node.name
+                {
+                    if name == "AttackButton"
+                    {
+                        tryToAttack = true
+                        monsterDone()
+                        print("Touched")
+                    }
+                    
+                    if name == "RunButton"
+                    {
+                        tryToRun = true
+                        monsterDone()
+                        print("RUUUNNN")
+                    }
+            }
+        }
+    }
+    
     func handleDoor(door: Int){
         if(app.currentRoom.attachedRooms[door-1] == nil){
             // door is value
@@ -329,6 +393,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     app.createRoom(door-1)
                     app.processEffects()
                     app.generateMonster()
+                    if(app.foundMonster){
+                        handleMonster()
+                    }
                 }else{
                     // a room exists at this location
                     let roomAtLocation:Room = app.houseLayout[location.y+7][location.x+7]!
@@ -341,6 +408,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         app.applyVisitedRoom(roomAtLocation, door: door-1)
                         print("This room looks oddly familiar.")
                         app.checkForMonsters()
+                        if(app.foundMonster){
+                            handleMonster()
+                        }
                     }
                 }
             }else{
@@ -362,8 +432,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.currentRoom = app.currentRoom.attachedRooms[door-1]!
             app.player.headingNum = (door+1)%4
             app.checkForMonsters()
+            if(app.foundMonster){
+                handleMonster()
+            }
         }
         print(app.currentRoom.toString())
+        roomName.text = app.currentRoom.name
+    }
+    
+    var tryToAttack = false
+    var tryToRun = false
+    var goBackToPos = CGPoint(x: 0,y: 0)
+    func handleMonster(){
+        goBackToPos = appleNode!.position
+        appleNode!.paused = true
+        tryToAttack = false
+        tryToRun = false
+        let attackButton = self.childNodeWithName("AttackButton")
+        let runButton = self.childNodeWithName("RunButton")
+        let analogStick = self.childNodeWithName("AnalogStick")
+        attackButton?.hidden = false
+        runButton?.hidden = false
+        analogStick?.hidden = true
+        
+        
+        addChild(addMonster())
+        //addChild(moveAnalogStick)
+        //moveAnalogStick.hidden = true
+        print("defned")
+        
+    }
+    
+    //Temporary function to make sure buttons work
+    func monsterDone(){
+        appleNode!.paused = false
+        appleNode!.position = goBackToPos
+        let attackButton = self.childNodeWithName("AttackButton")
+        let runButton = self.childNodeWithName("RunButton")
+        let analogStick = self.childNodeWithName("AnalogStick")
+        let monster = self.childNodeWithName("Monster")
+
+        attackButton?.hidden = true
+        runButton?.hidden = true
+        analogStick?.hidden = false
+        monster!.removeFromParent()
+        
+        tryToAttack = false
+        tryToRun = false
     }
 }
 

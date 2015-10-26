@@ -98,7 +98,7 @@ public class IOSApp {
             var itemData:Array<String>
             var count:Int = 0
             repeat{
-                let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount))+1)
+                let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount)))
                 itemData = items[itemNumber]
                 item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]))
                 count--
@@ -132,7 +132,7 @@ public class IOSApp {
         var happening:Happening?
         let chance:Int = Int(arc4random_uniform(5))
         if(chance == 0){
-            let happeningNum:Int = Int(arc4random_uniform(UInt32(happeningCount)))+1
+            let happeningNum:Int = Int(arc4random_uniform(UInt32(happeningCount)))
             var happeningData:Array<AnyObject> = happenings[happeningNum]
             let effect:String = happeningData[3] as! String
             happening = Happening(good: happeningData[0] as! Bool, name: happeningData[1] as! String, description: happeningData[2] as! String, effect: Effect(description: effect))
@@ -147,7 +147,7 @@ public class IOSApp {
         var effect:Effect?
         let chance:Int = Int(arc4random_uniform(10));
         if(chance == 0){
-            let effectNumber = Int(arc4random_uniform(UInt32(roomEffectCount)))+1
+            let effectNumber = Int(arc4random_uniform(UInt32(roomEffectCount)))
             let effectData:String = roomEffects[effectNumber]
             effect = Effect(description: effectData)
             newEffects.append(effect!)
@@ -294,8 +294,11 @@ public class IOSApp {
         if(chance == 0){
             monster = Monster(location: currentRoom)
             monstersInGame.append(monster!)
+            foundMonster = true
+            print("Monster")
         }
-        promptMonsterFight(monster)
+        
+        //promptMonsterFight(monster)
     }
     
     func moveMonsters() {
@@ -380,6 +383,8 @@ public class IOSApp {
         }
     }
     
+    var foundMonster = false
+    
     func checkForMonsters() {
         var m:Monster? = nil
         var count:Int = 0;
@@ -387,7 +392,9 @@ public class IOSApp {
             let x:Int = monster.location.location.x
             let y:Int = monster.location.location.y
             if(currentRoom.location.x == x && currentRoom.location.y == y){
-                promptMonsterFight(monster)
+                //promptMonsterFight(monster)
+                print("Monster")
+                foundMonster = true
             }
             if(monster.health <= 0){
                 m = monster
@@ -397,4 +404,6 @@ public class IOSApp {
         }
         if(m != nil){monstersInGame.removeAtIndex(count)}
     }
+    
+    
 }
