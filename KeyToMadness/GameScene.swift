@@ -385,6 +385,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(app.currentRoom.attachedRooms[door-1] == nil){
             // door is value
             app.player.headingNum = (door+1)%4
+            app.player.setHeading()
             let location:Point = app.calcLocation()
             if(location.x <= 7 && location.x >= -7 && location.y <= 7 && location.y >= -7){
                 // inside the house layout
@@ -431,6 +432,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // room already discovered
             app.currentRoom = app.currentRoom.attachedRooms[door-1]!
             app.player.headingNum = (door+1)%4
+            app.player.setHeading()
             app.checkForMonsters()
             if(app.foundMonster){
                 handleMonster()
