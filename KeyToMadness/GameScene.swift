@@ -292,9 +292,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
             //let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
             print("Handling door")
-            handleDoor(door)
+            let validDoor = handleDoor(door)
             addChild(addDoor(CGPointMake(doorX, doorY),value: door))
-            appleNode!.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame))
+            let heading = app.player.heading
+            var newPos = CGPointZero
+            if(validDoor){
+                if(heading == "North"){
+                    newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "penguin")!.size.height)
+                }else if(heading == "East"){
+                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.25 + UIImage(named: "penguin")!.size.width, CGRectGetMidY(self.frame))
+                }else if(heading == "South"){
+                    newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75 - UIImage(named: "penguin")!.size.height)
+                }else{
+                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.75 - UIImage(named: "penguin")!.size.width, CGRectGetMidY(self.frame))
+                }
+            }else{
+                if(Int(door.value) == 3){
+                    newPos = CGPointMake(appleNode!.position.x, appleNode!.position.y * 0.9)
+                }else if(Int(door.value) == 4){
+                    newPos = CGPointMake(appleNode!.position.x * 0.9, appleNode!.position.y)
+                }else if(Int(door.value) == 1){
+                    newPos = CGPointMake(appleNode!.position.x, appleNode!.position.y * 1.1)
+                }else{
+                    newPos = CGPointMake(appleNode!.position.x * 1.1, appleNode!.position.y)
+                }
+            }
+            appleNode!.position = newPos
             insertChild(appleNode!, atIndex: 0)
             physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
             removed = false;
@@ -391,7 +414,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func handleDoor(door: Int){
+    func handleDoor(door: Int) -> Bool{
+        var validDoor = true
         if(app.currentRoom.attachedRooms[door-1] == nil){
             // door is value
             app.player.headingNum = (door+1)%4
@@ -432,11 +456,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.moveMonsters()
         }else if(app.currentRoom.attachedRooms[door-1]!.name == "EMPTY"){
             print("Not a valid door!")
+            validDoor = false
         }else if(app.currentRoom.attachedRooms[door-1]!.name == "Exit"){
             if(app.player.hasKey){
                 app.hasWon = true
             }else{
                 print("The door is locked and will not opens.")
+                validDoor = false
             }
         }else{
             // room already discovered
@@ -450,6 +476,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         print(app.currentRoom.toString())
         roomName.text = app.currentRoom.name
+        return validDoor
     }
     
     var tryToAttack = false
