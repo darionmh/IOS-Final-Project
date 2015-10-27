@@ -454,40 +454,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var tryToAttack = false
     var tryToRun = false
-    var goBackToPos = CGPoint(x: 0,y: 0)
     func handleMonster(){
-        goBackToPos = appleNode!.position
-        appleNode!.paused = true
+        moveAnalogStick.trackingHandler = { analogStick in
+            
+            guard let aN = self.appleNode else { return }
+            
+            aN.position = aN.position
+        }
+        moveAnalogStick.hidden = true
         tryToAttack = false
         tryToRun = false
         let attackButton = self.childNodeWithName("AttackButton")
         let runButton = self.childNodeWithName("RunButton")
-        let analogStick = self.childNodeWithName("AnalogStick")
         attackButton?.hidden = false
         runButton?.hidden = false
-        analogStick?.hidden = true
-        
         
         addChild(addMonster())
-        //addChild(moveAnalogStick)
-        //moveAnalogStick.hidden = true
         print("defned")
         
     }
     
     //Temporary function to make sure buttons work
     func monsterDone(){
-        appleNode!.paused = false
-        appleNode!.position = goBackToPos
+        moveAnalogStick.hidden = false
+        moveAnalogStick.trackingHandler = { analogStick in
+            
+            guard let aN = self.appleNode else { return }
+            
+            aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.12), aN.position.y + (analogStick.data.velocity.y * 0.12))
+            
+        }
         let attackButton = self.childNodeWithName("AttackButton")
         let runButton = self.childNodeWithName("RunButton")
-        let analogStick = self.childNodeWithName("AnalogStick")
         let monster = self.childNodeWithName("Monster")
 
         attackButton?.hidden = true
         runButton?.hidden = true
-        analogStick?.hidden = false
-        monster!.removeFromParent()
+        monster?.hidden = true
+        monster?.removeFromParent()
         
         tryToAttack = false
         tryToRun = false
