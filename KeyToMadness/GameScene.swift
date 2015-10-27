@@ -73,7 +73,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         /* Setup your scene here */
         showInstructions(self)
         
-        SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
+        
+        //Commented out to mute
+        //SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
         
         
         
@@ -324,7 +326,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
-        attackButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.1 + (attackImage!.size.width), y: CGRectGetMaxY(self.frame) * 0.1 + (attackImage!.size.height))
+        
+        attackButton.size.width = CGRectGetMaxX(self.frame)/10
+        attackButton.size.height = attackButton.size.width
+        
+        attackButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + (attackImage!.size.width), y: CGRectGetMaxY(self.frame) * 0.1 + (attackImage!.size.height))
         attackButton.zPosition = 3
         attackButton.name = "AttackButton"
         attackButton.hidden = true
@@ -336,7 +342,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let runImage = UIImage(named: "run")
         let texture = SKTexture(image: runImage!)
         let runButton = SKSpriteNode(texture: texture)
-        runButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.2 + (runImage!.size.width), y: CGRectGetMaxY(self.frame) * 0.1 + (runImage!.size.height))
+        
+        runButton.size.width = CGRectGetMaxX(self.frame)/10
+        runButton.size.height = runButton.size.width
+        
+        runButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + (runImage!.size.width) * 2, y: CGRectGetMaxY(self.frame) * 0.1 + (runImage!.size.height))
         runButton.zPosition = 3
         runButton.name = "RunButton"
         runButton.hidden = true
