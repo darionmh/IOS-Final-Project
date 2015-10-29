@@ -122,6 +122,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(addAttackButton())
         addChild(addRunButton())
         
+        for b in addMenuButtons(){
+            addChild(b)
+        }
+        
         physicsWorld.contactDelegate = self
         setupLabels()
     }
@@ -343,6 +347,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scroll.addSubview(field)
         alert.setValue(scroll, forKey: "accessoryView")
         alert.show()
+    }
+    
+    func addMenuButtons() -> [SKSpriteNode]{
+        let size = CGSize(width: CGRectGetMaxX(self.frame)/8, height: CGRectGetMaxX(self.frame)/8)
+        let mapButton = SKSpriteNode(color: UIColor.grayColor(), size: size)
+        mapButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + size.width/2, y: CGRectGetMaxY(self.frame) * 0.95 - size.height/2)
+        mapButton.name = "MapButton"
+        
+        let instructionsButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
+        instructionsButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + size.width/2, y: CGRectGetMaxY(self.frame) * 0.95 - size.height)
+        instructionsButton.name = "InstructionsButton"
+        
+        return [mapButton, instructionsButton]
     }
     
     func addAttackButton() -> SKSpriteNode {
