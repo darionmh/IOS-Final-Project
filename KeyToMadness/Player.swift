@@ -17,6 +17,7 @@ public class Player {
     var hasKey:Bool
     var headingNum:Int
     var heading:String
+    var fightMultiplier:Int
     
     init() {
         self.skills = Dictionary<String, Int>()
@@ -32,6 +33,7 @@ public class Player {
         self.hasKey = false
         self.headingNum = 0
         self.heading = "North"
+        self.fightMultiplier = 1
     }
     
     func isPlayerAlive() -> Bool {
