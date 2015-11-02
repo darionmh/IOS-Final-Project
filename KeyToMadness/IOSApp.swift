@@ -16,7 +16,6 @@ public class IOSApp {
     var itemCount:Int = 0
     var goodEffectCount:Int = 0
     var badEffectCount:Int = 0
-    var roomEffectCount:Int = 0
     var roomCount:Int = 0
     var happeningCount:Int = 0
     var newEffects:[Effect] = []
@@ -24,7 +23,6 @@ public class IOSApp {
     var happenings:Array<Array<AnyObject>>
     var goodEffects:[String]
     var badEffects:[String]
-    var roomEffects:[String]
     var items:Array<Array<String>>
     var roomCounter:Int = 0
     var monstersInGame:[Monster]
@@ -40,8 +38,6 @@ public class IOSApp {
         self.goodEffectCount = self.goodEffects.count
         self.badEffects = properties!.objectForKey("BadEffect") as! [String]
         self.badEffectCount = self.badEffects.count
-        self.roomEffects = properties!.objectForKey("RoomEffect") as! [String]
-        self.roomEffectCount = self.roomEffects.count
         self.items = properties!.objectForKey("Item") as! Array<Array<String>>
         self.itemCount = self.items.count
         // empty 15x15 room matrix
@@ -84,7 +80,7 @@ public class IOSApp {
     
     func createRoom(door:Int) {
         let room:Int = Int(arc4random_uniform(UInt32(roomCount)))
-        let openedRoom = Room(name: rooms[room] ,previousRoom: currentRoom ,item: generateItem(), happening: generateHappening(), effect: generateRoomEffect(), heading: player.headingNum)
+        let openedRoom = Room(name: rooms[room] ,previousRoom: currentRoom ,item: generateItem(), happening: generateHappening(), heading: player.headingNum)
         houseLayout[openedRoom.location.y+7][openedRoom.location.x+7] = openedRoom
         currentRoom.setAttachedRoom(door, room: openedRoom)
         currentRoom = openedRoom
@@ -141,18 +137,6 @@ public class IOSApp {
             
         }
         return happening
-    }
-    
-    func generateRoomEffect() -> Effect? {
-        var effect:Effect?
-        let chance:Int = Int(arc4random_uniform(10));
-        if(chance == 0){
-            let effectNumber = Int(arc4random_uniform(UInt32(roomEffectCount)))
-            let effectData:String = roomEffects[effectNumber]
-            effect = Effect(description: effectData)
-            newEffects.append(effect!)
-        }
-        return effect
     }
     
     func processEffects() {
@@ -298,7 +282,6 @@ public class IOSApp {
             print("Monster")
         }
         return monster
-        //promptMonsterFight(monster)
     }
     
     func moveMonsters() -> Monster?{
@@ -317,32 +300,6 @@ public class IOSApp {
         return checkForMonsters()
     }
     
-//    func promptMonsterFight(var monster:Monster?) {
-//        if(monster != nil && monster!.health > 0 && player.isPlayerAlive()){
-//            var userInput:String
-//            print("You encounter a monster!")
-//            print(monster!.toString())
-//            repeat{
-//                print("Do you wish to run (Y/N)?")
-//                userInput = String(Input())
-//                if(userInput.caseInsensitiveCompare("Y") == NSComparisonResult.OrderedSame && !monster!.encountered){
-//                    print("You escape the monster... for now")
-//                    currentRoom = currentRoom.attachedRooms[player.headingNum%4]!//  currentRoom.previousRoom!
-//                    let smarts:Int = player.skills["Smarts"]! + player.skills["Stamina"]!
-//                    if(smarts>0 && Int(arc4random_uniform(UInt32(smarts))) <= 0){monster!.encountered = true}
-//                }else if(userInput.caseInsensitiveCompare("N") == NSComparisonResult.OrderedSame){
-//                    fightMonster(monster!)
-//                    monster = nil
-//                }else if(userInput.caseInsensitiveCompare("Y") == NSComparisonResult.OrderedSame && monster!.encountered){
-//                    // cannot run
-//                    print("You try to outrun the monster, but it blocks your path.")
-//                    fightMonster(monster!)
-//                    monster = nil
-//                }
-//            }while(userInput.caseInsensitiveCompare("Y") != NSComparisonResult.OrderedSame && userInput.caseInsensitiveCompare("N") != NSComparisonResult.OrderedSame)
-//        }
-//    }
-    
     func promptMonsterFightIOS(monster:Monster?, run:Bool) -> Bool {
         if(monster != nil && monster!.health > 0 && player.isPlayerAlive()){
             print("You encounter a monster!")
@@ -350,7 +307,7 @@ public class IOSApp {
             if(run && !monster!.encountered){
                 print("You escape the monster... for now")
                 currentRoom = currentRoom.attachedRooms[player.headingNum%4]!//  currentRoom.previousRoom!
-                let smarts:Int = player.skills["Smarts"]! + player.skills["Stamina"]!
+                let smarts:Int = player.skills["Evasion"]!
                 if(smarts>0 && Int(arc4random_uniform(UInt32(smarts))) <= 0){monster!.encountered = true}
             }else if(!run){
                 print("You choose to fight the monster!")
@@ -364,57 +321,17 @@ public class IOSApp {
         return false
     }
     
-//    func fightMonster(monster:Monster) {
-//        var multiplier:Int = 1
-//        var playerAction:Int
-//        var monsterAttack:Int
-//        var dodge:Bool
-//        let same = NSComparisonResult.OrderedSame
-//        while(monster.health > 0 && player.isPlayerAlive()){
-//            print("Attack or Dodge (A/D):")
-//            let userInput:String = String(Input())
-//            if(userInput.caseInsensitiveCompare("A") == same){
-//                playerAction = (Int(arc4random_uniform(6)) + player.skills["Strength"]!)*multiplier
-//                monsterAttack = Int(arc4random_uniform(6))
-//                dodge = false
-//            }else if(userInput.caseInsensitiveCompare("D") == same){
-//                playerAction = Int(arc4random_uniform(6)) + player.skills["Strength"]!
-//                monsterAttack = Int(arc4random_uniform(6))
-//                dodge = true
-//            }else{
-//                continue
-//            }
-//            if(playerAction >= monsterAttack && dodge){
-//                // player dodged, no effect
-//                print("You dodge the attack, gaining increasing your multiplier")
-//                multiplier++
-//            }else if(playerAction >= monsterAttack && !dodge){
-//                // player attacked, subtract difference from the monsters health
-//                monster.health = monster.health - (playerAction - monsterAttack)
-//                print("Monster takes \(playerAction - monsterAttack) damage")
-//            }else{
-//                // player fails to beat monsters attack, subtract difference from player health and reset multiplier
-//                player.skills["Health"] = player.skills["Health"]! - (monsterAttack - playerAction)
-//                multiplier = 1
-//                print("Player takes \(monsterAttack - playerAction) damage. Multiplier reset to 1.")
-//            }
-//        }
-//        if(monster.health <= 0){
-//            print("The monster was defeated!")
-//        }
-//    }
-    
     func fightMonsterIOS(monster:Monster, attack:Bool) -> Bool {
         var playerAction:Int
         var monsterAttack:Int
         var dodge:Bool
         print("attacking: \(attack)")
         if(attack){
-            playerAction = (Int(arc4random_uniform(6)) + player.skills["Strength"]!)*player.fightMultiplier
+            playerAction = (Int(arc4random_uniform(6)) + player.skills["Attack"]!)*player.fightMultiplier
             monsterAttack = Int(arc4random_uniform(6))
             dodge = false
         }else{
-            playerAction = Int(arc4random_uniform(6)) + player.skills["Strength"]!
+            playerAction = Int(arc4random_uniform(6)) + player.skills["Defense"]!
             monsterAttack = Int(arc4random_uniform(6))
             dodge = true
         }
@@ -449,7 +366,6 @@ public class IOSApp {
             let x:Int = monster.location.location.x
             let y:Int = monster.location.location.y
             if(currentRoom.location.x == x && currentRoom.location.y == y){
-                //promptMonsterFight(monster)
                 print("Monster")
                 foundMonster = true
                 monstersInGame.removeAtIndex(count)

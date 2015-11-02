@@ -15,7 +15,6 @@ public class Room {
     var previousRoom:Room?
     var item:Item?
     var happening:Happening?
-    var effect:Effect?
     var location:Point
     
     init() {
@@ -25,7 +24,6 @@ public class Room {
         self.previousRoom = nil
         self.item = nil
         self.happening = nil
-        self.effect = nil
         self.location = Point(x: -100, y: -100)
     }
     
@@ -38,19 +36,17 @@ public class Room {
         self.name = name
         self.item = nil
         self.happening = nil
-        self.effect = nil
         self.attachedRooms = [Room?](count:4, repeatedValue:nil)
         self.location = Point(x: 0, y: 0)
         self.numAttachedRooms = 3
         self.attachedRooms[0] = previousRoom
     }
     
-    init(name:String, previousRoom:Room, item:Item?, happening:Happening?, effect:Effect?, heading:Int) {
+    init(name:String, previousRoom:Room, item:Item?, happening:Happening?, heading:Int) {
         self.name = name
         self.previousRoom = previousRoom
         self.item = item
         self.happening = happening
-        self.effect = effect
         self.numAttachedRooms = (Int(arc4random_uniform(7))+1)/2
         self.attachedRooms = [Room?](count: 4, repeatedValue: nil)
         if(numAttachedRooms == 1){
@@ -113,11 +109,6 @@ public class Room {
             toString += "\nHappening: None"
         }else{
             toString += "\(happening!.toString())"
-        }
-        if(effect == nil){
-            toString += "\nEffect: None"
-        }else{
-            toString += "\(effect!.toString())"
         }
         toString += "\n-------------\n"
         return toString

@@ -21,10 +21,12 @@ public class Player {
     
     init() {
         self.skills = Dictionary<String, Int>()
-        skills["Strength"] = 0
-        skills["Stamina"] = 0
-        skills["Smarts"] = 0
-        skills["Sanity"] = 0
+        skills["Evasion"] = 0 // escaping monsters
+        skills["Attack"] = 0  // attacking monsters
+        skills["Defense"] = 0 // defending monster attacks
+        skills["Sanity"] = 0  // generation of happenings
+        skills["Luck"] = 0    // finding items
+        skills["Stealth"] = 0 // avoiding monsters
         skills["Health"] = 8
         self.currentEffects = []
         self.items = []
@@ -37,10 +39,6 @@ public class Player {
     }
     
     func isPlayerAlive() -> Bool {
-        //for (_, value) in skills {
-        //    if(value <= 0){ return false }
-        //}
-        //return true
         return skills["Health"] > 0
     }
     
