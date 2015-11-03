@@ -12,6 +12,7 @@ public class Player {
     var skills:Dictionary<String, Int>
     var currentEffects:[Effect]
     var items:[Item]
+    var currentItems:Array<Item?>
     var currentHappenings:[Happening]
     var itemImmunity:Bool
     var hasKey:Bool
@@ -21,10 +22,12 @@ public class Player {
     
     init() {
         self.skills = Dictionary<String, Int>()
-        skills["Strength"] = 0
-        skills["Stamina"] = 0
-        skills["Smarts"] = 0
-        skills["Sanity"] = 0
+        skills["Evasion"] = 0 // escaping monsters
+        skills["Attack"] = 0  // attacking monsters
+        skills["Defense"] = 0 // defending monster attacks
+        skills["Sanity"] = 0  // generation of happenings
+        skills["Luck"] = 0    // finding items
+        skills["Stealth"] = 0 // avoiding monsters
         skills["Health"] = 8
         self.currentEffects = []
         self.items = []
@@ -34,13 +37,10 @@ public class Player {
         self.headingNum = 0
         self.heading = "North"
         self.fightMultiplier = 1
+        self.currentItems = []
     }
     
     func isPlayerAlive() -> Bool {
-        //for (_, value) in skills {
-        //    if(value <= 0){ return false }
-        //}
-        //return true
         return skills["Health"] > 0
     }
     
