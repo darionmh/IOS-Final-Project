@@ -193,10 +193,12 @@ public class IOSApp {
         print("\n")
     }
     
-    func printLayout() {
+    func printLayout() -> String{
+        var map = ""
         var mon:Bool = false
         for(var i = houseLayout.count-1; i >= 0; i--){
             print("[", terminator:"")
+            map += "["
             for(var j = 0; j < houseLayout[i].count; j++){
                 if(houseLayout[i][j] != nil){
                     for monster in monstersInGame{
@@ -204,6 +206,7 @@ public class IOSApp {
                         let y:Int = monster.location.location.y
                         if(x == j && y == i){
                             print("M", terminator:"")
+                            map += "M"
                             mon = true
                         }else{
                             
@@ -213,23 +216,30 @@ public class IOSApp {
                         if(currentRoom.location.x+7 == j && currentRoom.location.y+7 == i){
                             // player location
                             print("P", terminator:"")
+                            map += "P"
                         }else if(i == 7 && j == 7){
                             // starting room
                             print("S", terminator:"")
+                            map += "S"
                         }else{
                             print("X", terminator:"")
+                            map += "X"
                         }
                     }
                 }else{
                     print(" ", terminator:"")
+                    map += " "
                 }
                 if(j < houseLayout[i].count-1){
                     print(",", terminator:"")
+                    map += ","
                 }
                 mon = false
             }
             print("]")
+            map += "]\n"
         }
+        return map
     }
     
     func getPlayerMenu(menu:String) {
