@@ -100,10 +100,10 @@ public class IOSApp {
                 count--
             }while((player.items.indexOf(item!) != nil || (itemData[0] == "Key" && roomCounter < 10)) && count > 0)
             if(player.items.indexOf(item!) == nil && !(player.itemImmunity && itemData[2].componentsSeparatedByString("")[0] == "-")) {
-                player.items.append(item!)
-                newEffects.append(Effect(description: itemData[2]))
                 if(item!.name == "Key"){
                     if(roomCounter >= 10){
+                        player.items.append(item!)
+                        newEffects.append(Effect(description: itemData[2]))
                         player.hasKey = true
                     }else{
                         // to early for key!
@@ -111,8 +111,13 @@ public class IOSApp {
                     }
                 }else if(item!.name == "Ring"){
                     player.itemImmunity = true
+                    player.items.append(item!)
+                    newEffects.append(Effect(description: itemData[2]))
+                }else{
+                    player.items.append(item!)
+                    newEffects.append(Effect(description: itemData[2]))
                 }
-            }else if(player.itemImmunity && itemData[2].componentsSeparatedByString("\\.")[1] == "bad"){
+            }else if(player.itemImmunity && itemData[2].componentsSeparatedByString("")[0] == "-"){
                 print("Your ring gets hot, better not take the item in this room.")
                 item = nil
             }else if(player.items.indexOf(item!) != nil){
@@ -274,7 +279,7 @@ public class IOSApp {
     
     func generateMonster() -> Monster? {
         var monster:Monster?
-        let chance:Int = Int(arc4random_uniform(1))
+        let chance:Int = Int(arc4random_uniform(10))
         if(chance == 0){
             monster = Monster(location: currentRoom)
             monstersInGame.append(monster!)
@@ -375,6 +380,5 @@ public class IOSApp {
         }
         return nil
     }
-    
     
 }

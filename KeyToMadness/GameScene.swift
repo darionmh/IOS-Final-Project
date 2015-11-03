@@ -16,7 +16,7 @@ enum BodyType: UInt32 {
     case item = 4
 }
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var appleNode: SKSpriteNode?
     var removed: Bool = false
@@ -29,6 +29,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var fightOver:Bool = false
     var fight:Bool = false
     var run:Bool = false
+    var currentItem:Item?
+    var selectedDropItem:Int = 0
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
@@ -400,6 +402,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if(app.houseLayout[location.y+7][location.x+7] == nil){
                     // door leads to undiscovered room
                     app.createRoom(door-1)
+                    swapItem(app.houseLayout[location.y+7][location.x+7]! as Room)
                     app.processEffects()
                     activeMonster = app.generateMonster()
                 }else{
@@ -472,6 +475,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tryToAttack = false
         tryToRun = false
         run = false
+        app.monstersInGame.append(activeMonster!)
+        activeMonster = nil
         
         moveAnalogStick.hidden = false
         moveAnalogStick.trackingHandler = { analogStick in
@@ -533,6 +538,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fight = false
         fightOver = false
         run = false
+        activeMonster = nil
         if(!app.player.isPlayerAlive()){
             print("GAME OVER")
             self.removeAllChildren();
@@ -559,6 +565,69 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 (self.view?.viewWithTag(5) as? UILabel)?.text = "You die searching. Maybe the key was never there."
             }
         }
+    }
+    
+    func swapItem(room:Room){
+        // prompt user for item pickup if room contains item
+        currentItem = room.item
+        if(currentItem != nil){
+            let alert:UIAlertView
+            print(app.player.currentItems.count)
+            if(app.player.currentItems.count >= 5){
+                // must drop an item
+                alert = UIAlertView(title: "Item Found!", message: "Keep or discard", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
+                alert.tag = 999
+            }else{
+                alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "OK" )
+                app.player.currentItems.append(currentItem)
+            }
+            alert.show()
+        }
+    }
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        if(alertView.tag == 999){
+            if(buttonIndex == 0){
+                // drop button -- doesn't keep new item
+                print("Item discarded")
+                app.currentRoom.item = nil
+            }else{
+                // keep button -- must discard an item
+                let alert = UIAlertView(title: "Inventory", message: "Discard an item", delegate: self, cancelButtonTitle: "Drop")
+                let picker = UIPickerView()
+                picker.delegate = self
+                picker.tag = 777
+                app.player.currentItems.append(currentItem)
+                picker.dataSource = self
+                alert.setValue(picker, forKey: "accessoryView")
+                alert.tag = 888
+                alert.show()
+            }
+                print(buttonIndex)
+        }else if(alertView.tag == 888){
+            print(alertView)
+            print(app.player.currentItems[selectedDropItem])
+            app.player.currentItems.removeAtIndex(selectedDropItem)
+            currentItem = nil
+        }
+    }
+    
+    func numberOfComponentsInPickerView(colorPicker: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return app.player.currentItems.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+    {
+        return app.player.currentItems[row]!.name
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print("row selected: \(row)")
+        selectedDropItem = row
     }
 }
 

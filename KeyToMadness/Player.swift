@@ -12,6 +12,7 @@ public class Player {
     var skills:Dictionary<String, Int>
     var currentEffects:[Effect]
     var items:[Item]
+    var currentItems:Array<Item?>
     var currentHappenings:[Happening]
     var itemImmunity:Bool
     var hasKey:Bool
@@ -36,6 +37,7 @@ public class Player {
         self.headingNum = 0
         self.heading = "North"
         self.fightMultiplier = 1
+        self.currentItems = []
     }
     
     func isPlayerAlive() -> Bool {
