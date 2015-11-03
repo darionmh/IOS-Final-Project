@@ -290,7 +290,7 @@ public class IOSApp {
     
     func generateMonster() -> Monster? {
         var monster:Monster?
-        let chance:Int = Int(arc4random_uniform(1))
+        let chance:Int = Int(arc4random_uniform(10))
         if(chance == 0){
             monster = Monster(location: currentRoom)
             monstersInGame.append(monster!)

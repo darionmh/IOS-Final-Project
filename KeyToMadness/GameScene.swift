@@ -273,17 +273,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addMenuButtons() -> [SKSpriteNode]{
         let size = CGSize(width: CGRectGetMaxX(self.frame)/8, height: CGRectGetMaxX(self.frame)/8)
         let mapButton = SKSpriteNode(color: UIColor.grayColor(), size: size)
-        mapButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + size.width/2, y: CGRectGetMaxY(self.frame) * 0.95 - size.height/2)
+        mapButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.01 + size.width/2, y: CGRectGetMaxY(self.frame) * 0.99 - size.height)
         mapButton.name = "MapButton"
         
         let instructionsButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
-        instructionsButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + size.width/2, y: CGRectGetMaxY(self.frame) * 0.95 - size.height)
+        instructionsButton.position = CGPoint(x: mapButton.frame.midX, y: mapButton.frame.minY - CGRectGetMaxX(self.frame) * 0.01 - size.height/2)
         instructionsButton.name = "InstructionsButton"
         
         return [mapButton, instructionsButton]
     }
     
-    func addAttackButton() -> SKSpriteNode {
+    func addBattleButton() -> SKSpriteNode {
         let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
@@ -426,6 +426,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // not a valid room placement like (0,-1) or this door is a false door
                         print("The door will not opens, weird")
                         app.updateFalseDoor(door-1)
+                        validDoor = false
                     }else{
                         // room has been visited and is not a special room
                         app.applyVisitedRoom(roomAtLocation, door: door-1)
@@ -437,6 +438,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // outside of range of house
                 print("The door opens... to a brick wall.")
                 app.updateFalseDoor(door-1)
+                validDoor = false
             }
             activeMonster = app.moveMonsters()
         }else if(app.currentRoom.attachedRooms[door-1]!.name == "EMPTY"){
