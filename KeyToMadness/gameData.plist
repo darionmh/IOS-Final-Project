@@ -89,6 +89,8 @@
 		<string>-1 Luck</string>
 		<string>-1 Stealth</string>
 	</array>
+	<key>Music</key>
+	<true/>
 	<key>Item</key>
 	<array>
 		<array>
