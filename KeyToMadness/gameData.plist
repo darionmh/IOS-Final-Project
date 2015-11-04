@@ -97,31 +97,37 @@
 			<string>Key</string>
 			<string>Your escape awaits.</string>
 			<string>You can escape</string>
+			<string>Other</string>
 		</array>
 		<array>
 			<string>Med Kit</string>
 			<string>You find some medicine for your cuts and broken bones</string>
 			<string>+1 Health</string>
+			<string>Other</string>
 		</array>
 		<array>
 			<string>Unknown Substance</string>
 			<string>You find a jar with pills in it. You take one.</string>
 			<string>-1 Evasion</string>
+			<string>Evasion</string>
 		</array>
 		<array>
 			<string>Unknown Substance</string>
 			<string>You find a jar with pills in it. You take one.</string>
 			<string>+1 Evasion</string>
+			<string>Evasion</string>
 		</array>
 		<array>
 			<string>Ring</string>
 			<string>You find a ring with ancient symbols on it.</string>
 			<string>You cannot receive de-buffs from items.</string>
+			<string>Other</string>
 		</array>
 		<array>
 			<string>Puzzle Box</string>
 			<string>You slide the center strip and smoke pours out, burning your hands.</string>
 			<string>-1 Attack</string>
+			<string>Attack</string>
 		</array>
 	</array>
 </dict>

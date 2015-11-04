@@ -96,26 +96,30 @@ public class IOSApp {
             repeat{
                 let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount)))
                 itemData = items[itemNumber]
-                item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]))
+                item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]), type: itemData[3])
                 count--
             }while((player.items.indexOf(item!) != nil || (itemData[0] == "Key" && roomCounter < 10)) && count > 0)
             if(player.items.indexOf(item!) == nil && !(player.itemImmunity && itemData[2].componentsSeparatedByString("")[0] == "-")) {
-                if(item!.name == "Key"){
-                    if(roomCounter >= 10){
+                if(item!.type == "Other"){
+                    if(item!.name == "Key"){
+                        if(roomCounter >= 10){
+                            player.items.append(item!)
+                            newEffects.append(Effect(description: itemData[2]))
+                            player.hasKey = true
+                        }else{
+                            // to early for key!
+                            item = nil
+                        }
+                    }else if(item!.name == "Ring"){
+                        player.itemImmunity = true
                         player.items.append(item!)
                         newEffects.append(Effect(description: itemData[2]))
-                        player.hasKey = true
-                    }else{
-                        // to early for key!
-                        item = nil
                     }
-                }else if(item!.name == "Ring"){
-                    player.itemImmunity = true
-                    player.items.append(item!)
-                    newEffects.append(Effect(description: itemData[2]))
-                }else{
-                    player.items.append(item!)
-                    newEffects.append(Effect(description: itemData[2]))
+                    else if(item!.name == "Bag"){
+                        player.inventorySpace += 3
+                        player.items.append(item!)
+                        newEffects.append(Effect(description: itemData[2]))
+                    }
                 }
             }else if(player.itemImmunity && itemData[2].componentsSeparatedByString("")[0] == "-"){
                 print("Your ring gets hot, better not take the item in this room.")

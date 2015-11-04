@@ -619,13 +619,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(currentItem != nil){
             let alert:UIAlertView
             print(app.player.currentItems.count)
-            if(app.player.currentItems.count >= 5){
+            if(app.player.currentItems.count >= app.player.inventorySpace && currentItem!.type != "Other"){
                 // must drop an item
-                alert = UIAlertView(title: "Item Found!", message: "Keep or discard", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
+                alert = UIAlertView(title: "Item Found!", message: "\(currentItem!.name): \(currentItem!.effect.toString())", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
                 alert.tag = 999
             }else{
-                alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "OK" )
-                app.player.currentItems.append(currentItem)
+                alert = UIAlertView(title: "Item Found!", message: "\(currentItem!.name): \(currentItem!.effect.toString())", delegate: self, cancelButtonTitle: "OK" )
+                if(currentItem!.type != "Other"){
+                    app.player.currentItems.append(currentItem!)
+                }
+                app.player.items.append(currentItem!)
+                app.newEffects.append(currentItem!.effect)
+                currentItem = nil
             }
             alert.show()
         }
@@ -637,13 +642,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 // drop button -- doesn't keep new item
                 print("Item discarded")
                 app.currentRoom.item = nil
+                currentItem = nil
             }else{
                 // keep button -- must discard an item
                 let alert = UIAlertView(title: "Inventory", message: "Discard an item", delegate: self, cancelButtonTitle: "Drop")
                 let picker = UIPickerView()
                 picker.delegate = self
-                picker.tag = 777
-                app.player.currentItems.append(currentItem)
+                app.player.currentItems.append(currentItem!)
+                app.player.items.append(currentItem!)
+                app.newEffects.append(currentItem!.effect)
                 picker.dataSource = self
                 alert.setValue(picker, forKey: "accessoryView")
                 alert.tag = 888
@@ -653,7 +660,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }else if(alertView.tag == 888){
             print(alertView)
             print(app.player.currentItems[selectedDropItem])
+            let removedItem:Item = app.player.currentItems[selectedDropItem]!
             app.player.currentItems.removeAtIndex(selectedDropItem)
+            let index:Int? = app.player.items.indexOf(removedItem)
+            if(index != nil){app.player.items.removeAtIndex(index!)}
+            let effectIndex:Int? = app.player.currentEffects.indexOf(removedItem.effect)
+            if(effectIndex != nil){app.player.currentEffects.removeAtIndex(effectIndex!)}
             currentItem = nil
         }
     }
@@ -668,7 +680,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
     {
-        return app.player.currentItems[row]!.name
+        return "\(app.player.currentItems[row]!.name): \(app.player.currentItems[row]!.effect.toString())"
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
