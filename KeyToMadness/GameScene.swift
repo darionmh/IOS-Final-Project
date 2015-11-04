@@ -111,6 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             guard let aN = self.appleNode else { return }
             
             aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.12), aN.position.y + (analogStick.data.velocity.y * 0.12))
+            aN.zRotation = analogStick.data.angular
         }
         moveAnalogStick.name = "AnalogStick"
         addChild(moveAnalogStick)
