@@ -101,16 +101,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         //moveAnalogStick.position = CGPointMake(jRadius + 75, jRadius + 150)
         
         let lefty = defaults.boolForKey("Lefty")
-        var x = CGRectGetMaxX(self.frame) - jRadius - 75
+        var x = CGRectGetMaxX(self.frame) - jRadius - 25
         if(lefty){
-            x = jRadius+75
+            x = jRadius+25
         }
-        moveAnalogStick.position = CGPointMake(x, jRadius + 150)
+        moveAnalogStick.position = CGPointMake(x, jRadius*2 + 25)
         moveAnalogStick.trackingHandler = { analogStick in
             
             guard let aN = self.appleNode else { return }
             
-            aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.12), aN.position.y + (analogStick.data.velocity.y * 0.12))
+            aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.08), aN.position.y + (analogStick.data.velocity.y * 0.08))
             aN.zRotation = analogStick.data.angular
         }
         moveAnalogStick.name = "AnalogStick"
@@ -620,7 +620,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(currentItem != nil){
             let alert:UIAlertView
             print(app.player.currentItems.count)
-            if(app.player.currentItems.count >= 1 && currentItem!.type != "Other"){
+            if(app.player.currentItems.count >= app.player.inventorySpace && currentItem!.type != "Other"){
                 // must drop an item
                 alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
                 alert.tag = 999
