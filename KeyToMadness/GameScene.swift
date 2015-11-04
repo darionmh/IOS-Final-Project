@@ -176,7 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         let texture = SKTexture(image: roomImage!)
         let room = SKSpriteNode(texture: texture)
         room.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
-        //room.zPosition = -3
+        room.zPosition = -3
         room.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0-room.size.width/2, y: 0-room.size.height/2, width: room.size.width, height: room.size.height))
         room.physicsBody!.affectedByGravity = false
         room.physicsBody?.categoryBitMask = BodyType.room.rawValue
