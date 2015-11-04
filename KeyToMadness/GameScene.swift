@@ -14,6 +14,7 @@ enum BodyType: UInt32 {
     case player = 1
     case door = 2
     case item = 4
+    case room = 8
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -143,7 +144,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func appendAppleToPoint(position: CGPoint) -> SKSpriteNode {
         
-        let playerImage = UIImage(named: "penguin")
+        let playerImage = UIImage(named: "character")
         
         precondition(playerImage != nil, "Please set right image")
         
@@ -155,7 +156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         player.position = position
         player.physicsBody?.categoryBitMask = BodyType.player.rawValue
         player.physicsBody?.contactTestBitMask = BodyType.door.rawValue
-        player.physicsBody?.collisionBitMask = 0
+        player.physicsBody?.collisionBitMask = BodyType.room.rawValue
         
         return player
     }
@@ -165,7 +166,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         let texture = SKTexture(image: roomImage!)
         let room = SKSpriteNode(texture: texture)
         room.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
-        room.zPosition = -3
+        //room.zPosition = -3
+        room.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0-room.size.width/2, y: 0-room.size.height/2, width: room.size.width, height: room.size.height))
+        room.physicsBody!.affectedByGravity = false
+        room.physicsBody?.categoryBitMask = BodyType.room.rawValue
+        room.physicsBody?.contactTestBitMask = BodyType.player.rawValue
+        room.physicsBody?.collisionBitMask = BodyType.player.rawValue
+        
+        
         
        return room
     }
