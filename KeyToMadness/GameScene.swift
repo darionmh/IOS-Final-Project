@@ -620,12 +620,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(currentItem != nil){
             let alert:UIAlertView
             print(app.player.currentItems.count)
-            if(app.player.currentItems.count >= app.player.inventorySpace && currentItem!.type != "Other"){
+            if(app.player.currentItems.count >= 1 && currentItem!.type != "Other"){
                 // must drop an item
-                alert = UIAlertView(title: "Item Found!", message: "\(currentItem!.name): \(currentItem!.effect.toString())", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
+                alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
                 alert.tag = 999
+                let v:UIView = UIView()
+                let itemImage:UIImageView = UIImageView(frame: CGRectMake(0, 0, 50, 50))
+                let itemName:UILabel = UILabel(frame: CGRectMake(55,0,200,24))
+                let itemEffect:UILabel = UILabel(frame: CGRectMake(55,30,200,24))
+                itemImage.image = UIImage(named: "apple")
+                itemImage.sizeToFit()
+                itemName.text = currentItem!.name
+                itemName.sizeToFit()
+                itemEffect.text = currentItem!.effect.description
+                itemEffect.lineBreakMode = .ByWordWrapping
+                itemEffect.numberOfLines = 0
+                itemEffect.sizeToFit()
+                v.addSubview(itemImage)
+                v.addSubview(itemName)
+                v.addSubview(itemEffect)
+                v.translatesAutoresizingMaskIntoConstraints = true
+                v.sizeToFit()
+                alert.setValue(v, forKey: "accessoryView")
             }else{
-                alert = UIAlertView(title: "Item Found!", message: "\(currentItem!.name): \(currentItem!.effect.toString())", delegate: self, cancelButtonTitle: "OK" )
+                alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "OK" )
+                let v:UIView = UIView()
+                let itemImage:UIImageView = UIImageView(frame: CGRectMake(0, 0, 50, 50))
+                let itemName:UILabel = UILabel(frame: CGRectMake(60,0,200,24))
+                let itemEffect:UILabel = UILabel(frame: CGRectMake(60,30,200,24))
+                itemImage.image = UIImage(named: "apple")
+                itemImage.sizeToFit()
+                itemName.text = currentItem!.name
+                itemName.sizeToFit()
+                itemEffect.text = currentItem!.effect.description
+                itemEffect.lineBreakMode = .ByWordWrapping
+                itemEffect.numberOfLines = 0
+                itemEffect.sizeToFit()
+                v.addSubview(itemImage)
+                v.addSubview(itemName)
+                v.addSubview(itemEffect)
+                v.sizeToFit()
+                v.translatesAutoresizingMaskIntoConstraints = true
+                alert.setValue(v, forKey: "accessoryView")
                 if(currentItem!.type != "Other"){
                     app.player.currentItems.append(currentItem!)
                 }
@@ -659,14 +695,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             }
                 print(buttonIndex)
         }else if(alertView.tag == 888){
-            print(alertView)
-            print(app.player.currentItems[selectedDropItem])
+            print(selectedDropItem)
+            print(app.player.currentItems)
+            print(app.player.currentItems[selectedDropItem]?.toString())
             let removedItem:Item = app.player.currentItems[selectedDropItem]!
             app.player.currentItems.removeAtIndex(selectedDropItem)
             let index:Int? = app.player.items.indexOf(removedItem)
+            print(index)
             if(index != nil){app.player.items.removeAtIndex(index!)}
             let effectIndex:Int? = app.player.currentEffects.indexOf(removedItem.effect)
-            if(effectIndex != nil){app.player.currentEffects.removeAtIndex(effectIndex!)}
+            print(effectIndex)
+            if(effectIndex != nil){
+                let effect:Effect = app.player.currentEffects[effectIndex!]
+                let string:String = effect.description.stringByReplacingOccurrencesOfString("+", withString: "-")
+                effect.description = string
+                app.player.currentEffects.removeAtIndex(effectIndex!)
+                app.newEffects.append(effect)
+            }
             currentItem = nil
         }
     }
@@ -679,14 +724,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         return app.player.currentItems.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-    {
-        return "\(app.player.currentItems[row]!.name): \(app.player.currentItems[row]!.effect.toString())"
-    }
+//    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+//    {
+//        return "\(app.player.currentItems[row]!.name): \(app.player.currentItems[row]!.effect.toString())"
+//    }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("row selected: \(row)")
         selectedDropItem = row
+    }
+    
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+        var v:UIView
+        if((view) != nil){
+            v = view!
+        }else{
+            v = UIView()
+            let itemImage:UIImageView = UIImageView(frame: CGRectMake(0, 0, 50, 50))
+            itemImage.tag = 333
+            let itemName:UILabel = UILabel(frame: CGRectMake(60,0,320,24))
+            itemName.tag = 111
+            let itemEffect:UILabel = UILabel(frame: CGRectMake(60,24,320,24))
+            itemEffect.tag = 222
+            v.addSubview(itemImage)
+            v.addSubview(itemName)
+            v.addSubview(itemEffect)
+            v.translatesAutoresizingMaskIntoConstraints = true
+        }
+        let itemImage:UIImageView = v.viewWithTag(333) as! UIImageView
+        itemImage.image = UIImage(named: "apple")
+        
+        let itemName:UILabel = v.viewWithTag(111) as! UILabel
+        itemName.text = app.player.currentItems[row]!.name
+        
+        let itemEffect:UILabel = v.viewWithTag(222) as! UILabel
+        itemEffect.text = app.player.currentItems[row]!.effect.description
+        
+        v.sizeToFit()
+        
+        return v
+    }
+    
+    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 50
     }
 }
 

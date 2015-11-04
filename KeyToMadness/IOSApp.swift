@@ -89,7 +89,7 @@ public class IOSApp {
     
     func generateItem() -> Item? {
         var item:Item?
-        let chance:Int = Int(arc4random_uniform(20))
+        let chance:Int = Int(arc4random_uniform(2))
         if(chance < 3){
             var itemData:Array<String>
             var count:Int = 0
