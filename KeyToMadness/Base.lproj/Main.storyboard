@@ -25,14 +25,54 @@
                                     <segue destination="BV1-FR-VrT" kind="show" id="928-JU-OCl"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Music" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESj-ri-SGV">
+                                <rect key="frame" x="277" y="323" width="46" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hDj-Ng-YtA">
+                                <rect key="frame" x="277" y="347" width="51" height="31"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="playMusicChange:" destination="IzD-j3-suM" eventType="valueChanged" id="lyM-X1-m32"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Lefty Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yry-om-InX">
+                                <rect key="frame" x="259" y="403" width="87" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dq5-u2-P46">
+                                <rect key="frame" x="278" y="432" width="51" height="31"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="leftyModeChange:" destination="IzD-j3-suM" eventType="valueChanged" id="3Qk-xx-asQ"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="u5d-Qz-Qx3" firstAttribute="centerY" secondItem="vdh-ed-f5K" secondAttribute="centerY" id="8Bd-zn-2Vv"/>
                             <constraint firstItem="u5d-Qz-Qx3" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="IiO-zv-W2c"/>
+                            <constraint firstItem="yry-om-InX" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="Ou1-9d-h81"/>
+                            <constraint firstItem="hDj-Ng-YtA" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="TI3-XL-hsd"/>
+                            <constraint firstItem="ESj-ri-SGV" firstAttribute="top" secondItem="u5d-Qz-Qx3" secondAttribute="bottom" constant="8" id="Y5x-iM-sMR"/>
+                            <constraint firstItem="yry-om-InX" firstAttribute="top" secondItem="hDj-Ng-YtA" secondAttribute="bottom" constant="8" id="cKD-4l-mU5"/>
+                            <constraint firstItem="ESj-ri-SGV" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="cgn-mW-YeZ"/>
+                            <constraint firstItem="hDj-Ng-YtA" firstAttribute="top" secondItem="ESj-ri-SGV" secondAttribute="bottom" constant="4" id="ppN-hL-udf"/>
+                            <constraint firstItem="Dq5-u2-P46" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="vpy-FU-6wJ"/>
+                            <constraint firstItem="Dq5-u2-P46" firstAttribute="top" secondItem="yry-om-InX" secondAttribute="bottom" constant="4" id="xht-le-VzT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="leftyMode" destination="Dq5-u2-P46" id="iWK-rQ-Grk"/>
+                        <outlet property="playMusic" destination="hDj-Ng-YtA" id="RIe-W1-h8X"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jep-Jf-HhP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

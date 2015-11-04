@@ -86,8 +86,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         showInstructions(self)
         
         
-        //Commented out to mute
-        //SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if(defaults.boolForKey("Music")){
+            SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
+        }
+        
         
         
         addChild(addRoom())
@@ -96,7 +99,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         
         moveAnalogStick.diameter = kAnalogStickdiameter
         //moveAnalogStick.position = CGPointMake(jRadius + 75, jRadius + 150)
-        moveAnalogStick.position = CGPointMake(CGRectGetMaxX(self.frame) - jRadius - 75, jRadius + 150)
+        
+        let lefty = defaults.boolForKey("Lefty")
+        var x = CGRectGetMaxX(self.frame) - jRadius - 75
+        if(lefty){
+            x = jRadius+75
+        }
+        moveAnalogStick.position = CGPointMake(x, jRadius + 150)
         moveAnalogStick.trackingHandler = { analogStick in
             
             guard let aN = self.appleNode else { return }
@@ -134,13 +143,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         addChild(addAttackButton())
         addChild(addDefenseButton())
         
-        for b in addMenuButtons(){
+        for b in addMenuButtons(lefty){
             addChild(b)
         }
         
         physicsWorld.contactDelegate = self
         setupLabels()
     }
+    
     
     func appendAppleToPoint(position: CGPoint) -> SKSpriteNode {
         
@@ -273,10 +283,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         alert.show()
     }
     
-    func addMenuButtons() -> [SKSpriteNode]{
+    func addMenuButtons(lefty: Bool) -> [SKSpriteNode]{
         let size = CGSize(width: CGRectGetMaxX(self.frame)/8, height: CGRectGetMaxX(self.frame)/8)
+        var x = CGRectGetMaxX(self.frame) * 0.01 + size.width/2
+        
+        if(lefty){
+            x = CGRectGetMaxX(self.frame) * 0.99 - size.width/2
+        }
+        
         let mapButton = SKSpriteNode(color: UIColor.grayColor(), size: size)
-        mapButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.01 + size.width/2, y: CGRectGetMaxY(self.frame) * 0.99 - size.height)
+        mapButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.99 - size.height)
         mapButton.name = "MapButton"
         
         let instructionsButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
