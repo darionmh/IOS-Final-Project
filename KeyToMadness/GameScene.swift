@@ -261,14 +261,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func showInstructions(controller: GameScene) {
         let alert = UIAlertView(title: "Instructions:", message: "", delegate: self, cancelButtonTitle: "OK")
-        let scroll = UIScrollView(frame: CGRectMake(0, 0, frame.size.width * 0.8, frame.size.height * 0.8) )
-        let field = UITextView()
-        field.frame = CGRectMake(0, 0, frame.size.width, frame.size.height * 0.6)
-        field.editable = false
-        field.userInteractionEnabled = true
-        field.text = "Enter \"exit\" to quit.\nEnter \"stats\" to show player stats.\nEnter \"items\" to show current items.\nEnter \"happenings\" to show current happenings.\nEnter \"effects\" to show current effects.\nEnter \"layout\" to show house layout.\n\n\n\n\n\n\nTest"
-        scroll.addSubview(field)
-        alert.setValue(scroll, forKey: "accessoryView")
+        alert.message = "Enter \"exit\" to quit.\nEnter \"stats\" to show player stats.\nEnter \"items\" to show current items.\nEnter \"happenings\" to show current happenings.\nEnter \"effects\" to show current effects.\nEnter \"layout\" to show house layout"
         alert.show()
     }
     
@@ -413,16 +406,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func displayMap(){
         let alert = UIAlertView(title: "Map:", message: "", delegate: self, cancelButtonTitle: "Done")
-        let scroll = UIScrollView(frame: CGRectMake(0, 0, frame.size.width * 0.8, frame.size.height * 0.8) )
-        let field = UITextView()
-        field.frame = CGRectMake(0, 0, frame.size.width, frame.size.height * 0.6)
-        field.editable = false
-        field.userInteractionEnabled = false
-        field.text = app.printLayout()
-        scroll.addSubview(field)
-        alert.setValue(scroll, forKey: "accessoryView")
+        alert.message = app.printLayout()
         alert.show()
-        
     }
     
     func handleDoor(door: Int) -> Bool{
