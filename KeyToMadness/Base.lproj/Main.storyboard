@@ -111,7 +111,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAP-cx-lCl">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAP-cx-lCl">
                                 <rect key="frame" x="383" y="161" width="160" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Play Again"/>
@@ -119,7 +119,7 @@
                                     <action selector="playAgain" destination="BV1-FR-VrT" eventType="touchUpInside" id="ozm-ws-Z8q"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SoY-ks-rtA">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SoY-ks-rtA">
                                 <rect key="frame" x="133" y="161" width="160" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Main Menu"/>
@@ -132,8 +132,10 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dZe-tb-0Ss" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="449-fI-f41"/>
+                            <constraint firstItem="kAP-cx-lCl" firstAttribute="leading" secondItem="dZe-tb-0Ss" secondAttribute="trailing" id="4s7-Lj-03G"/>
                             <constraint firstItem="lwQ-qA-CaW" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="CKx-Iu-pGh"/>
                             <constraint firstItem="lwQ-qA-CaW" firstAttribute="leading" secondItem="dZe-tb-0Ss" secondAttribute="leading" id="GIe-cV-WkA"/>
+                            <constraint firstItem="SoY-ks-rtA" firstAttribute="trailing" secondItem="dZe-tb-0Ss" secondAttribute="leading" id="LH9-iy-TXj"/>
                             <constraint firstItem="dZe-tb-0Ss" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="OgR-qL-aJ5"/>
                             <constraint firstItem="lwQ-qA-CaW" firstAttribute="trailing" secondItem="dZe-tb-0Ss" secondAttribute="trailing" id="g0b-ud-8jg"/>
                             <constraint firstItem="QTT-5k-Pz4" firstAttribute="trailing" secondItem="dZe-tb-0Ss" secondAttribute="trailing" id="lHk-f4-dEH"/>

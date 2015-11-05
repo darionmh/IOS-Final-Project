@@ -496,6 +496,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }else if(app.currentRoom.attachedRooms[door-1]!.name == "Exit"){
             if(app.player.hasKey){
                 app.hasWon = true
+                victory()
             }else{
                 print("The door is locked and will not opens.")
                 validDoor = false
@@ -605,30 +606,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         run = false
         activeMonster = nil
         if(!app.player.isPlayerAlive()){
-            print("GAME OVER")
-            self.removeAllChildren();
-            self.view?.viewWithTag(1)?.hidden = false
-            self.view?.viewWithTag(2)?.hidden = false
-            self.view?.viewWithTag(3)?.hidden = false
-            self.view?.viewWithTag(4)?.hidden = false
-            self.view?.viewWithTag(5)?.hidden = false
-            
-            if(app.hasWon){
-                print("----- YOU WIN! -----")
-                (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU WIN! -----"
-                print("Thank you for playing!")
-                (self.view?.viewWithTag(5) as? UILabel)?.text = "Thank you for playing!"
-            }else if(app.player.hasKey){
-                print("You die attempting to escape the house.")
-                (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
-                print("----- YOU LOSE -----")
-                (self.view?.viewWithTag(5) as? UILabel)?.text = "You die attempting to escape the house."
-            }else{
-                print("You die searching. Maybe the key was never there.")
-                (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
-                print("----- YOU LOSE -----")
-                (self.view?.viewWithTag(5) as? UILabel)?.text = "You die searching. Maybe the key was never there."
-            }
+            victory()
+        }
+    }
+    
+    func victory(){
+        print("GAME OVER")
+        self.removeAllChildren();
+        self.view?.viewWithTag(1)?.hidden = false
+        self.view?.viewWithTag(2)?.hidden = false
+        self.view?.viewWithTag(3)?.hidden = false
+        self.view?.viewWithTag(4)?.hidden = false
+        self.view?.viewWithTag(5)?.hidden = false
+        
+        if(app.hasWon){
+            print("----- YOU WIN! -----")
+            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU WIN! -----"
+            print("Thank you for playing!")
+            (self.view?.viewWithTag(5) as? UILabel)?.text = "Thank you for playing!"
+        }else if(app.player.hasKey){
+            print("You die attempting to escape the house.")
+            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
+            print("----- YOU LOSE -----")
+            (self.view?.viewWithTag(5) as? UILabel)?.text = "You die attempting to escape the house."
+        }else{
+            print("You die searching. Maybe the key was never there.")
+            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
+            print("----- YOU LOSE -----")
+            (self.view?.viewWithTag(5) as? UILabel)?.text = "You die searching. Maybe the key was never there."
         }
     }
     
