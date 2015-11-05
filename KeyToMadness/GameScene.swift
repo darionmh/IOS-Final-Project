@@ -389,7 +389,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addDefenseButton() -> SKSpriteNode{
-        let defenseImage = UIImage(named: "magic_ball")
+        let defenseImage = UIImage(named: "defensebutton")
         let texture = SKTexture(image: defenseImage!)
         let defenseButton = SKSpriteNode(texture: texture)
         defenseButton.size.width = CGRectGetMaxX(self.frame)/10
@@ -491,6 +491,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     if(roomAtLocation.name == "EMPTY" || (roomAtLocation.attachedRooms[(door+2)%4] != nil && roomAtLocation.attachedRooms[(door+2)%4]!.name == "EMPTY")){
                         // not a valid room placement like (0,-1) or this door is a false door
                         print("The door will not opens, weird")
+                        console.text = "The door will not opens, weird"
                         app.updateFalseDoor(door-1)
                         validDoor = false
                     }else{
@@ -498,24 +499,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         app.applyVisitedRoom(roomAtLocation, door: door-1)
                         print("This room looks oddly familiar.")
                         activeMonster = app.checkForMonsters()
+                        console.text = "This room looks oddly familiar"
                     }
                 }
             }else{
                 // outside of range of house
                 print("The door opens... to a brick wall.")
+                console.text = "The door opens... to a brick wall."
                 app.updateFalseDoor(door-1)
                 validDoor = false
             }
             activeMonster = app.moveMonsters()
         }else if(app.currentRoom.attachedRooms[door-1]!.name == "EMPTY"){
             print("Not a valid door!")
+            console.text = "Not a valid door"
             validDoor = false
         }else if(app.currentRoom.attachedRooms[door-1]!.name == "Exit"){
             if(app.player.hasKey){
                 app.hasWon = true
                 victory()
             }else{
-                print("The door is locked and will not opens.")
+                print("The door is locked and will not open.")
+                console.text = "The door is locked and will not open."
                 validDoor = false
             }
         }else{
@@ -711,6 +716,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 app.newEffects.append(currentItem!.effect)
                 currentItem = nil
                 livesText.text = "\(app.player.skills["Health"]!)"
+                
             }
             alert.show()
         }
@@ -750,10 +756,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             print(effectIndex)
             if(effectIndex != nil){
                 let effect:Effect = app.player.currentEffects[effectIndex!]
-                let string:String = effect.description.stringByReplacingOccurrencesOfString("+", withString: "-")
-                effect.description = string
                 app.player.currentEffects.removeAtIndex(effectIndex!)
-                app.newEffects.append(effect)
+                app.player.skills[removedItem.type]! -= Int.init(effect.description.componentsSeparatedByString("")[1])!
             }
             currentItem = nil
         }

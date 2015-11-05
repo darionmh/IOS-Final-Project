@@ -99,7 +99,7 @@ public class IOSApp {
                 item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]), type: itemData[3])
                 count--
             }while((player.items.indexOf(item!) != nil || (itemData[0] == "Key" && roomCounter < 10)) && count > 0)
-            if(player.items.indexOf(item!) == nil && !(player.itemImmunity && itemData[2].componentsSeparatedByString("")[0] == "-")) {
+            if(player.items.indexOf(item!) == nil) {
                 if(item!.type == "Other"){
                     if(item!.name == "Key"){
                         if(roomCounter >= 10){
@@ -121,9 +121,6 @@ public class IOSApp {
                         newEffects.append(Effect(description: itemData[2]))
                     }
                 }
-            }else if(player.itemImmunity && itemData[2].componentsSeparatedByString("")[0] == "-"){
-                print("Your ring gets hot, better not take the item in this room.")
-                item = nil
             }else if(player.items.indexOf(item!) != nil){
                 print("Already recieved that item")
                 item = nil
@@ -152,14 +149,15 @@ public class IOSApp {
         for effect in newEffects {
             let parts:[String] = effect.description.componentsSeparatedByString(" ")
             let skill:String = parts[1]
-            let char:String = parts[0].componentsSeparatedByString("")[0]
+            let char:String = parts[0][0]
+            let num:String = parts[0][1]
             let buff:Bool = char == "+"
             let deBuff:Bool = char == "-"
             if(buff){
-                let x:Int = (player.skills[skill])!+1
+                let x:Int = (player.skills[skill])!+(Int.init(num))!
                 player.skills[skill] = x
             }else if(deBuff){
-                let x:Int = (player.skills[skill])!-1
+                let x:Int = (player.skills[skill])!-(Int.init(num))!
                 player.skills[skill] = x
             }
             player.currentEffects.append(effect)
@@ -395,4 +393,19 @@ public class IOSApp {
         return nil
     }
     
+}
+
+extension String {
+    
+    subscript (i: Int) -> Character {
+        return self[self.startIndex.advancedBy(i)]
+    }
+    
+    subscript (i: Int) -> String {
+        return String(self[i] as Character)
+    }
+    
+    subscript (r: Range<Int>) -> String {
+        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
+    }
 }

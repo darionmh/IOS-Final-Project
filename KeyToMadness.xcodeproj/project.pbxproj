@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E3ADB121BDAF1D30053FD5F /* theme.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E3ADB111BDAF1D30053FD5F /* theme.wav */; };
 		1E3ADB141BDC51D40053FD5F /* SKAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3ADB131BDC51D40053FD5F /* SKAudio.swift */; };
+		4734AF4C1BEBFC88003A1507 /* DefenseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4734AF4B1BEBFC88003A1507 /* DefenseButton.png */; };
 		473F3F5D1BC7481D00D42327 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F5C1BC7481D00D42327 /* AppDelegate.swift */; };
 		473F3F5F1BC7481D00D42327 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 473F3F5E1BC7481D00D42327 /* GameScene.sks */; };
 		473F3F611BC7481D00D42327 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F601BC7481D00D42327 /* GameScene.swift */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		1E3ADB111BDAF1D30053FD5F /* theme.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = theme.wav; sourceTree = "<group>"; };
 		1E3ADB131BDC51D40053FD5F /* SKAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKAudio.swift; sourceTree = "<group>"; };
+		4734AF4B1BEBFC88003A1507 /* DefenseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefenseButton.png; sourceTree = "<group>"; };
 		473F3F591BC7481D00D42327 /* KeyToMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KeyToMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		473F3F5C1BC7481D00D42327 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		473F3F5E1BC7481D00D42327 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				1E3ADB111BDAF1D30053FD5F /* theme.wav */,
 				473F3F6C1BC7481D00D42327 /* Info.plist */,
 				473F3F8E1BC7484400D42327 /* Item.swift */,
+				4734AF4B1BEBFC88003A1507 /* DefenseButton.png */,
 				47E4C8C31BEACAC10035A534 /* lives.png */,
 				473F3F901BC7484D00D42327 /* Player.swift */,
 				47A80D691BE997F100FB1C8F /* room.png */,
@@ -309,6 +312,7 @@
 				473F3F681BC7481D00D42327 /* Assets.xcassets in Resources */,
 				473F3F661BC7481D00D42327 /* Main.storyboard in Resources */,
 				47E4C8C41BEACAC10035A534 /* lives.png in Resources */,
+				4734AF4C1BEBFC88003A1507 /* DefenseButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
