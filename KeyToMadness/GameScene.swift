@@ -23,6 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var removed: Bool = false
     let roomName = SKLabelNode(text: "")
     let livesText = SKLabelNode(text: "0")
+    //let console = SKLabelNode(text: "Welcome to Madness Manor")
+    let console = SKMultilineLabel(text: "Welcome to Madness Manor", labelWidth: 600, pos: CGPoint(x: 0, y: 0))
     var door:Int = 0
     let app:IOSApp = IOSApp()
     var doorX:CGFloat = 0
@@ -93,6 +95,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }
         
         addChild(addLives())
+        addChild(addConsole())
         
         addChild(addRoom())
         let jRadius = kAnalogStickdiameter / 2
@@ -167,6 +170,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         livesText.position = CGPoint(x:0, y:-10)
         lives.addChild(livesText)
         return lives
+    }
+    
+    func addConsole() -> SKSpriteNode{
+        console.fontColor = UIColor.whiteColor()
+        let consoleBackground = SKSpriteNode(color: UIColor.blackColor(), size: CGSizeMake(CGRectGetMaxX(self.frame)*0.7, CGRectGetMaxY(self.frame)*0.15))
+        consoleBackground.position = CGPoint(x: CGRectGetMaxX(self.frame)*0.5, y: CGRectGetMaxY(self.frame)*0.95)
+        consoleBackground.addChild(console)
+        return consoleBackground
     }
     
     func appendAppleToPoint(position: CGPoint) -> SKSpriteNode {
@@ -465,7 +476,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 if(app.houseLayout[location.y+7][location.x+7] == nil){
                     // door leads to undiscovered room
                     app.createRoom(door-1)
-                    swapItem(app.houseLayout[location.y+7][location.x+7]! as Room)
+                    let newRoom:Room = app.houseLayout[location.y+7][location.x+7]! as Room
+                    swapItem(newRoom)
+                    if(newRoom.happening != nil){
+                        console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description), \(newRoom.happening!.effect.description)"
+                    }else{
+                       console.text = "No Happening"
+                    }
                     app.processEffects()
                     activeMonster = app.generateMonster()
                 }else{
@@ -549,7 +566,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             
             guard let aN = self.appleNode else { return }
             
-            aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.12), aN.position.y + (analogStick.data.velocity.y * 0.12))
+            aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.08), aN.position.y + (analogStick.data.velocity.y * 0.08))
+            aN.zRotation = analogStick.data.angular
             
         }
     }
@@ -583,7 +601,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             
             guard let aN = self.appleNode else { return }
             
-            aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.12), aN.position.y + (analogStick.data.velocity.y * 0.12))
+            aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.08), aN.position.y + (analogStick.data.velocity.y * 0.08))
+            aN.zRotation = analogStick.data.angular
             
         }
         let attackButton = self.childNodeWithName("AttackButton")
@@ -691,6 +710,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 app.player.items.append(currentItem!)
                 app.newEffects.append(currentItem!.effect)
                 currentItem = nil
+                livesText.text = "\(app.player.skills["Health"]!)"
             }
             alert.show()
         }
