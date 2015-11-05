@@ -4,21 +4,90 @@
 <dict>
 	<key>Room</key>
 	<array>
-		<string>Kitchen</string>
-		<string>Hallway</string>
+		<string>Anteroom</string>
+		<string>Armory</string>
+		<string>Assembly Room</string>
+		<string>Backroom</string>
+		<string>Ballroom</string>
+		<string>Bathroom</string>
 		<string>Bedroom</string>
-		<string>Master Bedroom</string>
-		<string>Sitting Room</string>
-		<string>Living Room</string>
-		<string>Sun Room</string>
-		<string>Cemetery</string>
-		<string>Laboratory</string>
-		<string>Office</string>
-		<string>Play Room</string>
-		<string>Theater</string>
-		<string>Game Room</string>
-		<string>Bar</string>
+		<string>Boardroom</string>
+		<string>Boiler Room</string>
+		<string>Boudoir</string>
+		<string>Breakfast Nook</string>
+		<string>Cell</string>
+		<string>Cellar</string>
+		<string>Chamber</string>
+		<string>Changing Room</string>
+		<string>Chapel</string>
+		<string>Classroom</string>
+		<string>Clean Room</string>
+		<string>Cloakroom</string>
+		<string>Cold Room</string>
+		<string>Common Room</string>
+		<string>Conference Room</string>
+		<string>Conservatory</string>
+		<string>Control Room</string>
+		<string>Courtroom</string>
+		<string>Darkroom</string>
+		<string>Den</string>
 		<string>Dining Room</string>
+		<string>Dormitory</string>
+		<string>Drawing Room</string>
+		<string>Dressing Room</string>
+		<string>Dungeon</string>
+		<string>Emergency Room</string>
+		<string>Engine Room</string>
+		<string>Family Room</string>
+		<string>Fitting Room</string>
+		<string>Formal Dining Room</string>
+		<string>Game Room</string>
+		<string>Garret</string>
+		<string>Great Room</string>
+		<string>Green Room</string>
+		<string>Guest Room</string>
+		<string>Gym</string>
+		<string>Hallway</string>
+		<string>Homeroom</string>
+		<string>Inglenook</string>
+		<string>Keep</string>
+		<string>Kitchen</string>
+		<string>Larder</string>
+		<string>Laundry Room</string>
+		<string>Library</string>
+		<string>Living Room</string>
+		<string>Locker Room</string>
+		<string>Loft</string>
+		<string>Lounge</string>
+		<string>Maid&apos;s Room</string>
+		<string>Morning Room</string>
+		<string>Mud Room</string>
+		<string>Nursery</string>
+		<string>Office</string>
+		<string>Panic Room</string>
+		<string>Parlor</string>
+		<string>Playroom</string>
+		<string>Pool Room</string>
+		<string>Powder Room</string>
+		<string>Rumpus Room</string>
+		<string>Screen Porch</string>
+		<string>Scullery</string>
+		<string>Sick Room</string>
+		<string>Sitting Room</string>
+		<string>Solarium</string>
+		<string>Staff Room</string>
+		<string>Stateroom</string>
+		<string>Studio</string>
+		<string>Study</string>
+		<string>Suite</string>
+		<string>Sunroom</string>
+		<string>Tack Room</string>
+		<string>Utility Room</string>
+		<string>Vestibule</string>
+		<string>Wardroom</string>
+		<string>Washroom</string>
+		<string>Weight Room</string>
+		<string>Wine Celler</string>
 	</array>
 	<key>Happening</key>
 	<array>
@@ -94,6 +163,18 @@
 	<key>Item</key>
 	<array>
 		<array>
+			<string>Food</string>
+			<string>You find some food, you eat it.</string>
+			<string>+1 Health</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Boots</string>
+			<string>The old tenents boots, they are llight on your feet.</string>
+			<string>+1 Evasion</string>
+			<string>Evasion</string>
+		</array>
+		<array>
 			<string>Key</string>
 			<string>Your escape awaits.</string>
 			<string>You can escape</string>
@@ -102,20 +183,20 @@
 		<array>
 			<string>Med Kit</string>
 			<string>You find some medicine for your cuts and broken bones</string>
+			<string>+3 Health</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Bandages</string>
+			<string>You find bandages for your wounds.</string>
 			<string>+1 Health</string>
 			<string>Other</string>
 		</array>
 		<array>
-			<string>Unknown Substance</string>
-			<string>You find a jar with pills in it. You take one.</string>
-			<string>-1 Evasion</string>
-			<string>Evasion</string>
-		</array>
-		<array>
-			<string>Unknown Substance</string>
-			<string>You find a jar with pills in it. You take one.</string>
-			<string>+1 Evasion</string>
-			<string>Evasion</string>
+			<string>Aspirin</string>
+			<string>You find some Aspirin.</string>
+			<string>+1 Health</string>
+			<string>Other</string>
 		</array>
 		<array>
 			<string>Ring</string>
@@ -124,10 +205,226 @@
 			<string>Other</string>
 		</array>
 		<array>
-			<string>Puzzle Box</string>
-			<string>You slide the center strip and smoke pours out, burning your hands.</string>
-			<string>-1 Attack</string>
+			<string>Splint</string>
+			<string>You find a splint for a serious injury.</string>
+			<string>+1 Health</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Tacks</string>
+			<string>A box of tacks.</string>
+			<string>+2 Evasion</string>
+			<string>Evasion</string>
+		</array>
+		<array>
+			<string>Pepper Spray</string>
+			<string>Standard issue pepper spray</string>
+			<string>+3 Evasion</string>
+			<string>Evasion</string>
+		</array>
+		<array>
+			<string>Flash Bang Grenade</string>
+			<string>Military issue flash bang</string>
+			<string>+4 Evasion</string>
+			<string>Evasion</string>
+		</array>
+		<array>
+			<string>Jet Pack</string>
+			<string>Seriously!? A Jet Pack!</string>
+			<string>+5 Evasion</string>
+			<string>Evasion</string>
+		</array>
+		<array>
+			<string>Dagger</string>
+			<string>A simple mans tool</string>
+			<string>+1 Attack</string>
 			<string>Attack</string>
+		</array>
+		<array>
+			<string>Sword</string>
+			<string>Looks like it is from medieval times</string>
+			<string>+2 Attack</string>
+			<string>Attack</string>
+		</array>
+		<array>
+			<string>Pistol</string>
+			<string>Now we&apos;re talking</string>
+			<string>+3 Attack</string>
+			<string>Attack</string>
+		</array>
+		<array>
+			<string>Shotgun</string>
+			<string>This should do some damage</string>
+			<string>+4 Attack</string>
+			<string>Attack</string>
+		</array>
+		<array>
+			<string>Minigun</string>
+			<string>Oh baby a minigun!!</string>
+			<string>+5 Attack</string>
+			<string>Attack</string>
+		</array>
+		<array>
+			<string>Gloves</string>
+			<string>Simple working gloves, minimal protection</string>
+			<string>+1 Defense</string>
+			<string>Defense</string>
+		</array>
+		<array>
+			<string>Leather Armor</string>
+			<string>Some decent armor</string>
+			<string>+2 Defense</string>
+			<string>Defense</string>
+		</array>
+		<array>
+			<string>Wooden Shield</string>
+			<string>This will stop some meaty damage</string>
+			<string>+3 Defense</string>
+			<string>Defense</string>
+		</array>
+		<array>
+			<string>Master Shield</string>
+			<string>Like from that other game?</string>
+			<string>+4 Defense</string>
+			<string>Defense</string>
+		</array>
+		<array>
+			<string>Suit of Knights Armor</string>
+			<string>It might be fake, but it should help</string>
+			<string>+5 Defense</string>
+			<string>Defense</string>
+		</array>
+		<array>
+			<string>A Flower</string>
+			<string>Roses are red, Violets are blue</string>
+			<string>+1 Sanity</string>
+			<string>Sanity</string>
+		</array>
+		<array>
+			<string>Photos</string>
+			<string>Some photos of a long time ago</string>
+			<string>+2 Sanity</string>
+			<string>Sanity</string>
+		</array>
+		<array>
+			<string>MP3 Player</string>
+			<string>This will help drown out the sounds</string>
+			<string>+3 Sanity</string>
+			<string>Sanity</string>
+		</array>
+		<array>
+			<string>The Bible</string>
+			<string>And God said let there be light</string>
+			<string>+4 Sanity</string>
+			<string>Sanity</string>
+		</array>
+		<array>
+			<string>&quot;Herbs&quot;</string>
+			<string>Dude, this is trippy</string>
+			<string>+5 Sanity</string>
+			<string>Sanity</string>
+		</array>
+		<array>
+			<string>Candle</string>
+			<string>Light up the darkness</string>
+			<string>+1 Luck</string>
+			<string>Luck</string>
+		</array>
+		<array>
+			<string>Magnifying Glass</string>
+			<string>To help you see better</string>
+			<string>+2 Luck</string>
+			<string>Luck</string>
+		</array>
+		<array>
+			<string>4 Leaf Clover</string>
+			<string>Now your luck is changing</string>
+			<string>+3 Luck</string>
+			<string>Luck</string>
+		</array>
+		<array>
+			<string>Metal Detector</string>
+			<string>I sure hope I can find something with this</string>
+			<string>+4 Luck</string>
+			<string>Luck</string>
+		</array>
+		<array>
+			<string>Rabbits Foot</string>
+			<string>There was a rabbit, now it is just a foot</string>
+			<string>+5 Luck</string>
+			<string>Luck</string>
+		</array>
+		<array>
+			<string>Mask</string>
+			<string>Hide your face, maybe you&apos;ll blend in</string>
+			<string>+1 Stealth</string>
+			<string>Stealth</string>
+		</array>
+		<array>
+			<string>Net</string>
+			<string>Trap the monsters with this net</string>
+			<string>+2 Stealth</string>
+			<string>Stealth</string>
+		</array>
+		<array>
+			<string>Smoke Bomb</string>
+			<string>And as your final act, you dissapear</string>
+			<string>+3 Stealth</string>
+			<string>Stealth</string>
+		</array>
+		<array>
+			<string>Ninja Tabi</string>
+			<string>Some serious ninja stuff</string>
+			<string>+4 Stealth</string>
+			<string>Stealth</string>
+		</array>
+		<array>
+			<string>Cloak</string>
+			<string>Now you can be invisible</string>
+			<string>+5 Stealth</string>
+			<string>Stealth</string>
+		</array>
+		<array>
+			<string>Extra Bag</string>
+			<string>Another backpack, sweet</string>
+			<string>+3 inventory spaces</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Purple Potion</string>
+			<string>You should drink it</string>
+			<string>+1 Evasion</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Red Potion</string>
+			<string>This will make me strong</string>
+			<string>+1 Attack</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Blue Potion</string>
+			<string>You feel your skin harden</string>
+			<string>+1 Defense</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Yellow Potion</string>
+			<string>To stay sane or go insane</string>
+			<string>+1 Sanity</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Green Potion</string>
+			<string>Bottoms up</string>
+			<string>+1 Luck</string>
+			<string>Other</string>
+		</array>
+		<array>
+			<string>Gray Potion</string>
+			<string>You can almost see through it, or through you</string>
+			<string>+1 Stealth</string>
+			<string>Other</string>
 		</array>
 	</array>
 </dict>
