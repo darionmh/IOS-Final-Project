@@ -22,6 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var appleNode: SKSpriteNode?
     var removed: Bool = false
     let roomName = SKLabelNode(text: "")
+    let livesText = SKLabelNode(text: "0")
     var door:Int = 0
     let app:IOSApp = IOSApp()
     var doorX:CGFloat = 0
@@ -91,7 +92,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
         }
         
-        
+        addChild(addLives())
         
         addChild(addRoom())
         let jRadius = kAnalogStickdiameter / 2
@@ -152,6 +153,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         setupLabels()
     }
     
+    func addLives() -> SKSpriteNode{
+        let livesImage = UIImage(named: "lives")
+        let texture = SKTexture(image: livesImage!)
+        let lives = SKSpriteNode(texture: texture)
+        lives.size.width = 100
+        lives.size.height = 100
+        lives.position = CGPoint(x: CGRectGetMaxX(self.frame)-60, y: CGRectGetMaxY(self.frame)-150)
+        livesText.text = "\(app.player.skills["Health"]!)"
+        livesText.fontColor = UIColor.blackColor()
+        livesText.fontSize = 50
+        livesText.zPosition = 2
+        livesText.position = CGPoint(x:0, y:-10)
+        lives.addChild(livesText)
+        return lives
+    }
     
     func appendAppleToPoint(position: CGPoint) -> SKSpriteNode {
         
@@ -402,10 +418,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 else if name == "AttackButton"
                 {
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: true)
+                    livesText.text = "\(app.player.skills["Health"]!)"
                 }
                 else if name == "DefenseButton"
                 {
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: false)
+                    livesText.text = "\(app.player.skills["Health"]!)"
                 }
                 else if name == "MapButton"
                 {
