@@ -499,7 +499,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func displayMap(){
         let alert = UIAlertView(title: "Map:", message: "", delegate: self, cancelButtonTitle: "Done")
-        alert.message = app.printLayout()
+        let message = UILabel()
+        message.font = UIFont(name: "Courier New", size: 13)
+        message.numberOfLines = 0
+        message.text = app.printLayout()
+        message.textAlignment = .Center
+        alert.setValue(message, forKey: "accessoryView")
         alert.show()
     }
     
