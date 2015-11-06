@@ -18,7 +18,7 @@ public class Player {
     var hasKey:Bool
     var headingNum:Int
     var heading:String
-    var fightMultiplier:Int
+    var fightMultiplier:Double
     var inventorySpace:Int
     
     init() {

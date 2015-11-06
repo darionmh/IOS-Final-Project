@@ -349,30 +349,30 @@ public class IOSApp {
     }
     
     func fightMonsterIOS(monster:Monster, attack:Bool) -> Bool {
-        var playerAction:Int
-        var monsterAttack:Int
+        var playerAction:Double
+        var monsterAttack:Double
         var dodge:Bool
         print("attacking: \(attack)")
         if(attack){
-            playerAction = (Int(arc4random_uniform(6)) + player.skills["Attack"]!)*player.fightMultiplier
-            monsterAttack = Int(arc4random_uniform(6))
+            playerAction = Double((Int(arc4random_uniform(6)) + player.skills["Attack"]!))*player.fightMultiplier
+            monsterAttack = Double(arc4random_uniform(6))
             dodge = false
         }else{
-            playerAction = Int(arc4random_uniform(6)) + player.skills["Defense"]!
-            monsterAttack = Int(arc4random_uniform(6))
+            playerAction = Double(Int(arc4random_uniform(6)) + player.skills["Defense"]!)
+            monsterAttack = Double(arc4random_uniform(6))
             dodge = true
         }
         if(playerAction >= monsterAttack && dodge){
             // player dodged, no effect
             print("You dodge the attack, gaining increasing your multiplier")
-            player.fightMultiplier++
+            player.fightMultiplier+=0.2
         }else if(playerAction >= monsterAttack && !dodge){
             // player attacked, subtract difference from the monsters health
-            monster.health = monster.health - (playerAction - monsterAttack)
+            monster.health = monster.health - Int(playerAction - monsterAttack)
             print("Monster takes \(playerAction - monsterAttack) damage")
         }else{
             // player fails to beat monsters attack, subtract difference from player health and reset multiplier
-            player.skills["Health"] = player.skills["Health"]! - (monsterAttack - playerAction)
+            player.skills["Health"] = player.skills["Health"]! - Int(monsterAttack - playerAction)
             player.fightMultiplier = 1
             print("Player takes \(monsterAttack - playerAction) damage. Multiplier reset to 1.")
         }
