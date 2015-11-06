@@ -35,6 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var run:Bool = false
     var currentItem:Item?
     var selectedDropItem:Int = 0
+    var stats: SKSpriteNode?
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
@@ -96,6 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         
         addChild(addLives())
         addChild(addConsole())
+        addChild(addPlayerStats())
         
         addChild(addRoom())
         let jRadius = kAnalogStickdiameter / 2
@@ -170,6 +172,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         livesText.position = CGPoint(x:0, y:-10)
         lives.addChild(livesText)
         return lives
+    }
+    
+    func addPlayerStats() -> SKSpriteNode {
+        stats = SKSpriteNode(color: UIColor.blackColor(), size: CGSizeMake(CGRectGetMaxX(self.frame)*0.25, CGRectGetMaxY(self.frame)*0.35))
+        stats!.position = CGPoint(x: CGRectGetMaxX(self.frame)*0.9, y: CGRectGetMaxY(self.frame)*0.6)
+        var skills = app.player.skills
+        let attackSkill = SKLabelNode(text: "Attack: \(skills["Attack"]!)")
+        let defenseSkill = SKLabelNode(text: "Defense: \(skills["Defense"]!)")
+        let luckSkill = SKLabelNode(text: "Luck: \(skills["Luck"]!)")
+        let sanitySkill = SKLabelNode(text: "Sanity: \(skills["Sanity"]!)")
+        let stealthSkill = SKLabelNode(text: "Stealth: \(skills["Stealth"]!)")
+        let evasionSkill = SKLabelNode(text: "Evasion: \(skills["Evasion"]!)")
+        attackSkill.fontColor = UIColor.whiteColor()
+        defenseSkill.fontColor = UIColor.whiteColor()
+        luckSkill.fontColor = UIColor.whiteColor()
+        sanitySkill.fontColor = UIColor.whiteColor()
+        stealthSkill.fontColor = UIColor.whiteColor()
+        evasionSkill.fontColor = UIColor.whiteColor()
+        attackSkill.fontSize = 30
+        defenseSkill.fontSize = 30
+        stealthSkill.fontSize = 30
+        evasionSkill.fontSize = 30
+        luckSkill.fontSize = 30
+        sanitySkill.fontSize = 30
+        attackSkill.position = CGPoint(x: 0, y: 0+stats!.size.height/2-70)
+        defenseSkill.position = CGPoint(x: 0, y: 0+stats!.size.height/2-100)
+        luckSkill.position = CGPoint(x: 0, y: 0+stats!.size.height/2-130)
+        sanitySkill.position = CGPoint(x: 0, y: 0+stats!.size.height/2-160)
+        stealthSkill.position = CGPoint(x: 0, y: 0+stats!.size.height/2-190)
+        evasionSkill.position = CGPoint(x: 0, y: 0+stats!.size.height/2-220)
+        stats!.addChild(attackSkill)
+        stats!.addChild(defenseSkill)
+        stats!.addChild(luckSkill)
+        stats!.addChild(sanitySkill)
+        stats!.addChild(stealthSkill)
+        stats!.addChild(evasionSkill)
+        return stats!
     }
     
     func addConsole() -> SKSpriteNode{
@@ -389,7 +428,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addDefenseButton() -> SKSpriteNode{
-        let defenseImage = UIImage(named: "defensebutton")
+        let defenseImage = UIImage(named: "DefenseButton")
         let texture = SKTexture(image: defenseImage!)
         let defenseButton = SKSpriteNode(texture: texture)
         defenseButton.size.width = CGRectGetMaxX(self.frame)/10
@@ -529,12 +568,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             app.player.headingNum = (door+1)%4
             app.player.setHeading()
             activeMonster = app.checkForMonsters()
+            console.text = ""
         }
         if(activeMonster != nil){
             handleMonster()
         }
         print(app.currentRoom.toString())
         roomName.text = app.currentRoom.name
+        updateSkills()
         return validDoor
     }
     
@@ -549,6 +590,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         attackButton?.hidden = false
         defenseButton?.hidden = false
         
+    }
+    
+    func updateSkills(){
+        (stats!.children[0] as! SKLabelNode).text = "Attack: \(app.player.skills["Attack"]!)"
+        (stats!.children[1] as! SKLabelNode).text = "Defense: \(app.player.skills["Defense"]!)"
+        (stats!.children[2] as! SKLabelNode).text = "Luck: \(app.player.skills["Luck"]!)"
+        (stats!.children[3] as! SKLabelNode).text = "Sanity: \(app.player.skills["Sanity"]!)"
+        (stats!.children[4] as! SKLabelNode).text = "Stealth: \(app.player.skills["Stealth"]!)"
+        (stats!.children[5] as! SKLabelNode).text = "Evasion: \(app.player.skills["Evasion"]!)"
     }
     
     func handleRun(){
@@ -760,6 +810,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 app.player.skills[removedItem.type]! -= Int.init(effect.description.componentsSeparatedByString("")[1])!
             }
             currentItem = nil
+            updateSkills()
         }
     }
     

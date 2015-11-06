@@ -120,6 +120,10 @@ public class IOSApp {
                         player.items.append(item!)
                         newEffects.append(Effect(description: itemData[2]))
                     }
+                    else if(item!.effect.description[0] == "+" && item!.effect.description[3...8] == "Health"){
+                        //health item
+                        player.skills["Health"]! += Int.init(item!.effect.description[1])!
+                    }
                 }
             }else if(player.items.indexOf(item!) != nil){
                 print("Already recieved that item")
