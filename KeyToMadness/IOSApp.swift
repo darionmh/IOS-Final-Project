@@ -89,7 +89,9 @@ public class IOSApp {
     
     func generateItem() -> Item? {
         var item:Item?
-        let chance:Int = Int(arc4random_uniform(20))
+        var luck:UInt32 = UInt32(20-player.skills["Luck"]!) // subtracting luck increases chance of items
+        if(luck <= 0){luck = 1}
+        let chance:Int = Int(arc4random_uniform(luck))
         if(chance < 3){
             var itemData:Array<String>
             var count:Int = 0
@@ -136,7 +138,9 @@ public class IOSApp {
     
     func generateHappening() -> Happening? {
         var happening:Happening?
-        let chance:Int = Int(arc4random_uniform(5))
+        var sanity:UInt32 = UInt32(player.skills["Sanity"]!+5) // adding sanity decreases chance of happening
+        if(sanity <= 0){sanity = 1}
+        let chance:Int = Int(arc4random_uniform(sanity))
         if(chance == 0){
             let happeningNum:Int = Int(arc4random_uniform(UInt32(happeningCount)))
             var happeningData:Array<AnyObject> = happenings[happeningNum]
@@ -295,7 +299,9 @@ public class IOSApp {
     
     func generateMonster() -> Monster? {
         var monster:Monster?
-        let chance:Int = Int(arc4random_uniform(10))
+        var stealth:UInt32 = UInt32(player.skills["Stealth"]!+10) // adding stealth decreases chance of a monster
+        if(stealth <= 0){stealth = 1}
+        let chance:Int = Int(arc4random_uniform(stealth))
         if(chance == 0){
             monster = Monster(location: currentRoom)
             monstersInGame.append(monster!)
