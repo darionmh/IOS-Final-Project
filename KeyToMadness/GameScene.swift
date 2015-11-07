@@ -24,7 +24,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     let roomName = SKLabelNode(text: "")
     let unopenedDoors = SKLabelNode(text: "")
     let livesText = SKLabelNode(text: "0")
-    //let console = SKLabelNode(text: "Welcome to Madness Manor")
     let console = SKMultilineLabel(text: "Welcome to Madness Manor", labelWidth: 600, pos: CGPoint(x: 0, y: 0))
     var door:Int = 0
     var app:IOSApp = IOSApp()
@@ -49,7 +48,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             _isSetJoystickStickImage = newValue
             let image = UIImage(named: "magic_ball")
             moveAnalogStick.stickImage = image
-            //rotateAnalogStick.stickImage = image
         }
     }
     
@@ -62,24 +60,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             _isSetJoystickSubstrateImage = newValue
             let image = newValue ? UIImage(named: "jSubstrate") : nil
             moveAnalogStick.substrateImage = image
-            //rotateAnalogStick.substrateImage = image
         }
     }
     
     var joysticksdiameters: CGFloat {
         
-        //get { return max(moveAnalogStick.diameter, rotateAnalogStick.diameter) }
         get { return moveAnalogStick.diameter }
         
         set(newdiameter) {
             
             moveAnalogStick.diameter = newdiameter
-            //rotateAnalogStick.diameter = newdiameter
         }
     }
     
     let moveAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
-    //let rotateAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
     
     override func didMoveToView(view: SKView) {
         self.view?.viewWithTag(1)?.hidden = true
@@ -97,14 +91,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
         }
         
-        
-        
         addChild(addRoom())
         let jRadius = kAnalogStickdiameter / 2
         
         
         moveAnalogStick.diameter = kAnalogStickdiameter
-        //moveAnalogStick.position = CGPointMake(jRadius + 75, jRadius + 150)
         
         let lefty = defaults.boolForKey("Lefty")
         var x = CGRectGetMaxX(self.frame) - jRadius - 25
@@ -125,23 +116,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         moveAnalogStick.name = "AnalogStick"
         addChild(moveAnalogStick)
         
-        /*rotateAnalogStick.diameter = kAnalogStickdiameter
-        rotateAnalogStick.position = CGPointMake(CGRectGetMaxX(self.frame) - jRadius - 75, jRadius + 150)
-        rotateAnalogStick.trackingHandler = { analogStick in
-            
-            self.appleNode?.zRotation = analogStick.data.angular
-        }*/
-        
-        //addChild(rotateAnalogStick)
-        
         appleNode = appendAppleToPoint(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)))
         insertChild(appleNode!, atIndex: 0)
         physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
         
         isSetJoystickStickImage = _isSetJoystickStickImage
         isSetJoystickSubstrateImage = _isSetJoystickSubstrateImage
-        //let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
-        //let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
         
         addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1))
         addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.25, CGRectGetMidY(self.frame)),value: 2))
@@ -316,11 +296,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     override func didFinishUpdate() {
         if(removed){
-            //let x = CGFloat(arc4random_uniform(UInt32(CGRectGetMidX(self.frame)+400))+50)
-            //let y = CGFloat(arc4random_uniform(UInt32(CGRectGetMidY(self.frame)+160))+110)
             print("Handling door")
             let validDoor = handleDoor(door)
-            addChild(addDoor(CGPointMake(doorX, doorY),value: door))
+            generateDoors()
             let heading = app.player.heading
             var newPos = CGPointZero
             if(validDoor){
@@ -344,6 +322,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     newPos = CGPointMake(appleNode!.position.x * 1.1, appleNode!.position.y)
                 }
             }
+            generateDoors()
             appleNode!.position = newPos
             insertChild(appleNode!, atIndex: 0)
             physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
@@ -484,6 +463,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     print("RUUUNNN")
                     print(app.currentRoom.toString())
                     roomName.text = app.currentRoom.name
+                    generateDoors()
                 }
                 else if name == "AttackButton"
                 {
@@ -609,6 +589,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }
         print(app.currentRoom.toString())
         roomName.text = app.currentRoom.name
+        generateDoors()
         updateSkills()
         unopenedDoors.text = "Unopened Doors: \(app.unopenedDoors)"
         return validDoor
@@ -910,6 +891,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         app.player.headingNum = 0
         app.player.heading = "North"
         app.unopenedDoors = 3
+    }
+    
+    func generateDoors(){
+        for child in self.children as [SKNode] {
+            if (child.name == "1" || child.name == "2" || child.name == "3" || child.name == "4") {
+                self.removeChildrenInArray([child])
+            }
+        }
+        if(app.currentRoom.attachedRooms[0] == nil || app.currentRoom.attachedRooms[0]!.name != "EMPTY"){
+            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1))
+        }
+        if(app.currentRoom.attachedRooms[1] == nil || app.currentRoom.attachedRooms[1]!.name != "EMPTY"){
+            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.25, CGRectGetMidY(self.frame)),value: 2))
+        }
+        if(app.currentRoom.attachedRooms[2] == nil || app.currentRoom.attachedRooms[2]!.name != "EMPTY"){
+            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75),value: 3))
+        }
+        if(app.currentRoom.attachedRooms[3] == nil || app.currentRoom.attachedRooms[3]!.name != "EMPTY"){
+            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.75, CGRectGetMidY(self.frame)),value: 4))
+        }
     }
 }
 
