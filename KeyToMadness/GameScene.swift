@@ -19,7 +19,7 @@ enum BodyType: UInt32 {
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    var appleNode: SKSpriteNode?
+    var player: SKSpriteNode?
     var removed: Bool = false
     let roomName = SKLabelNode(text: "")
     let unopenedDoors = SKLabelNode(text: "")
@@ -108,7 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         moveAnalogStick.position = CGPointMake(x, jRadius+25)
         moveAnalogStick.trackingHandler = { analogStick in
             
-            guard let aN = self.appleNode else { return }
+            guard let aN = self.player else { return }
             
             aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.08), aN.position.y + (analogStick.data.velocity.y * 0.08))
             aN.zRotation = analogStick.data.angular
@@ -116,8 +116,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         moveAnalogStick.name = "AnalogStick"
         addChild(moveAnalogStick)
         
-        appleNode = appendAppleToPoint(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)))
-        insertChild(appleNode!, atIndex: 0)
+        player = addPlayer(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)))
+        insertChild(player!, atIndex: 0)
         physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
         
         isSetJoystickStickImage = _isSetJoystickStickImage
@@ -214,7 +214,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         return consoleBackground
     }
     
-    func appendAppleToPoint(position: CGPoint) -> SKSpriteNode {
+    func addPlayer(position: CGPoint) -> SKSpriteNode {
         
         let playerImage = UIImage(named: "character")
         
@@ -223,6 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         let texture = SKTexture(image: playerImage!)
         
         let player = SKSpriteNode(texture: texture)
+        player.size = CGSize(width: player.size.width/1.5, height: player.size.height/1.5)
         player.physicsBody = SKPhysicsBody(texture: texture, size: player.size)
         player.physicsBody!.affectedByGravity = false
         player.position = position
@@ -303,28 +304,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             var newPos = CGPointZero
             if(validDoor){
                 if(heading == "North"){
-                    newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "penguin")!.size.height)
+                    newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "character")!.size.height)
                 }else if(heading == "East"){
-                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.25 + UIImage(named: "penguin")!.size.width, CGRectGetMidY(self.frame))
+                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.25 + UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
                 }else if(heading == "South"){
-                    newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75 - UIImage(named: "penguin")!.size.height)
+                    newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75 - UIImage(named: "character")!.size.height)
                 }else{
-                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.75 - UIImage(named: "penguin")!.size.width, CGRectGetMidY(self.frame))
+                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.75 - UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
                 }
             }else{
                 if(Int(door.value) == 3){
-                    newPos = CGPointMake(appleNode!.position.x, appleNode!.position.y * 0.9)
+                    newPos = CGPointMake(player!.position.x, player!.position.y * 0.9)
                 }else if(Int(door.value) == 4){
-                    newPos = CGPointMake(appleNode!.position.x * 0.9, appleNode!.position.y)
+                    newPos = CGPointMake(player!.position.x * 0.9, player!.position.y)
                 }else if(Int(door.value) == 1){
-                    newPos = CGPointMake(appleNode!.position.x, appleNode!.position.y * 1.1)
+                    newPos = CGPointMake(player!.position.x, player!.position.y * 1.1)
                 }else{
-                    newPos = CGPointMake(appleNode!.position.x * 1.1, appleNode!.position.y)
+                    newPos = CGPointMake(player!.position.x * 1.1, player!.position.y)
                 }
             }
             generateDoors()
-            appleNode!.position = newPos
-            insertChild(appleNode!, atIndex: 0)
+            player!.position = newPos
+            insertChild(player!, atIndex: 0)
             physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
             removed = false;
         }
@@ -459,7 +460,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     tryToRun = true
                     // run away
                     fight = app.promptMonsterFightIOS(activeMonster!, run: true)
-                    run = true
+                    run = !fight
+                    if(!run){console.text = "You try to run, but the monster blocks your path."}
+                    else{
+                        // change player heading for running direction
+                        app.player.headingNum = app.player.headingNum+2%4
+                        app.player.setHeading()
+                        let heading = app.player.heading
+                        let newPos:CGPoint
+                        if(heading == "North"){
+                            newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "character")!.size.height)
+                        }else if(heading == "East"){
+                            newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.25 + UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
+                        }else if(heading == "South"){
+                            newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75 - UIImage(named: "character")!.size.height)
+                        }else{
+                            newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.75 - UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
+                        }
+                        player!.position = newPos
+                    }
                     print("RUUUNNN")
                     print(app.currentRoom.toString())
                     roomName.text = app.currentRoom.name
@@ -635,7 +654,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         moveAnalogStick.hidden = false
         moveAnalogStick.trackingHandler = { analogStick in
             
-            guard let aN = self.appleNode else { return }
+            guard let aN = self.player else { return }
             
             aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.08), aN.position.y + (analogStick.data.velocity.y * 0.08))
             aN.zRotation = analogStick.data.angular
@@ -648,7 +667,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     func handleMonster(){
         moveAnalogStick.trackingHandler = { analogStick in
             
-            guard let aN = self.appleNode else { return }
+            guard let aN = self.player else { return }
             
             aN.position = aN.position
         }
@@ -670,7 +689,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         moveAnalogStick.hidden = false
         moveAnalogStick.trackingHandler = { analogStick in
             
-            guard let aN = self.appleNode else { return }
+            guard let aN = self.player else { return }
             
             aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.08), aN.position.y + (analogStick.data.velocity.y * 0.08))
             aN.zRotation = analogStick.data.angular
