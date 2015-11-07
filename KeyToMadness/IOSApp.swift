@@ -26,6 +26,7 @@ public class IOSApp {
     var items:Array<Array<String>>
     var roomCounter:Int = 0
     var monstersInGame:[Monster]
+    var unopenedDoors:Int = 0
     
     init(){
         let path = NSBundle.mainBundle().pathForResource("gameData", ofType: "plist")
@@ -54,6 +55,7 @@ public class IOSApp {
             houseLayout[--y][x] = Room()
         }
         monstersInGame = []
+        unopenedDoors = 3
     }
     
     // function to take standard input
@@ -85,6 +87,8 @@ public class IOSApp {
         currentRoom.setAttachedRoom(door, room: openedRoom)
         currentRoom = openedRoom
         roomCounter++
+        unopenedDoors += openedRoom.numAttachedRooms
+        print("adding \(openedRoom.numAttachedRooms) to doors")
     }
     
     func generateItem() -> Item? {

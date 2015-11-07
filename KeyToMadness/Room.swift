@@ -53,18 +53,23 @@ public class Room {
             var emptyRoom1:Int
             var emptyRoom2:Int
             repeat{
-                emptyRoom1 = Int(arc4random_uniform(7))
-            }while(emptyRoom1 != heading)
+                emptyRoom1 = Int(arc4random_uniform(4))
+            }while(emptyRoom1 == heading)
             repeat{
-                emptyRoom2 = Int(arc4random_uniform(7))
-            }while(emptyRoom2 != emptyRoom1 && emptyRoom2 != heading)
+                emptyRoom2 = Int(arc4random_uniform(4))
+            }while(emptyRoom2 == emptyRoom1 || emptyRoom2 == heading)
+            print("1: \(emptyRoom1)")
+            print("2: \(emptyRoom2)")
+            print("h: \(heading)")
             self.attachedRooms[emptyRoom1] = Room()
             self.attachedRooms[emptyRoom2] = Room()
         }else if(numAttachedRooms == 2){
             var emptyRoom1:Int
             repeat{
-                emptyRoom1 = Int(arc4random_uniform(7))
-            }while(emptyRoom1 != heading)
+                emptyRoom1 = Int(arc4random_uniform(4))
+            }while(emptyRoom1 == heading)
+            print("1: \(emptyRoom1)")
+            print("h: \(heading)")
             self.attachedRooms[emptyRoom1] = Room()
         }else if(numAttachedRooms == 0){
             for(var i = 0; i<attachedRooms.count; i++){
@@ -86,6 +91,7 @@ public class Room {
             x--
         }
         self.location = Point(x: x, y: y)
+        print("created room: \(self.attachedRooms)")
     }
     
     func setAttachedRoom(index:Int, room:Room){

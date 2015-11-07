@@ -22,11 +22,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var appleNode: SKSpriteNode?
     var removed: Bool = false
     let roomName = SKLabelNode(text: "")
+    let unopenedDoors = SKLabelNode(text: "")
     let livesText = SKLabelNode(text: "0")
     //let console = SKLabelNode(text: "Welcome to Madness Manor")
     let console = SKMultilineLabel(text: "Welcome to Madness Manor", labelWidth: 600, pos: CGPoint(x: 0, y: 0))
     var door:Int = 0
-    let app:IOSApp = IOSApp()
+    var app:IOSApp = IOSApp()
     var doorX:CGFloat = 0
     var doorY:CGFloat = 0
     var activeMonster:Monster?
@@ -88,6 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         self.view?.viewWithTag(5)?.hidden = true
         /* Setup your scene here */
         showInstructions(self)
+        backgroundColor = UIColor.blackColor()
         
         
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -337,11 +339,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func setupLabels() {
-        roomName.position = CGPoint(x: frame.size.width/2, y: frame.size.height * 0.15)
+        roomName.position = CGPoint(x: frame.size.width/2, y: frame.size.height * 0.10)
         roomName.fontColor = UIColor.whiteColor();
         roomName.fontSize = 40
         roomName.text = app.currentRoom.name
         addChild(roomName)
+        unopenedDoors.position = CGPoint(x: frame.size.width/2, y: frame.size.height * 0.05)
+        unopenedDoors.fontColor = UIColor.whiteColor()
+        unopenedDoors.fontSize = 40
+        unopenedDoors.text = "Unopened Doors: \(app.unopenedDoors)"
+        addChild(unopenedDoors)
     }
     
     func showInstructions(controller: GameScene) {
@@ -529,6 +536,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     }
                     app.processEffects()
                     activeMonster = app.generateMonster()
+                    app.unopenedDoors--
                 }else{
                     // a room exists at this location
                     let roomAtLocation:Room = app.houseLayout[location.y+7][location.x+7]!
@@ -538,12 +546,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         console.text = "The door will not opens, weird"
                         app.updateFalseDoor(door-1)
                         validDoor = false
+                        app.unopenedDoors--
                     }else{
                         // room has been visited and is not a special room
                         app.applyVisitedRoom(roomAtLocation, door: door-1)
                         print("This room looks oddly familiar.")
                         activeMonster = app.checkForMonsters()
                         console.text = "This room looks oddly familiar"
+                        app.unopenedDoors--
                     }
                 }
             }else{
@@ -552,6 +562,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 console.text = "The door opens... to a brick wall."
                 app.updateFalseDoor(door-1)
                 validDoor = false
+                app.unopenedDoors--
             }
             activeMonster = app.moveMonsters()
         }else if(app.currentRoom.attachedRooms[door-1]!.name == "EMPTY"){
@@ -578,9 +589,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(activeMonster != nil){
             handleMonster()
         }
+        if(app.unopenedDoors == 0){
+            print("out of doors!")
+            // need to redo map
+            restartGame()
+        }
         print(app.currentRoom.toString())
         roomName.text = app.currentRoom.name
         updateSkills()
+        unopenedDoors.text = "Unopened Doors: \(app.unopenedDoors)"
         return validDoor
     }
     
@@ -870,6 +887,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 50
+    }
+    
+    func restartGame(){
+        let player = app.player
+        app = IOSApp()
+        app.player = player
+        console.text = "You lay down to rest, and wake up to find the rooms rearranged."
+        app.player.headingNum = 0
+        app.player.heading = "North"
+        app.unopenedDoors = 3
     }
 }
 
