@@ -45,7 +45,7 @@ public class AnalogStick: SKNode {
         
         set(newColor) {
             
-            substrateImage = UIImage.circleWithRadius(diameter, color: newColor, borderWidth: 5, borderColor: UIColor.blackColor())
+            substrateImage = UIImage.circleWithRadius(diameter, color: newColor, borderWidth: 0, borderColor: UIColor.blackColor())
             _substrateColor = newColor
         }
     }

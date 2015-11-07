@@ -97,9 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
         }
         
-        addChild(addLives())
-        addChild(addConsole())
-        addChild(addPlayerStats())
+        
         
         addChild(addRoom())
         let jRadius = kAnalogStickdiameter / 2
@@ -113,7 +111,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(lefty){
             x = jRadius+25
         }
-        moveAnalogStick.position = CGPointMake(x, jRadius*2 + 25)
+        addChild(addLives(lefty))
+        addChild(addConsole())
+        addChild(addPlayerStats(lefty))
+        moveAnalogStick.position = CGPointMake(x, jRadius+25)
         moveAnalogStick.trackingHandler = { analogStick in
             
             guard let aN = self.appleNode else { return }
@@ -160,13 +161,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         setupLabels()
     }
     
-    func addLives() -> SKSpriteNode{
+    func addLives(lefty:Bool) -> SKSpriteNode{
         let livesImage = UIImage(named: "lives")
         let texture = SKTexture(image: livesImage!)
         let lives = SKSpriteNode(texture: texture)
         lives.size.width = 100
         lives.size.height = 100
-        lives.position = CGPoint(x: CGRectGetMaxX(self.frame)-60, y: CGRectGetMaxY(self.frame)-150)
+        var x:CGFloat = 0
+        if(lefty){
+            x = 60
+        }else{
+            x = CGRectGetMaxX(self.frame)-CGFloat(60)
+        }
+        lives.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame)-60)
         livesText.text = "\(app.player.skills["Health"]!)"
         livesText.fontColor = UIColor.blackColor()
         livesText.fontSize = 50
@@ -176,9 +183,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         return lives
     }
     
-    func addPlayerStats() -> SKSpriteNode {
+    func addPlayerStats(lefty:Bool) -> SKSpriteNode {
         stats = SKSpriteNode(color: UIColor.blackColor(), size: CGSizeMake(CGRectGetMaxX(self.frame)*0.25, CGRectGetMaxY(self.frame)*0.35))
-        stats!.position = CGPoint(x: CGRectGetMaxX(self.frame)*0.9, y: CGRectGetMaxY(self.frame)*0.6)
+        var x:CGFloat = 0
+        if(lefty){
+            x = CGRectGetMaxX(self.frame)*0.1
+        }else{
+            x = CGRectGetMaxX(self.frame)*0.9
+        }
+        stats!.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame)*0.6)
         var skills = app.player.skills
         let attackSkill = SKLabelNode(text: "Attack: \(skills["Attack"]!)")
         let defenseSkill = SKLabelNode(text: "Defense: \(skills["Defense"]!)")
