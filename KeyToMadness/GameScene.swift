@@ -486,12 +486,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }
                 else if name == "AttackButton"
                 {
-                    fightOver = app.fightMonsterIOS(activeMonster!, attack: true)
+                    fightOver = app.fightMonsterIOS(activeMonster!, attack: true, console: console)
                     livesText.text = "\(app.player.skills["Health"]!)"
                 }
                 else if name == "DefenseButton"
                 {
-                    fightOver = app.fightMonsterIOS(activeMonster!, attack: false)
+                    fightOver = app.fightMonsterIOS(activeMonster!, attack: false, console: console)
                     livesText.text = "\(app.player.skills["Health"]!)"
                 }
                 else if name == "MapButton"
@@ -841,8 +841,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             print(effectIndex)
             if(effectIndex != nil){
                 let effect:Effect = app.player.currentEffects[effectIndex!]
+                print(effect)
                 app.player.currentEffects.removeAtIndex(effectIndex!)
-                app.player.skills[removedItem.type]! -= Int.init(effect.description.componentsSeparatedByString("")[1])!
+                app.player.skills[removedItem.type]! -= Int.init(effect.description.componentsSeparatedByString(" ")[0][1])!
             }
             currentItem = nil
             updateSkills()

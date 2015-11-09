@@ -352,7 +352,7 @@ public class IOSApp {
         return false
     }
     
-    func fightMonsterIOS(monster:Monster, attack:Bool) -> Bool {
+    func fightMonsterIOS(monster:Monster, attack:Bool, console:SKMultilineLabel) -> Bool {
         var playerAction:Double
         var monsterAttack:Double
         var dodge:Bool
@@ -369,16 +369,19 @@ public class IOSApp {
         if(playerAction >= monsterAttack && dodge){
             // player dodged, no effect
             print("You dodge the attack, gaining increasing your multiplier")
+            console.text = "You dodge the attack, gaining increasing your multiplier"
             player.fightMultiplier+=0.2
         }else if(playerAction >= monsterAttack && !dodge){
             // player attacked, subtract difference from the monsters health
             monster.health = monster.health - Int(playerAction - monsterAttack)
             print("Monster takes \(playerAction - monsterAttack) damage")
+            console.text = "Monster takes \(Int(playerAction - monsterAttack)) damage"
         }else{
             // player fails to beat monsters attack, subtract difference from player health and reset multiplier
             player.skills["Health"] = player.skills["Health"]! - Int(monsterAttack - playerAction)
             player.fightMultiplier = 1
             print("Player takes \(monsterAttack - playerAction) damage. Multiplier reset to 1.")
+            console.text = "Player takes \(Int(monsterAttack - playerAction)) damage. Multiplier reset to 1."
         }
         if(monster.health <= 0 || !player.isPlayerAlive()){
             print("Battle over player: \(player.isPlayerAlive()) monster: \(monster.health)")
