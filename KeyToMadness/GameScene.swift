@@ -128,10 +128,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.75),value: 3))
         addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4))
         
-        addChild(addBattleButton())
-        addChild(addRunButton())
-        addChild(addAttackButton())
-        addChild(addDefenseButton())
+        addChild(addBattleButton(lefty))
+        addChild(addRunButton(lefty))
+        addChild(addAttackButton(lefty))
+        addChild(addDefenseButton(lefty))
         
         for b in addMenuButtons(lefty){
             addChild(b)
@@ -375,7 +375,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         return [mapButton, instructionsButton, exitButton]
     }
     
-    func addBattleButton() -> SKSpriteNode {
+    func addBattleButton(lefty:Bool) -> SKSpriteNode {
         let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
@@ -383,7 +383,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         attackButton.size.width = CGRectGetMaxX(self.frame)/10
         attackButton.size.height = attackButton.size.width
         
-        attackButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + (attackImage!.size.width), y: CGRectGetMaxY(self.frame) * 0.1 + (attackImage!.size.height))
+        
+        attackButton.position = CGPoint(x: CGRectGetMaxX(self.frame) - attackButton.size.width*2, y: CGRectGetMinY(self.frame) + attackButton.size.height)
+        if(lefty){
+           attackButton.position = CGPoint(x: CGRectGetMinX(self.frame) + attackButton.size.width, y: CGRectGetMinY(self.frame) + attackButton.size.height)
+        }
         attackButton.zPosition = 3
         attackButton.name = "BattleButton"
         attackButton.hidden = true
@@ -391,7 +395,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         return attackButton
     }
     
-    func addRunButton() -> SKSpriteNode {
+    func addRunButton(lefty:Bool) -> SKSpriteNode {
         let runImage = UIImage(named: "run")
         let texture = SKTexture(image: runImage!)
         let runButton = SKSpriteNode(texture: texture)
@@ -399,7 +403,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         runButton.size.width = CGRectGetMaxX(self.frame)/10
         runButton.size.height = runButton.size.width
         
-        runButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + (runImage!.size.width) * 2, y: CGRectGetMaxY(self.frame) * 0.1 + (runImage!.size.height))
+        runButton.position = CGPoint(x: CGRectGetMaxX(self.frame) - runButton.size.width, y: CGRectGetMinY(self.frame) + runButton.size.height)
+        if(lefty){
+            runButton.position = CGPoint(x: CGRectGetMinX(self.frame) + runButton.size.width*2, y: CGRectGetMinY(self.frame) + runButton.size.height)
+        }
         runButton.zPosition = 3
         runButton.name = "RunButton"
         runButton.hidden = true
@@ -418,14 +425,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         return monster
     }
     
-    func addAttackButton() -> SKSpriteNode{
+    func addAttackButton(lefty:Bool) -> SKSpriteNode{
         let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         attackButton.size.width = CGRectGetMaxX(self.frame)/10
         attackButton.size.height = attackButton.size.width
         
-        attackButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.05 + (attackImage!.size.width), y: CGRectGetMaxY(self.frame) * 0.1 + (attackImage!.size.height))
+        attackButton.position = CGPoint(x: CGRectGetMaxX(self.frame) - attackButton.size.width*2, y: CGRectGetMinY(self.frame) + attackButton.size.height)
+        if(lefty){
+            attackButton.position = CGPoint(x: CGRectGetMinX(self.frame) + attackButton.size.width, y: CGRectGetMinY(self.frame) + attackButton.size.height)
+        }
         attackButton.zPosition = 3
         attackButton.name = "AttackButton"
         attackButton.hidden = true
@@ -433,14 +443,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         return attackButton
     }
     
-    func addDefenseButton() -> SKSpriteNode{
+    func addDefenseButton(lefty:Bool) -> SKSpriteNode{
         let defenseImage = UIImage(named: "DefenseButton")
         let texture = SKTexture(image: defenseImage!)
         let defenseButton = SKSpriteNode(texture: texture)
         defenseButton.size.width = CGRectGetMaxX(self.frame)/10
         defenseButton.size.height = defenseButton.size.width
         
-        defenseButton.position = CGPoint(x: 400, y: 200)
+        defenseButton.position = CGPoint(x: CGRectGetMaxX(self.frame) - defenseButton.size.width, y: CGRectGetMinY(self.frame) + defenseButton.size.height)
+        if(lefty){
+            defenseButton.position = CGPoint(x: CGRectGetMinX(self.frame) + defenseButton.size.width*2, y: CGRectGetMinY(self.frame) + defenseButton.size.height)
+        }
         defenseButton.zPosition = 3
         defenseButton.name = "DefenseButton"
         defenseButton.hidden = true
