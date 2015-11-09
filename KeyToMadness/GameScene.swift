@@ -552,7 +552,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }else{
                     // a room exists at this location
                     let roomAtLocation:Room = app.houseLayout[location.y+7][location.x+7]!
-                    if(roomAtLocation.name == "EMPTY" || (roomAtLocation.attachedRooms[(door+2)%4] != nil && roomAtLocation.attachedRooms[(door+2)%4]!.name == "EMPTY")){
+                    if(roomAtLocation.name == "EMPTY" || (roomAtLocation.attachedRooms[(door+1)%4] != nil && roomAtLocation.attachedRooms[(door+1)%4]!.name == "EMPTY")){
                         // not a valid room placement like (0,-1) or this door is a false door
                         print("The door will not open, weird")
                         console.text = "The door will not open, weird"
