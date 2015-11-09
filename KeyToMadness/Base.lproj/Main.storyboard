@@ -22,7 +22,7 @@
                                 <animations/>
                                 <state key="normal" title="Play Game"/>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="928-JU-OCl"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" identifier="mainMenu" id="928-JU-OCl"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Music" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESj-ri-SGV">
@@ -124,7 +124,7 @@
                                 <animations/>
                                 <state key="normal" title="Main Menu"/>
                                 <connections>
-                                    <segue destination="Cd9-jv-Rih" kind="unwind" unwindAction="unwindForSegue:towardsViewController:" id="mS8-3G-Pfe"/>
+                                    <segue destination="Cd9-jv-Rih" kind="unwind" identifier="undo" unwindAction="unwindForSegue:towardsViewController:" id="mS8-3G-Pfe"/>
                                 </connections>
                             </button>
                         </subviews>

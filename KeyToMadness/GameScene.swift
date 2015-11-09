@@ -18,7 +18,7 @@ enum BodyType: UInt32 {
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    
+    weak var gameViewController:GameViewController?
     var player: SKSpriteNode?
     var removed: Bool = false
     let roomName = SKLabelNode(text: "")
@@ -359,14 +359,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }
         
         let mapButton = SKSpriteNode(color: UIColor.grayColor(), size: size)
-        mapButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.99 - size.height)
+        //mapButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.99 - size.height)
+        mapButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.8 - size.height)
         mapButton.name = "MapButton"
         
         let instructionsButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
-        instructionsButton.position = CGPoint(x: mapButton.frame.midX, y: mapButton.frame.minY - CGRectGetMaxX(self.frame) * 0.01 - size.height/2)
+        //instructionsButton.position = CGPoint(x: mapButton.frame.midX, y: mapButton.frame.minY - CGRectGetMaxX(self.frame) * 0.01 - size.height/2)
+        instructionsButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.6 - size.height)
         instructionsButton.name = "InstructionsButton"
         
-        return [mapButton, instructionsButton]
+        let exitButton = SKSpriteNode(color: UIColor.blueColor(), size: size)
+        exitButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) - size.height)
+        exitButton.name = "ExitButton"
+        
+        return [mapButton, instructionsButton, exitButton]
     }
     
     func addBattleButton() -> SKSpriteNode {
@@ -497,6 +503,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 else if name == "MapButton"
                 {
                     displayMap()
+                }
+                else if name == "ExitButton"
+                {
+                    print("exiting")
+                    self.gameViewController?.performSegueWithIdentifier("undo", sender: self)
                 }
             }
             // start battle
@@ -721,6 +732,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func victory(){
         print("GAME OVER")
+        self.removeAllChildren();
+        player?.removeFromParent()
+        for child in self.children as [SKNode] {
+            if (child.name == "1" || child.name == "2" || child.name == "3" || child.name == "4") {
+                self.removeChildrenInArray([child])
+            }
+        }
         self.view?.viewWithTag(1)?.hidden = false
         self.view?.viewWithTag(2)?.hidden = false
         self.view?.viewWithTag(3)?.hidden = false
@@ -743,7 +761,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             print("----- YOU LOSE -----")
             (self.view?.viewWithTag(5) as? UILabel)?.text = "You die searching. Maybe the key was never there."
         }
-        self.removeAllChildren();
+        
     }
     
     func swapItem(room:Room){
