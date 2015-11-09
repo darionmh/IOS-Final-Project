@@ -565,7 +565,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         print("This room looks oddly familiar.")
                         activeMonster = app.checkForMonsters()
                         console.text = "This room looks oddly familiar"
-                        app.unopenedDoors--
+                        app.unopenedDoors-=2 // becaus they were connecting doors that had not been opened
                     }
                 }
             }else{
