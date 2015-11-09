@@ -91,6 +91,42 @@ public class Room {
             x--
         }
         self.location = Point(x: x, y: y)
+        if(x == 7 && attachedRooms[3] == nil){
+            // door 4 is out of bounds
+            print("replace room")
+            numAttachedRooms--
+            attachedRooms[3] = Room()
+        }
+        if(x == -7 && attachedRooms[1] == nil){
+            print("replace room")
+            // door 2 is out of bounds
+            numAttachedRooms--
+            attachedRooms[1] = Room()
+        }
+        if(y == 7 && attachedRooms[2] == nil){
+            print("replace room")
+            // door 3 is out of bounds
+            numAttachedRooms--
+            attachedRooms[2] = Room()
+            
+        }
+        if(y == -7 && attachedRooms[0] == nil){
+            print("replace room")
+            // door 1 is out of bounds
+            numAttachedRooms--
+            attachedRooms[0] = Room()
+            
+        }
+        if(x == 1 && y < 0 && attachedRooms[1] == nil){
+            // pathway out of house, cant go there
+            numAttachedRooms--
+            attachedRooms[1] = Room()
+        }
+        if(x == -1 && y < 0 && attachedRooms[3] == nil){
+            // pathway out of house, cant go there
+            numAttachedRooms--
+            attachedRooms[3] = Room()
+        }
         print("created room: \(self.attachedRooms)")
     }
     

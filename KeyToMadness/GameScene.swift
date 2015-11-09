@@ -721,7 +721,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func victory(){
         print("GAME OVER")
-        self.removeAllChildren();
         self.view?.viewWithTag(1)?.hidden = false
         self.view?.viewWithTag(2)?.hidden = false
         self.view?.viewWithTag(3)?.hidden = false
@@ -744,6 +743,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             print("----- YOU LOSE -----")
             (self.view?.viewWithTag(5) as? UILabel)?.text = "You die searching. Maybe the key was never there."
         }
+        self.removeAllChildren();
     }
     
     func swapItem(room:Room){
