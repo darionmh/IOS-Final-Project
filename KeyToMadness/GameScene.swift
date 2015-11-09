@@ -468,11 +468,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         app.player.setHeading()
                         let heading = app.player.heading
                         let newPos:CGPoint
-                        if(heading == "North"){
+                        if(heading == "South"){
                             newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "character")!.size.height)
-                        }else if(heading == "East"){
+                        }else if(heading == "West"){
                             newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.25 + UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
-                        }else if(heading == "South"){
+                        }else if(heading == "North"){
                             newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75 - UIImage(named: "character")!.size.height)
                         }else{
                             newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.75 - UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
@@ -554,8 +554,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     let roomAtLocation:Room = app.houseLayout[location.y+7][location.x+7]!
                     if(roomAtLocation.name == "EMPTY" || (roomAtLocation.attachedRooms[(door+2)%4] != nil && roomAtLocation.attachedRooms[(door+2)%4]!.name == "EMPTY")){
                         // not a valid room placement like (0,-1) or this door is a false door
-                        print("The door will not opens, weird")
-                        console.text = "The door will not opens, weird"
+                        print("The door will not open, weird")
+                        console.text = "The door will not open, weird"
                         app.updateFalseDoor(door-1)
                         validDoor = false
                         app.unopenedDoors--
