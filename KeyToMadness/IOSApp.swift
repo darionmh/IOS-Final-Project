@@ -26,6 +26,7 @@ public class IOSApp {
     var items:Array<Array<String>>
     var roomCounter:Int = 0
     var monstersInGame:[Monster]
+    var unopenedDoors:Int = 0
     
     init(){
         let path = NSBundle.mainBundle().pathForResource("gameData", ofType: "plist")
@@ -54,6 +55,7 @@ public class IOSApp {
             houseLayout[--y][x] = Room()
         }
         monstersInGame = []
+        unopenedDoors = 3
     }
     
     // function to take standard input
@@ -85,41 +87,50 @@ public class IOSApp {
         currentRoom.setAttachedRoom(door, room: openedRoom)
         currentRoom = openedRoom
         roomCounter++
+        unopenedDoors += openedRoom.numAttachedRooms
+        print("adding \(openedRoom.numAttachedRooms) to doors")
     }
     
     func generateItem() -> Item? {
         var item:Item?
-        let chance:Int = Int(arc4random_uniform(20))
+        var luck:UInt32 = UInt32(20-player.skills["Luck"]!) // subtracting luck increases chance of items
+        if(luck <= 0){luck = 1}
+        let chance:Int = Int(arc4random_uniform(luck))
         if(chance < 3){
             var itemData:Array<String>
             var count:Int = 0
             repeat{
                 let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount)))
                 itemData = items[itemNumber]
-                item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]))
+                item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]), type: itemData[3])
                 count--
             }while((player.items.indexOf(item!) != nil || (itemData[0] == "Key" && roomCounter < 10)) && count > 0)
-            if(player.items.indexOf(item!) == nil && !(player.itemImmunity && itemData[2].componentsSeparatedByString("")[0] == "-")) {
-                if(item!.name == "Key"){
-                    if(roomCounter >= 10){
+            if(player.items.indexOf(item!) == nil) {
+                if(item!.type == "Other"){
+                    if(item!.name == "Key"){
+                        if(roomCounter >= 10){
+                            player.items.append(item!)
+                            newEffects.append(Effect(description: itemData[2]))
+                            player.hasKey = true
+                        }else{
+                            // to early for key!
+                            item = nil
+                        }
+                    }else if(item!.name == "Ring"){
+                        player.itemImmunity = true
                         player.items.append(item!)
                         newEffects.append(Effect(description: itemData[2]))
-                        player.hasKey = true
-                    }else{
-                        // to early for key!
-                        item = nil
                     }
-                }else if(item!.name == "Ring"){
-                    player.itemImmunity = true
-                    player.items.append(item!)
-                    newEffects.append(Effect(description: itemData[2]))
-                }else{
-                    player.items.append(item!)
-                    newEffects.append(Effect(description: itemData[2]))
+                    else if(item!.name == "Bag"){
+                        player.inventorySpace += 3
+                        player.items.append(item!)
+                        newEffects.append(Effect(description: itemData[2]))
+                    }
+                    else if(item!.effect.description[0] == "+" && item!.effect.description[3...8] == "Health"){
+                        //health item
+                        player.skills["Health"]! += Int.init(item!.effect.description[1])!
+                    }
                 }
-            }else if(player.itemImmunity && itemData[2].componentsSeparatedByString("")[0] == "-"){
-                print("Your ring gets hot, better not take the item in this room.")
-                item = nil
             }else if(player.items.indexOf(item!) != nil){
                 print("Already recieved that item")
                 item = nil
@@ -131,7 +142,9 @@ public class IOSApp {
     
     func generateHappening() -> Happening? {
         var happening:Happening?
-        let chance:Int = Int(arc4random_uniform(5))
+        var sanity:UInt32 = UInt32(player.skills["Sanity"]!+5) // adding sanity decreases chance of happening
+        if(sanity <= 0){sanity = 1}
+        let chance:Int = Int(arc4random_uniform(sanity))
         if(chance == 0){
             let happeningNum:Int = Int(arc4random_uniform(UInt32(happeningCount)))
             var happeningData:Array<AnyObject> = happenings[happeningNum]
@@ -148,14 +161,15 @@ public class IOSApp {
         for effect in newEffects {
             let parts:[String] = effect.description.componentsSeparatedByString(" ")
             let skill:String = parts[1]
-            let char:String = parts[0].componentsSeparatedByString("")[0]
+            let char:String = parts[0][0]
+            let num:String = parts[0][1]
             let buff:Bool = char == "+"
             let deBuff:Bool = char == "-"
             if(buff){
-                let x:Int = (player.skills[skill])!+1
+                let x:Int = (player.skills[skill])!+(Int.init(num))!
                 player.skills[skill] = x
             }else if(deBuff){
-                let x:Int = (player.skills[skill])!-1
+                let x:Int = (player.skills[skill])!-(Int.init(num))!
                 player.skills[skill] = x
             }
             player.currentEffects.append(effect)
@@ -289,7 +303,9 @@ public class IOSApp {
     
     func generateMonster() -> Monster? {
         var monster:Monster?
-        let chance:Int = Int(arc4random_uniform(10))
+        var stealth:UInt32 = UInt32(player.skills["Stealth"]!+10) // adding stealth decreases chance of a monster
+        if(stealth <= 0){stealth = 1}
+        let chance:Int = Int(arc4random_uniform(stealth))
         if(chance == 0){
             monster = Monster(location: currentRoom)
             monstersInGame.append(monster!)
@@ -336,33 +352,36 @@ public class IOSApp {
         return false
     }
     
-    func fightMonsterIOS(monster:Monster, attack:Bool) -> Bool {
-        var playerAction:Int
-        var monsterAttack:Int
+    func fightMonsterIOS(monster:Monster, attack:Bool, console:SKMultilineLabel) -> Bool {
+        var playerAction:Double
+        var monsterAttack:Double
         var dodge:Bool
         print("attacking: \(attack)")
         if(attack){
-            playerAction = (Int(arc4random_uniform(6)) + player.skills["Attack"]!)*player.fightMultiplier
-            monsterAttack = Int(arc4random_uniform(6))
+            playerAction = Double((Int(arc4random_uniform(6)) + player.skills["Attack"]!))*player.fightMultiplier
+            monsterAttack = Double(arc4random_uniform(6))
             dodge = false
         }else{
-            playerAction = Int(arc4random_uniform(6)) + player.skills["Defense"]!
-            monsterAttack = Int(arc4random_uniform(6))
+            playerAction = Double(Int(arc4random_uniform(6)) + player.skills["Defense"]!)
+            monsterAttack = Double(arc4random_uniform(6))
             dodge = true
         }
         if(playerAction >= monsterAttack && dodge){
             // player dodged, no effect
             print("You dodge the attack, gaining increasing your multiplier")
-            player.fightMultiplier++
+            console.text = "You dodge the attack, gaining increasing your multiplier"
+            player.fightMultiplier+=0.2
         }else if(playerAction >= monsterAttack && !dodge){
             // player attacked, subtract difference from the monsters health
-            monster.health = monster.health - (playerAction - monsterAttack)
+            monster.health = monster.health - Int(playerAction - monsterAttack)
             print("Monster takes \(playerAction - monsterAttack) damage")
+            console.text = "Monster takes \(Int(playerAction - monsterAttack)) damage"
         }else{
             // player fails to beat monsters attack, subtract difference from player health and reset multiplier
-            player.skills["Health"] = player.skills["Health"]! - (monsterAttack - playerAction)
+            player.skills["Health"] = player.skills["Health"]! - Int(monsterAttack - playerAction)
             player.fightMultiplier = 1
             print("Player takes \(monsterAttack - playerAction) damage. Multiplier reset to 1.")
+            console.text = "Player takes \(Int(monsterAttack - playerAction)) damage. Multiplier reset to 1."
         }
         if(monster.health <= 0 || !player.isPlayerAlive()){
             print("Battle over player: \(player.isPlayerAlive()) monster: \(monster.health)")
@@ -391,4 +410,19 @@ public class IOSApp {
         return nil
     }
     
+}
+
+extension String {
+    
+    subscript (i: Int) -> Character {
+        return self[self.startIndex.advancedBy(i)]
+    }
+    
+    subscript (i: Int) -> String {
+        return String(self[i] as Character)
+    }
+    
+    subscript (r: Range<Int>) -> String {
+        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
+    }
 }

@@ -18,16 +18,17 @@ public class Player {
     var hasKey:Bool
     var headingNum:Int
     var heading:String
-    var fightMultiplier:Int
+    var fightMultiplier:Double
+    var inventorySpace:Int
     
     init() {
         self.skills = Dictionary<String, Int>()
-        skills["Evasion"] = 0 // escaping monsters
         skills["Attack"] = 0  // attacking monsters
         skills["Defense"] = 0 // defending monster attacks
-        skills["Sanity"] = 0  // generation of happenings
         skills["Luck"] = 0    // finding items
+        skills["Sanity"] = 0  // generation of happenings
         skills["Stealth"] = 0 // avoiding monsters
+        skills["Evasion"] = 0 // escaping monsters
         skills["Health"] = 8
         self.currentEffects = []
         self.items = []
@@ -38,6 +39,7 @@ public class Player {
         self.heading = "North"
         self.fightMultiplier = 1
         self.currentItems = []
+        self.inventorySpace = 5
     }
     
     func isPlayerAlive() -> Bool {
