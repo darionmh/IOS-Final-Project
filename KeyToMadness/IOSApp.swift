@@ -227,8 +227,8 @@ public class IOSApp {
                         }
                     }
                 }else{
-                    print(" ", terminator:"")
-                    map += " "
+                    print("_", terminator:"")
+                    map += "_"
                 }
                 if(j < houseLayout[i].count-1){
                     print(",", terminator:"")
