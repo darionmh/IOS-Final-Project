@@ -18,13 +18,12 @@ enum BodyType: UInt32 {
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    weak var gameViewController:GameViewController?
     var player: SKSpriteNode?
     var removed: Bool = false
     let roomName = SKLabelNode(text: "")
     let unopenedDoors = SKLabelNode(text: "")
     let livesText = SKLabelNode(text: "0")
-    let console = SKMultilineLabel(text: "Welcome to Madness Manor", labelWidth: 600, pos: CGPoint(x: 0, y: 0))
+    var console = SKMultilineLabel(text: "Welcome to Madness Manor", labelWidth: 600, pos: CGPoint(x: 0, y: 0))
     var door:Int = 0
     var app:IOSApp = IOSApp()
     var doorX:CGFloat = 0
@@ -85,8 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         showInstructions(self)
         backgroundColor = UIColor.blackColor()
         
-        
         let defaults = NSUserDefaults.standardUserDefaults()
+        print(defaults.boolForKey("Music"))
         if(defaults.boolForKey("Music")){
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
         }
@@ -263,6 +262,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         door.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         door.physicsBody?.collisionBitMask = 0
         door.name = "\(value)"
+        door.anchorPoint = CGPointMake(0.5, 0.5)
+        let glow:SKSpriteNode = door.copy() as! SKSpriteNode
+        glow.size = door.size
+        glow.color = UIColor.blueColor()
+        glow.texture = nil
+        glow.anchorPoint = door.anchorPoint
+        glow.position = CGPoint(x: 0, y: 0)
+        glow.alpha = 0.5
+        glow.blendMode = .Add
+        door.addChild(glow)
         return door
     }
     
@@ -507,11 +516,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 {
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: true, console: console)
                     livesText.text = "\(app.player.skills["Health"]!)"
+                    let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                    let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                    let wait = SKAction.waitForDuration(1.0)
+                    livesText.runAction(SKAction.sequence([action1,wait,action2]))
                 }
                 else if name == "DefenseButton"
                 {
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: false, console: console)
                     livesText.text = "\(app.player.skills["Health"]!)"
+                    let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                    let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                    let wait = SKAction.waitForDuration(1.0)
+                    livesText.runAction(SKAction.sequence([action1,wait,action2]))
                 }
                 else if name == "MapButton"
                 {
@@ -520,7 +537,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 else if name == "ExitButton"
                 {
                     print("exiting")
-                    self.gameViewController?.performSegueWithIdentifier("undo", sender: self)
+                    SKTAudio.sharedInstance().pauseBackgroundMusic()
+                    let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+                    
+                    let nextScene = MainMenuScene(fileNamed: "MainMenuScene")
+                    nextScene!.scaleMode = .AspectFill
+                    
+                    scene?.view?.presentScene(nextScene!, transition: transition)
                 }
             }
             // start battle
@@ -538,6 +561,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 battleDone()
             }
         }
+    }
+    
+    override func willMoveFromView(view: SKView) {
+        scene?.removeAllActions()
+        scene?.removeAllChildren()
+        scene?.removeFromParent()
     }
     
     func displayMap(){
@@ -832,7 +861,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 app.newEffects.append(currentItem!.effect)
                 currentItem = nil
                 livesText.text = "\(app.player.skills["Health"]!)"
-                
+                let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                let wait = SKAction.waitForDuration(1.0)
+                livesText.runAction(SKAction.sequence([action1,wait,action2]))
             }
             alert.show()
         }
@@ -962,6 +994,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(app.currentRoom.attachedRooms[3] == nil || app.currentRoom.attachedRooms[3]!.name != "EMPTY"){
             addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4))
         }
+    }
+    
+    deinit {
+        // store game?
+        print("game gone")
     }
 }
 

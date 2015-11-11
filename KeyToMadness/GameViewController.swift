@@ -17,7 +17,6 @@ class GameViewController: UIViewController {
         
         
         if let scene = GameScene(fileNamed:"GameScene") {
-            scene.gameViewController = self
             // Configure the view.
             let skView = self.view as! SKView
             skView.showsPhysics = true
@@ -32,6 +31,8 @@ class GameViewController: UIViewController {
             
             
         }
+        
+        
     }
 
     override func shouldAutorotate() -> Bool {
