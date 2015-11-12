@@ -138,7 +138,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         
         physicsWorld.contactDelegate = self
         setupLabels()
-        app.player.hasKey = true
     }
     
     func addLives(lefty:Bool) -> SKSpriteNode{
@@ -545,14 +544,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }
                 else if name == "ExitButton"
                 {
-                    print("exiting")
-                    SKTAudio.sharedInstance().pauseBackgroundMusic()
-                    let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
-                    
-                    let nextScene = MainMenuScene(fileNamed: "MainMenuScene")
-                    nextScene!.scaleMode = .AspectFill
-                    
-                    scene?.view?.presentScene(nextScene!, transition: transition)
+                    let alert = UIAlertView(title: "Quit", message: "Are you sure you want to quit?", delegate: self, cancelButtonTitle: "No", otherButtonTitles: "Yes")
+                    alert.tag = 94
+                    alert.show()
                 }
             }
             // start battle
@@ -932,6 +926,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             }
             currentItem = nil
             updateSkills()
+        }else if(alertView.tag == 94){
+            print("exiting?")
+            if(buttonIndex == 0){
+                // nothing, do not exit
+            }else{
+                // exiting
+                SKTAudio.sharedInstance().pauseBackgroundMusic()
+                let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+                
+                let nextScene = MainMenuScene(fileNamed: "MainMenuScene")
+                nextScene!.scaleMode = .AspectFill
+                
+                scene?.view?.presentScene(nextScene!, transition: transition)
+            }
         }
     }
     
