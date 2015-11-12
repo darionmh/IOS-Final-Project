@@ -21,7 +21,7 @@ class MainMenuScene: SKScene {
         leftySwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.6, 0, 0)
         leftySwitch.on = defaults.boolForKey("Lefty")
         leftySwitch.tag = 26
-        leftySwitch.addTarget(self, action: "switchs:", forControlEvents: .ValueChanged)
+        leftySwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(leftySwitch)
         let leftyLabel = SKLabelNode(text: "Left Mode: ")
         leftyLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-leftySwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.4-leftySwitch.frame.height)
@@ -29,14 +29,14 @@ class MainMenuScene: SKScene {
         musicSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.4, 0, 0)
         musicSwitch.on = defaults.boolForKey("Music")
         musicSwitch.tag = 25
-        musicSwitch.addTarget(self, action: "switchs:", forControlEvents: .ValueChanged)
+        musicSwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(musicSwitch)
         let musicLabel = SKLabelNode(text: "Music: ")
         musicLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-musicSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.6-musicSwitch.frame.height)
         addChild(musicLabel)
     }
     
-    func switchs(sender:UISwitch!){
+    func switches(sender:UISwitch!){
         if(sender.tag == 26){
             defaults.setBool(sender.on, forKey: "Lefty")
         }
@@ -51,7 +51,7 @@ class MainMenuScene: SKScene {
         let touchedNode = self.nodeAtPoint(location)
         
         if touchedNode.name == "playButton"{
-            let transition = SKTransition.revealWithDirection(.Down, duration: 1.0)
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
             
             let nextScene = GameScene(fileNamed: "GameScene")
             nextScene!.scaleMode = .AspectFill
@@ -64,7 +64,7 @@ class MainMenuScene: SKScene {
     }
     
     deinit {
-        print("bye bye")
+        print("Main Menu Scene Deleted")
     }
     
 }

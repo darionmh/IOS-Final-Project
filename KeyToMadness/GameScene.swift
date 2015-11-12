@@ -138,6 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         
         physicsWorld.contactDelegate = self
         setupLabels()
+        app.player.hasKey = true
     }
     
     func addLives(lefty:Bool) -> SKSpriteNode{
@@ -520,7 +521,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     livesText.text = "\(app.player.skills["Health"]!)"
                     let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
                     let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
-                    let wait = SKAction.waitForDuration(1.0)
+                    let wait = SKAction.waitForDuration(0.5)
                     livesText.runAction(SKAction.sequence([action1,wait,action2]))
                 }
                 else if name == "DefenseButton"
@@ -529,7 +530,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     livesText.text = "\(app.player.skills["Health"]!)"
                     let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
                     let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
-                    let wait = SKAction.waitForDuration(1.0)
+                    let wait = SKAction.waitForDuration(0.5)
                     livesText.runAction(SKAction.sequence([action1,wait,action2]))
                 }
                 else if name == "MapButton"
@@ -783,28 +784,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 self.removeChildrenInArray([child])
             }
         }
-        self.view?.viewWithTag(1)?.hidden = false
-        self.view?.viewWithTag(2)?.hidden = false
-        self.view?.viewWithTag(3)?.hidden = false
-        self.view?.viewWithTag(4)?.hidden = false
-        self.view?.viewWithTag(5)?.hidden = false
+        SKTAudio.sharedInstance().pauseBackgroundMusic()
+        let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+        
+        let nextScene = GameOverScene(fileNamed: "GameOverScene")
         
         if(app.hasWon){
             print("----- YOU WIN! -----")
             (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU WIN! -----"
             print("Thank you for playing!")
             (self.view?.viewWithTag(5) as? UILabel)?.text = "Thank you for playing!"
+            nextScene?.winningMessage = "----- YOU WIN! -----"
+            nextScene?.message = "Thank you for playing!"
         }else if(app.player.hasKey){
             print("You die attempting to escape the house.")
             (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
             print("----- YOU LOSE -----")
             (self.view?.viewWithTag(5) as? UILabel)?.text = "You die attempting to escape the house."
+            nextScene?.winningMessage = "----- YOU LOSE -----"
+            nextScene?.message = "You die attempting to escape the house."
         }else{
             print("You die searching. Maybe the key was never there.")
             (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
             print("----- YOU LOSE -----")
             (self.view?.viewWithTag(5) as? UILabel)?.text = "You die searching. Maybe the key was never there."
+            nextScene?.winningMessage = "----- YOU LOSE -----"
+            nextScene?.message = "You die searching. Maybe the key was never there."
         }
+        
+        
+        nextScene!.scaleMode = .AspectFill
+        
+        scene?.view?.presentScene(nextScene!, transition: transition)
         
     }
     
@@ -865,7 +876,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 livesText.text = "\(app.player.skills["Health"]!)"
                 let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
                 let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
-                let wait = SKAction.waitForDuration(1.0)
+                let wait = SKAction.waitForDuration(0.5)
                 livesText.runAction(SKAction.sequence([action1,wait,action2]))
             }
             alert.show()
