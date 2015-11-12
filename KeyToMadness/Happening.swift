@@ -9,13 +9,11 @@
 import Foundation
 
 public class Happening: Equatable {
-    var good:Bool
     var name:String
     var description:String
     var effect:Effect
     
-    init(good:Bool, name:String, description:String, effect:Effect) {
-        self.good = good
+    init(name:String, description:String, effect:Effect) {
         self.name = name
         self.description = description
         self.effect = effect
@@ -33,5 +31,5 @@ public class Happening: Equatable {
 
 
 public func ==(lhs: Happening, rhs: Happening) -> Bool {
-    return lhs.name == rhs.name && lhs.description == rhs.description && lhs.good == rhs.good && lhs.effect == rhs.effect
+    return lhs.name == rhs.name && lhs.description == rhs.description && lhs.effect == rhs.effect
 }

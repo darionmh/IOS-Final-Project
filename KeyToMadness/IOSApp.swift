@@ -148,8 +148,8 @@ public class IOSApp {
         if(chance == 0){
             let happeningNum:Int = Int(arc4random_uniform(UInt32(happeningCount)))
             var happeningData:Array<AnyObject> = happenings[happeningNum]
-            let effect:String = happeningData[3] as! String
-            happening = Happening(good: happeningData[0] as! Bool, name: happeningData[1] as! String, description: happeningData[2] as! String, effect: Effect(description: effect))
+            let effect:String = happeningData[2] as! String
+            happening = Happening(name: happeningData[1] as! String, description: happeningData[2] as! String, effect: Effect(description: effect))
             player.currentHappenings.append(happening!)
             newEffects.append(Effect(description: effect))
             

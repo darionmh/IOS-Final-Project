@@ -122,10 +122,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         isSetJoystickStickImage = _isSetJoystickStickImage
         isSetJoystickSubstrateImage = _isSetJoystickSubstrateImage
         
-        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1))
-        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2))
-        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.75),value: 3))
-        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4))
+        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1, undiscovered:  false))
+        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2, undiscovered:  true))
+        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.75),value: 3, undiscovered:  true))
+        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4, undiscovered:  true))
         
         addChild(addBattleButton(lefty))
         addChild(addRunButton(lefty))
@@ -250,7 +250,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
        return room
     }
     
-    func addDoor(position: CGPoint, value: Int) -> SKSpriteNode {
+    func addDoor(position: CGPoint, value: Int, undiscovered: Bool) -> SKSpriteNode {
         let doorImage = UIImage(named: "apple")
         let texture = SKTexture(image: doorImage!)
         let door = SKSpriteNode(texture: texture)
@@ -262,16 +262,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         door.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         door.physicsBody?.collisionBitMask = 0
         door.name = "\(value)"
-        door.anchorPoint = CGPointMake(0.5, 0.5)
-        let glow:SKSpriteNode = door.copy() as! SKSpriteNode
-        glow.size = door.size
-        glow.color = UIColor.blueColor()
-        glow.texture = nil
-        glow.anchorPoint = door.anchorPoint
-        glow.position = CGPoint(x: 0, y: 0)
-        glow.alpha = 0.5
-        glow.blendMode = .Add
-        door.addChild(glow)
+        if(undiscovered){
+            door.anchorPoint = CGPointMake(0.5, 0.5)
+            let glow:SKSpriteNode = door.copy() as! SKSpriteNode
+            glow.size = door.size
+            glow.color = UIColor.blueColor()
+            glow.texture = nil
+            glow.anchorPoint = door.anchorPoint
+            glow.position = CGPoint(x: 0, y: 0)
+            glow.alpha = 0.5
+            glow.blendMode = .Add
+            door.addChild(glow)
+        }
         return door
     }
     
@@ -983,16 +985,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             }
         }
         if(app.currentRoom.attachedRooms[0] == nil || app.currentRoom.attachedRooms[0]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1))
+            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1, undiscovered: app.currentRoom.attachedRooms[0] == nil))
         }
         if(app.currentRoom.attachedRooms[1] == nil || app.currentRoom.attachedRooms[1]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2))
+            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2, undiscovered: app.currentRoom.attachedRooms[1] == nil))
         }
         if(app.currentRoom.attachedRooms[2] == nil || app.currentRoom.attachedRooms[2]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75),value: 3))
+            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75),value: 3, undiscovered: app.currentRoom.attachedRooms[2] == nil))
         }
         if(app.currentRoom.attachedRooms[3] == nil || app.currentRoom.attachedRooms[3]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4))
+            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4, undiscovered: app.currentRoom.attachedRooms[3] == nil))
         }
     }
     
