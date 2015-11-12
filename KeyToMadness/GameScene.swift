@@ -517,21 +517,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }
                 else if name == "AttackButton"
                 {
+                    let health:Int = app.player.skills["Health"]!
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: true, console: console)
                     livesText.text = "\(app.player.skills["Health"]!)"
-                    let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
-                    let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
-                    let wait = SKAction.waitForDuration(0.5)
-                    livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                    if(health > app.player.skills["Health"]!){
+                        let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                        let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                        let wait = SKAction.waitForDuration(0.5)
+                        livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                    }
                 }
                 else if name == "DefenseButton"
                 {
+                    let health:Int = app.player.skills["Health"]!
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: false, console: console)
                     livesText.text = "\(app.player.skills["Health"]!)"
-                    let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
-                    let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
-                    let wait = SKAction.waitForDuration(0.5)
-                    livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                    if(health > app.player.skills["Health"]!){
+                        let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                        let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                        let wait = SKAction.waitForDuration(0.5)
+                        livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                    }
                 }
                 else if name == "MapButton"
                 {
@@ -873,11 +879,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 app.player.items.append(currentItem!)
                 app.newEffects.append(currentItem!.effect)
                 currentItem = nil
+                let health:Int = app.player.skills["Health"]!
                 livesText.text = "\(app.player.skills["Health"]!)"
-                let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
-                let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
-                let wait = SKAction.waitForDuration(0.5)
-                livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                if(health < app.player.skills["Health"]!){
+                    let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                    let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                    let wait = SKAction.waitForDuration(0.5)
+                    livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                }
             }
             alert.show()
         }
