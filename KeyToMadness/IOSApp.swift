@@ -93,8 +93,9 @@ public class IOSApp {
     
     func generateItem() -> Item? {
         var item:Item?
-        var luck:UInt32 = UInt32(20-player.skills["Luck"]!) // subtracting luck increases chance of items
-        if(luck <= 0){luck = 1}
+        var luck:UInt32 = 0
+        if(20-player.skills["Luck"]! <= 0){luck = 1}
+        else{luck = UInt32(20-player.skills["Luck"]!)} // subtracting luck increases chance of items
         let chance:Int = Int(arc4random_uniform(luck))
         if(chance < 3){
             var itemData:Array<String>
@@ -142,8 +143,9 @@ public class IOSApp {
     
     func generateHappening() -> Happening? {
         var happening:Happening?
-        var sanity:UInt32 = UInt32(player.skills["Sanity"]!+5) // adding sanity decreases chance of happening
-        if(sanity <= 0){sanity = 1}
+        var sanity:UInt32 = 0
+        if(player.skills["Sanity"]!+5 <= 0){sanity = 1}
+        else{sanity = UInt32(player.skills["Sanity"]!+5) }// adding sanity decreases chance of happening
         let chance:Int = Int(arc4random_uniform(sanity))
         if(chance == 0){
             let happeningNum:Int = Int(arc4random_uniform(UInt32(happeningCount)))
@@ -307,8 +309,9 @@ public class IOSApp {
     
     func generateMonster() -> Monster? {
         var monster:Monster?
-        var stealth:UInt32 = UInt32(player.skills["Stealth"]!+10) // adding stealth decreases chance of a monster
-        if(stealth <= 0){stealth = 1}
+        var stealth:UInt32 = 0
+        if(UInt32(player.skills["Stealth"]!+10) <= 0){stealth = 1}
+        else{stealth = UInt32(player.skills["Stealth"]!+10)} // adding stealth decreases chance of a monster
         let chance:Int = Int(arc4random_uniform(stealth))
         if(chance == 0){
             monster = Monster(location: currentRoom)
@@ -362,11 +365,11 @@ public class IOSApp {
         var dodge:Bool
         print("attacking: \(attack)")
         if(attack){
-            playerAction = Double((Int(arc4random_uniform(6)) + player.skills["Attack"]!))*player.fightMultiplier
+            playerAction = Double((Int(arc4random_uniform(6)) + player.skills["Attack"]!*3/5))*player.fightMultiplier
             monsterAttack = Double(arc4random_uniform(6))
             dodge = false
         }else{
-            playerAction = Double(Int(arc4random_uniform(6)) + player.skills["Defense"]!)
+            playerAction = Double(Int(arc4random_uniform(6)) + player.skills["Defense"]!*3/5)
             monsterAttack = Double(arc4random_uniform(6))
             dodge = true
         }

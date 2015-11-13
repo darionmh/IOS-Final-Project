@@ -590,23 +590,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             // door is value
             app.player.headingNum = (door+1)%4
             app.player.setHeading()
+            print("")
             let location:Point = app.calcLocation()
+            print("got location")
             if(location.x <= 7 && location.x >= -7 && location.y <= 7 && location.y >= -7){
+                print("in house")
                 // inside the house layout
                 if(app.houseLayout[location.y+7][location.x+7] == nil){
                     // door leads to undiscovered room
                     app.createRoom(door-1)
                     let newRoom:Room = app.houseLayout[location.y+7][location.x+7]! as Room
+                    print("items?")
                     swapItem(newRoom)
+                    print("done items")
                     if(newRoom.happening != nil){
-                        console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description), \(newRoom.happening!.effect.description)"
+                        console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description)"
                     }else{
                        console.text = "No Happening"
                     }
+                    print("effects")
                     app.processEffects()
+                    print("done effects")
                     activeMonster = app.generateMonster()
+                    print("gen monster")
                     app.unopenedDoors--
+                    print("doors changed")
                 }else{
+                    print("room exists")
                     // a room exists at this location
                     let roomAtLocation:Room = app.houseLayout[location.y+7][location.x+7]!
                     if(roomAtLocation.name == "EMPTY" || (roomAtLocation.attachedRooms[(door+1)%4] != nil && roomAtLocation.attachedRooms[(door+1)%4]!.name == "EMPTY")){
@@ -617,6 +627,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         validDoor = false
                         app.unopenedDoors--
                     }else{
+                        print("room visited")
                         // room has been visited and is not a special room
                         app.applyVisitedRoom(roomAtLocation, door: door-1)
                         print("This room looks oddly familiar.")
@@ -627,6 +638,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }
             }else{
                 // outside of range of house
+                print("outside house")
                 print("The door opens... to a brick wall.")
                 console.text = "The door opens... to a brick wall."
                 app.updateFalseDoor(door-1)
@@ -649,6 +661,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             }
         }else{
             // room already discovered
+            print("already discovered 2")
             app.currentRoom = app.currentRoom.attachedRooms[door-1]!
             app.player.headingNum = (door+1)%4
             app.player.setHeading()
@@ -656,7 +669,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             console.text = ""
         }
         if(activeMonster != nil){
+            print("monster?")
             handleMonster()
+            print("after monster")
         }
         if(app.unopenedDoors == 0){
             print("out of doors!")
