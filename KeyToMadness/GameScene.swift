@@ -357,7 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func showInstructions(controller: GameScene) {
         let alert = UIAlertView(title: "Instructions:", message: "", delegate: self, cancelButtonTitle: "OK")
-        alert.message = "Enter \"exit\" to quit.\nEnter \"stats\" to show player stats.\nEnter \"items\" to show current items.\nEnter \"happenings\" to show current happenings.\nEnter \"effects\" to show current effects.\nEnter \"layout\" to show house layout"
+        alert.message = "Madness Manor\nThe goal is simple. Escape\nYou are in the entry of the house. To escape you need to find the key. It is hidden in one of the rooms in this house. Find it. Avoid the monsters. Pick up items. Some rooms you will experience happenings. They are not good, avoid them the best you can.\nGood luck"
         alert.show()
     }
     
@@ -584,6 +584,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func handleDoor(door: Int) -> Bool{
+        print("handling door method") // error in this method somewhere
         var validDoor = true
         if(app.currentRoom.attachedRooms[door-1] == nil){
             // door is value
@@ -667,6 +668,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         generateDoors()
         updateSkills()
         unopenedDoors.text = "Unopened Doors: \(app.unopenedDoors)"
+        print("done handling door method")
         return validDoor
     }
     
@@ -738,7 +740,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         addChild(addMonster())
         print("prompting for monster")
         print(activeMonster!.toString())
-        
+        console.text = "You encounter a monster! \(activeMonster!.toString())"
     }
     
     func battleDone(){
@@ -824,7 +826,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         currentItem = room.item
         if(currentItem != nil){
             let alert:UIAlertView
-            print(app.player.currentItems.count)
+            print("Count: \(app.player.currentItems.count)")
             if(app.player.currentItems.count >= app.player.inventorySpace && currentItem!.type != "Other"){
                 // must drop an item
                 alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
@@ -1007,6 +1009,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func generateDoors(){
+        print("generating doors")
         for child in self.children as [SKNode] {
             if (child.name == "1" || child.name == "2" || child.name == "3" || child.name == "4") {
                 self.removeChildrenInArray([child])
@@ -1024,6 +1027,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(app.currentRoom.attachedRooms[3] == nil || app.currentRoom.attachedRooms[3]!.name != "EMPTY"){
             addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4, undiscovered: app.currentRoom.attachedRooms[3] == nil))
         }
+        print("Done generating")
     }
     
     deinit {

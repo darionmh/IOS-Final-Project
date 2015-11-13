@@ -148,7 +148,7 @@
 		</array>
 		<array>
 			<string>Wet Floor</string>
-			<string>Where's the wet floor sign?!</string>
+			<string>Where&apos;s the wet floor sign?!</string>
 			<string>-1 Defense</string>
 		</array>
 		<array>
@@ -158,7 +158,7 @@
 		</array>
 		<array>
 			<string>Clock</string>
-			<string>Tick, tock, tick, tock. You've been hypnotized slowing your reflexes.</string>
+			<string>Tick, tock, tick, tock. You&apos;ve been hypnotized slowing your reflexes.</string>
 			<string>-1 Defense</string>
 		</array>
 		<array>
@@ -198,12 +198,12 @@
 		</array>
 		<array>
 			<string>Mouse Trap</string>
-			<string>You reach for what you think is an item. It's not.</string>
+			<string>You reach for what you think is an item. It&apos;s not.</string>
 			<string>-1 Luck</string>
 		</array>
 		<array>
 			<string>Black Cat</string>
-			<string>Oh great. Exactly what you didn't need right now.</string>
+			<string>Oh great. Exactly what you didn&apos;t need right now.</string>
 			<string>-1 Luck</string>
 		</array>
 		<array>
@@ -228,12 +228,12 @@
 		</array>
 		<array>
 			<string>Bear Trap</string>
-			<string>You didn't loose your foot, but it made a big noise.</string>
+			<string>You didn&apos;t loose your foot, but it made a big noise.</string>
 			<string>-1 Stealth</string>
 		</array>
 		<array>
 			<string>Creeky Floor</string>
-			<string>Is there anything in this house that doesn't creek?</string>
+			<string>Is there anything in this house that doesn&apos;t creek?</string>
 			<string>-1 Stealth</string>
 		</array>
 		<array>
@@ -339,12 +339,6 @@
 			<string>Aspirin</string>
 			<string>You find some Aspirin.</string>
 			<string>+1 Health</string>
-			<string>Other</string>
-		</array>
-		<array>
-			<string>Ring</string>
-			<string>You find a ring with ancient symbols on it.</string>
-			<string>You cannot receive de-buffs from items.</string>
 			<string>Other</string>
 		</array>
 		<array>
@@ -530,7 +524,7 @@
 		<array>
 			<string>Extra Bag</string>
 			<string>Another backpack, sweet</string>
-			<string>+3 inventory spaces</string>
+			<string>3 more inventory spaces</string>
 			<string>Other</string>
 		</array>
 		<array>

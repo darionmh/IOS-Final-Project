@@ -58,9 +58,6 @@ public class Room {
             repeat{
                 emptyRoom2 = Int(arc4random_uniform(4))
             }while(emptyRoom2 == emptyRoom1 || emptyRoom2 == heading)
-            print("1: \(emptyRoom1)")
-            print("2: \(emptyRoom2)")
-            print("h: \(heading)")
             self.attachedRooms[emptyRoom1] = Room()
             self.attachedRooms[emptyRoom2] = Room()
         }else if(numAttachedRooms == 2){
@@ -68,8 +65,6 @@ public class Room {
             repeat{
                 emptyRoom1 = Int(arc4random_uniform(4))
             }while(emptyRoom1 == heading)
-            print("1: \(emptyRoom1)")
-            print("h: \(heading)")
             self.attachedRooms[emptyRoom1] = Room()
         }else if(numAttachedRooms == 0){
             for(var i = 0; i<attachedRooms.count; i++){
@@ -93,25 +88,21 @@ public class Room {
         self.location = Point(x: x, y: y)
         if(x == 7 && attachedRooms[3] == nil){
             // door 4 is out of bounds
-            print("replace room")
             numAttachedRooms--
             attachedRooms[3] = Room()
         }
         if(x == -7 && attachedRooms[1] == nil){
-            print("replace room")
             // door 2 is out of bounds
             numAttachedRooms--
             attachedRooms[1] = Room()
         }
         if(y == 7 && attachedRooms[2] == nil){
-            print("replace room")
             // door 3 is out of bounds
             numAttachedRooms--
             attachedRooms[2] = Room()
             
         }
         if(y == -7 && attachedRooms[0] == nil){
-            print("replace room")
             // door 1 is out of bounds
             numAttachedRooms--
             attachedRooms[0] = Room()
@@ -127,7 +118,6 @@ public class Room {
             numAttachedRooms--
             attachedRooms[3] = Room()
         }
-        print("created room: \(self.attachedRooms)")
     }
     
     func setAttachedRoom(index:Int, room:Room){

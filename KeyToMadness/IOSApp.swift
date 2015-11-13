@@ -121,7 +121,7 @@ public class IOSApp {
                         player.items.append(item!)
                         newEffects.append(Effect(description: itemData[2]))
                     }
-                    else if(item!.name == "Bag"){
+                    else if(item!.name == "Extra Bag"){
                         player.inventorySpace += 3
                         player.items.append(item!)
                         newEffects.append(Effect(description: itemData[2]))
@@ -160,9 +160,13 @@ public class IOSApp {
     func processEffects() {
         for effect in newEffects {
             let parts:[String] = effect.description.componentsSeparatedByString(" ")
+            print(parts)
             let skill:String = parts[1]
             let char:String = parts[0][0]
-            let num:String = parts[0][1]
+            var num:String = ""
+            if(parts[0].characters.count > 1){
+                num = parts[0][1]
+            }
             let buff:Bool = char == "+"
             let deBuff:Bool = char == "-"
             if(buff){
