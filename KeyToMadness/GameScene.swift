@@ -584,7 +584,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func handleDoor(door: Int) -> Bool{
-        print("handling door method") // error in this method somewhere
+        print("handling door method")
         var validDoor = true
         if(app.currentRoom.attachedRooms[door-1] == nil){
             // door is value
@@ -598,13 +598,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 // inside the house layout
                 if(app.houseLayout[location.y+7][location.x+7] == nil){
                     // door leads to undiscovered room
+                    print("here")// error in here
                     app.createRoom(door-1)
+                    print("created room")
                     let newRoom:Room = app.houseLayout[location.y+7][location.x+7]! as Room
                     print("items?")
                     swapItem(newRoom)
                     print("done items")
                     if(newRoom.happening != nil){
-                        console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description)"
+                        console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description) \(newRoom.happening!.effect.description)"
+                        print(newRoom.happening!.effect.description)
+                        if(newRoom.happening!.effect.description == "Lose an item" && app.player.currentItems.count > 0){
+                            loseItem()
+                        }
                     }else{
                        console.text = "No Happening"
                     }
@@ -903,6 +909,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }
     }
     
+    func loseItem(){
+        let alert = UIAlertView(title: "Inventory", message: "Discard an item", delegate: self, cancelButtonTitle: "Drop")
+        let picker = UIPickerView()
+        picker.delegate = self
+        if(currentItem != nil){
+            app.player.currentItems.append(currentItem!)
+            app.player.items.append(currentItem!)
+            app.newEffects.append(currentItem!.effect)
+        }
+        picker.dataSource = self
+        alert.setValue(picker, forKey: "accessoryView")
+        alert.tag = 888
+        alert.show()
+    }
+    
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
         if(alertView.tag == 999){
             if(buttonIndex == 0){
@@ -912,16 +933,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 currentItem = nil
             }else{
                 // keep button -- must discard an item
-                let alert = UIAlertView(title: "Inventory", message: "Discard an item", delegate: self, cancelButtonTitle: "Drop")
-                let picker = UIPickerView()
-                picker.delegate = self
-                app.player.currentItems.append(currentItem!)
-                app.player.items.append(currentItem!)
-                app.newEffects.append(currentItem!.effect)
-                picker.dataSource = self
-                alert.setValue(picker, forKey: "accessoryView")
-                alert.tag = 888
-                alert.show()
+                loseItem()
             }
                 print(buttonIndex)
         }else if(alertView.tag == 888){
@@ -967,11 +979,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return app.player.currentItems.count
     }
-    
-//    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-//    {
-//        return "\(app.player.currentItems[row]!.name): \(app.player.currentItems[row]!.effect.toString())"
-//    }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("row selected: \(row)")
