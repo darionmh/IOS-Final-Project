@@ -6,13 +6,6 @@
 //  Copyright © 2015 Alexis Forbes. All rights reserved.
 //
 
-
-
-// CLASS IS NO LONGER USED!!!
-
-
-
-
 import UIKit
 import SpriteKit
 import AVFoundation
