@@ -73,17 +73,25 @@ public class IOSApp {
     }
     
     func createRoom(door:Int) {
+        print("in create room")
         let room:Int = Int(arc4random_uniform(UInt32(roomCount)))
+        print("room")
         let openedRoom = Room(name: rooms[room] ,previousRoom: currentRoom ,item: generateItem(), happening: generateHappening(), heading: player.headingNum)
+        print("generated room")
         houseLayout[openedRoom.location.y+7][openedRoom.location.x+7] = openedRoom
+        print("placed room")
         currentRoom.setAttachedRoom(door, room: openedRoom)
+        print("attached room")
         currentRoom = openedRoom
+        print("updated current room")
         roomCounter++
+        print("room counter inc")
         unopenedDoors += openedRoom.numAttachedRooms
         print("adding \(openedRoom.numAttachedRooms) to doors")
     }
     
     func generateItem() -> Item? {
+        print("gen item")
         var item:Item?
         var luck:UInt32 = 0
         if(20-player.skills["Luck"]! <= 0){luck = 1}
@@ -134,6 +142,7 @@ public class IOSApp {
     }
     
     func generateHappening() -> Happening? {
+        print("gen happening")
         var happening:Happening?
         var sanity:UInt32 = 0
         if(player.skills["Sanity"]!+5 <= 0){sanity = 1}

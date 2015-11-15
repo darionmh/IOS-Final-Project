@@ -17,7 +17,7 @@ enum BodyType: UInt32 {
     case room = 8
 }
 
-class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
     var player: SKSpriteNode?
     var removed: Bool = false
     let roomName = SKLabelNode(text: "")
@@ -371,16 +371,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         mapButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.8 - size.height)
         mapButton.name = "MapButton"
         
-        let instructionsButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
+        let inventoryButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
         //instructionsButton.position = CGPoint(x: mapButton.frame.midX, y: mapButton.frame.minY - CGRectGetMaxX(self.frame) * 0.01 - size.height/2)
-        instructionsButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.6 - size.height)
-        instructionsButton.name = "InstructionsButton"
+        inventoryButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.6 - size.height)
+        inventoryButton.name = "InventoryButton"
         
         let exitButton = SKSpriteNode(color: UIColor.blueColor(), size: size)
         exitButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) - size.height)
         exitButton.name = "ExitButton"
         
-        return [mapButton, instructionsButton, exitButton]
+        return [mapButton, inventoryButton, exitButton]
     }
     
     func addBattleButton(lefty:Bool) -> SKSpriteNode {
@@ -539,6 +539,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 {
                     displayMap()
                 }
+                else if name == "InventoryButton"
+                {
+                    displayInventory()
+                }
                 else if name == "ExitButton"
                 {
                     let alert = UIAlertView(title: "Quit", message: "Are you sure you want to quit?", delegate: self, cancelButtonTitle: "No", otherButtonTitles: "Yes")
@@ -570,13 +574,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func displayMap(){
-        let alert = UIAlertView(title: "Map:", message: "", delegate: self, cancelButtonTitle: "Done")
+        let alert = UIAlertView(title: "Map", message: "", delegate: self, cancelButtonTitle: "Done")
         let message = UILabel()
         message.font = UIFont(name: "Courier New", size: 13)
         message.numberOfLines = 0
         message.text = app.printLayout()
         message.textAlignment = .Center
         alert.setValue(message, forKey: "accessoryView")
+        alert.show()
+    }
+    
+    func displayInventory(){
+        let alert = UIAlertView(title: "Inventory", message: "", delegate: self, cancelButtonTitle: "Done")
+        let tableView = UITableView(frame: CGRectMake(0, 0, 320, 200), style: .Plain)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        alert.setValue(tableView, forKey: "accessoryView")
         alert.show()
     }
     
@@ -845,6 +859,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(currentItem != nil){
             let alert:UIAlertView
             print("Count: \(app.player.currentItems.count)")
+            let type = currentItem!.type as String
+            var color:UIColor = UIColor.orangeColor()
+            switch(type){
+                case "Attack"://red
+                    color = UIColor(red: 255.0/255, green: 105.0/255, blue: 97.0/255, alpha: 1.0)
+                case "Defense"://blue
+                    color = UIColor(red: 174.0/255, green: 198.0/255, blue: 203.0/255, alpha: 1.0)
+                case "Stealth"://grey
+                    color = UIColor(red: 207.0/255, green: 207.0/255, blue: 196.0/255, alpha: 1.0)
+                case "Luck"://green
+                    color = UIColor(red: 119.0/255, green: 190.0/255, blue: 119.0/255, alpha: 1.0)
+                case "Evasion"://purple
+                    color = UIColor(red: 179.0/255, green: 158.0/255, blue: 181.0/255, alpha: 1.0)
+                case "Sanity"://yellow
+                    color = UIColor(red: 253.0/255, green: 253.0/255, blue: 150.0/255, alpha: 1.0)
+                default://pink
+                    color = UIColor(red: 255.0/255, green: 209.0/255, blue: 220.0/255, alpha: 1.0)
+            }
             if(app.player.currentItems.count >= app.player.inventorySpace && currentItem!.type != "Other"){
                 // must drop an item
                 alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
@@ -866,6 +898,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 v.addSubview(itemEffect)
                 v.translatesAutoresizingMaskIntoConstraints = true
                 v.sizeToFit()
+                v.backgroundColor = color
                 alert.setValue(v, forKey: "accessoryView")
             }else{
                 alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "OK" )
@@ -885,6 +918,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 v.addSubview(itemName)
                 v.addSubview(itemEffect)
                 v.sizeToFit()
+                v.backgroundColor = color
                 v.translatesAutoresizingMaskIntoConstraints = true
                 alert.setValue(v, forKey: "accessoryView")
                 if(currentItem!.type != "Other"){
@@ -1068,6 +1102,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         app.player.skills["Luck"]! = Int(pClass[5] as! NSNumber)
         app.player.skills["Sanity"]! = Int(pClass[6] as! NSNumber)
         updateSkills()
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return app.player.currentItems.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cellIdentifier = "cell"
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)! as UITableViewCell
+        cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: cellIdentifier)
+        
+        let item = app.player.currentItems[indexPath.row]!
+        
+        cell.textLabel?.text = item.name
+        cell.detailTextLabel?.text = item.effect.description
+        
+        let type = item.type
+        var color:UIColor = UIColor.whiteColor()
+        switch(type){
+            case "Attack"://red
+                color = UIColor(red: 255.0/255, green: 105.0/255, blue: 97.0/255, alpha: 1.0)
+            case "Defense"://blue
+                color = UIColor(red: 174.0/255, green: 198.0/255, blue: 203.0/255, alpha: 1.0)
+            case "Stealth"://grey
+                color = UIColor(red: 207.0/255, green: 207.0/255, blue: 196.0/255, alpha: 1.0)
+            case "Luck"://green
+                color = UIColor(red: 119.0/255, green: 190.0/255, blue: 119.0/255, alpha: 1.0)
+            case "Evasion"://purple
+                color = UIColor(red: 179.0/255, green: 158.0/255, blue: 181.0/255, alpha: 1.0)
+            case "Sanity"://yellow
+                color = UIColor(red: 253.0/255, green: 253.0/255, blue: 150.0/255, alpha: 1.0)
+            default://pink
+                color = UIColor(red: 255.0/255, green: 209.0/255, blue: 220.0/255, alpha: 1.0)
+            
+        }
+        cell.backgroundColor = color
+        return cell
+        
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("You selected cell #\(indexPath.row)!")
     }
     
     deinit {
