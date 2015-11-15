@@ -2,6 +2,45 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Classes</key>
+	<array>
+		<array>
+			<string>Basic</string>
+			<integer>0</integer>
+			<integer>0</integer>
+			<integer>0</integer>
+			<integer>0</integer>
+			<integer>0</integer>
+			<integer>0</integer>
+		</array>
+		<array>
+			<string>Warrior</string>
+			<integer>4</integer>
+			<integer>4</integer>
+			<integer>-2</integer>
+			<integer>-2</integer>
+			<integer>0</integer>
+			<integer>2</integer>
+		</array>
+		<array>
+			<string>Priest</string>
+			<integer>-2</integer>
+			<integer>-2</integer>
+			<integer>3</integer>
+			<integer>2</integer>
+			<integer>1</integer>
+			<integer>4</integer>
+		</array>
+		<array>
+			<string>Explorer</string>
+			<integer>1</integer>
+			<integer>1</integer>
+			<integer>2</integer>
+			<integer>3</integer>
+			<integer>3</integer>
+			<integer>-4</integer>
+		</array>
+	</array>
 	<key>Room</key>
 	<array>
 		<string>Anteroom</string>
@@ -246,24 +285,6 @@
 			<string>Sticks and stones may break my bones, but so will monsters.</string>
 			<string>-1 Stealth</string>
 		</array>
-	</array>
-	<key>GoodEffect</key>
-	<array>
-		<string>+1 Evasion</string>
-		<string>+1 Attack</string>
-		<string>+1 Defense</string>
-		<string>+1 Sanity</string>
-		<string>+1 Luck</string>
-		<string>+1 Stealth</string>
-	</array>
-	<key>BadEffect</key>
-	<array>
-		<string>-1 Evasion</string>
-		<string>-1 Attack</string>
-		<string>-1 Defense</string>
-		<string>-1 Sanity</string>
-		<string>-1 Luck</string>
-		<string>-1 Stealth</string>
 	</array>
 	<key>Music</key>
 	<true/>

@@ -27,6 +27,8 @@
 		473F3F9F1BC7499900D42327 /* IOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F9E1BC7499900D42327 /* IOSApp.swift */; };
 		477890401BF19ED800F4608E /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4778903F1BF19ED800F4608E /* MainMenuScene.swift */; };
 		477890441BF1A49F00F4608E /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 477890431BF1A49F00F4608E /* MainMenuScene.sks */; };
+		479145431BF91264005C71C5 /* ClassPickerScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 479145421BF91264005C71C5 /* ClassPickerScene.sks */; };
+		479145451BF91278005C71C5 /* ClassPickerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479145441BF91278005C71C5 /* ClassPickerScene.swift */; };
 		47B381DD1BF698970077E150 /* MainMenuSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B381DC1BF698970077E150 /* MainMenuSceneController.swift */; };
 		47C4CDFE1BD4337C00074668 /* AnalogStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C4CDFD1BD4337C00074668 /* AnalogStick.swift */; };
 		47C4CE001BD4349200074668 /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = 47C4CDFF1BD4349200074668 /* apple.png */; };
@@ -80,6 +82,8 @@
 		473F3F9E1BC7499900D42327 /* IOSApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSApp.swift; sourceTree = "<group>"; };
 		4778903F1BF19ED800F4608E /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 		477890431BF1A49F00F4608E /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
+		479145421BF91264005C71C5 /* ClassPickerScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ClassPickerScene.sks; sourceTree = "<group>"; };
+		479145441BF91278005C71C5 /* ClassPickerScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassPickerScene.swift; sourceTree = "<group>"; };
 		47B381DC1BF698970077E150 /* MainMenuSceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuSceneController.swift; sourceTree = "<group>"; };
 		47C4CDFD1BD4337C00074668 /* AnalogStick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogStick.swift; sourceTree = "<group>"; };
 		47C4CDFF1BD4349200074668 /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple.png; sourceTree = "<group>"; };
@@ -163,6 +167,8 @@
 				473F3F741BC7481D00D42327 /* KeyToMadnessTests */,
 				1E3ADB131BDC51D40053FD5F /* SKAudio.swift */,
 				47C933D81BEAFACF00129DCD /* SKMultiLineLabel.swift */,
+				479145421BF91264005C71C5 /* ClassPickerScene.sks */,
+				479145441BF91278005C71C5 /* ClassPickerScene.swift */,
 			);
 			path = KeyToMadness;
 			sourceTree = "<group>";
@@ -300,6 +306,7 @@
 				473F3F681BC7481D00D42327 /* Assets.xcassets in Resources */,
 				473F3F661BC7481D00D42327 /* Main.storyboard in Resources */,
 				47CF914B1BF41026006C5FDB /* GameOverScene.sks in Resources */,
+				479145431BF91264005C71C5 /* ClassPickerScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +338,7 @@
 				477890401BF19ED800F4608E /* MainMenuScene.swift in Sources */,
 				473F3F971BC7488900D42327 /* Happening.swift in Sources */,
 				1E3ADB141BDC51D40053FD5F /* SKAudio.swift in Sources */,
+				479145451BF91278005C71C5 /* ClassPickerScene.swift in Sources */,
 				473F3F9B1BC7496400D42327 /* Point.swift in Sources */,
 				473F3F911BC7484D00D42327 /* Player.swift in Sources */,
 				473F3F5D1BC7481D00D42327 /* AppDelegate.swift in Sources */,

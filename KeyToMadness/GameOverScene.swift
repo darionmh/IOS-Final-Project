@@ -52,7 +52,7 @@ class GameOverScene: SKScene {
         }else if touchedNode.name == "PlayAgain" {
             let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
             
-            let nextScene = GameScene(fileNamed: "GameScene")
+            let nextScene = ClassPickerScene(fileNamed: "ClassPickerScene")
             nextScene!.scaleMode = .AspectFill
             
             scene?.view?.presentScene(nextScene!, transition: transition)

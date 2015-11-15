@@ -14,15 +14,11 @@ public class IOSApp {
     var currentRoom:Room
     var player:Player
     var itemCount:Int = 0
-    var goodEffectCount:Int = 0
-    var badEffectCount:Int = 0
     var roomCount:Int = 0
     var happeningCount:Int = 0
     var newEffects:[Effect] = []
     var rooms:[String]
     var happenings:Array<Array<AnyObject>>
-    var goodEffects:[String]
-    var badEffects:[String]
     var items:Array<Array<String>>
     var roomCounter:Int = 0
     var monstersInGame:[Monster]
@@ -35,10 +31,6 @@ public class IOSApp {
         self.roomCount = self.rooms.count
         self.happenings = properties!.objectForKey("Happening") as! Array<Array<AnyObject>>
         self.happeningCount = self.happenings.count
-        self.goodEffects = properties!.objectForKey("GoodEffect") as! [String]
-        self.goodEffectCount = self.goodEffects.count
-        self.badEffects = properties!.objectForKey("BadEffect") as! [String]
-        self.badEffectCount = self.badEffects.count
         self.items = properties!.objectForKey("Item") as! Array<Array<String>>
         self.itemCount = self.items.count
         // empty 15x15 room matrix

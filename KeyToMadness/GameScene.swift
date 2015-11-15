@@ -35,6 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var currentItem:Item?
     var selectedDropItem:Int = 0
     var stats: SKSpriteNode?
+    var playerClass:String = "Basic"
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
@@ -75,11 +76,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     let moveAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
     
     override func didMoveToView(view: SKView) {
-        self.view?.viewWithTag(1)?.hidden = true
-        self.view?.viewWithTag(2)?.hidden = true
-        self.view?.viewWithTag(3)?.hidden = true
-        self.view?.viewWithTag(4)?.hidden = true
-        self.view?.viewWithTag(5)?.hidden = true
         /* Setup your scene here */
         showInstructions(self)
         backgroundColor = UIColor.blackColor()
@@ -138,6 +134,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         
         physicsWorld.contactDelegate = self
         setupLabels()
+        updatePlayerClass()
     }
     
     func addLives(lefty:Bool) -> SKSpriteNode{
@@ -1050,6 +1047,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4, undiscovered: app.currentRoom.attachedRooms[3] == nil))
         }
         print("Done generating")
+    }
+    
+    func updatePlayerClass(){
+        print(playerClass)
+        let path = NSBundle.mainBundle().pathForResource("gameData", ofType: "plist")
+        let properties = NSDictionary(contentsOfFile: path!)
+        let classes = properties!.objectForKey("Classes") as! Array<Array<AnyObject>>
+        var pClass = Array<AnyObject>()
+        for class1 in classes{
+            if(class1[0] as! String == playerClass){
+                pClass = class1
+                break
+            }
+        }
+        app.player.skills["Attack"]! = Int(pClass[1] as! NSNumber)
+        app.player.skills["Defense"]! = Int(pClass[2] as! NSNumber)
+        app.player.skills["Stealth"]! = Int(pClass[3] as! NSNumber)
+        app.player.skills["Evasion"]! = Int(pClass[4] as! NSNumber)
+        app.player.skills["Luck"]! = Int(pClass[5] as! NSNumber)
+        app.player.skills["Sanity"]! = Int(pClass[6] as! NSNumber)
+        updateSkills()
     }
     
     deinit {

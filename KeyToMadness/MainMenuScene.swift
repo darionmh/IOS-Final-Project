@@ -14,8 +14,11 @@ class MainMenuScene: SKScene {
     let musicSwitch = UISwitch()
     
     override func didMoveToView(view: SKView) {
+        backgroundColor = UIColor.blackColor()
         let start:SKLabelNode = SKLabelNode(text: "Play Game")
         start.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame)*0.8)
+        start.fontSize = 75
+        start.fontName = "AvenirNext-Bold"
         start.name = "playButton"
         addChild(start)
         leftySwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.6, 0, 0)
@@ -53,7 +56,7 @@ class MainMenuScene: SKScene {
         if touchedNode.name == "playButton"{
             let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
             
-            let nextScene = GameScene(fileNamed: "GameScene")
+            let nextScene = ClassPickerScene(fileNamed: "ClassPickerScene")
             nextScene!.scaleMode = .AspectFill
             
             scene?.view?.presentScene(nextScene!, transition: transition)
