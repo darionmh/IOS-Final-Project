@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="IzD-j3-suM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="IZJ-KI-ZIh">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
@@ -8,6 +8,7 @@
         <!--Main Menu Scene Controller-->
         <scene sceneID="wls-RX-NWn">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PVm-vd-9Pq" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="IZJ-KI-ZIh" customClass="MainMenuSceneController" customModule="KeyToMadness" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yHa-Lc-7YG"/>
@@ -16,84 +17,10 @@
                     <view key="view" contentMode="scaleToFill" id="LMg-ap-QZP" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u5d-Qz-Qx3">
-                                <rect key="frame" x="264" y="285" width="73" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Play Game"/>
-                                <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" identifier="mainMenu" id="928-JU-OCl"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Music" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESj-ri-SGV">
-                                <rect key="frame" x="277" y="323" width="46" height="21"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hDj-Ng-YtA">
-                                <rect key="frame" x="277" y="347" width="51" height="31"/>
-                                <animations/>
-                                <connections>
-                                    <action selector="playMusicChange:" destination="IzD-j3-suM" eventType="valueChanged" id="lyM-X1-m32"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Lefty Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yry-om-InX">
-                                <rect key="frame" x="258" y="449" width="87" height="21"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sounds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6a2-Tr-If3">
-                                <rect key="frame" x="265" y="386" width="58" height="21"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d0N-dE-3va">
-                                <rect key="frame" x="277" y="410" width="51" height="31"/>
-                                <animations/>
-                                <connections>
-                                    <action selector="playSoundsChange:" destination="IzD-j3-suM" eventType="valueChanged" id="WPH-M0-RZj"/>
-                                </connections>
-                            </switch>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dq5-u2-P46">
-                                <rect key="frame" x="277" y="472" width="51" height="31"/>
-                                <animations/>
-                                <connections>
-                                    <action selector="leftyModeChange:" destination="IzD-j3-suM" eventType="valueChanged" id="3Qk-xx-asQ"/>
-                                </connections>
-                            </switch>
-                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="u5d-Qz-Qx3" firstAttribute="centerY" secondItem="vdh-ed-f5K" secondAttribute="centerY" id="8Bd-zn-2Vv"/>
-                            <constraint firstItem="u5d-Qz-Qx3" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="IiO-zv-W2c"/>
-                            <constraint firstItem="yry-om-InX" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="Ou1-9d-h81"/>
-                            <constraint firstItem="d0N-dE-3va" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="T41-qo-M05"/>
-                            <constraint firstItem="hDj-Ng-YtA" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="TI3-XL-hsd"/>
-                            <constraint firstItem="6a2-Tr-If3" firstAttribute="top" secondItem="hDj-Ng-YtA" secondAttribute="bottom" constant="8" id="Uvt-Xr-w4L"/>
-                            <constraint firstItem="ESj-ri-SGV" firstAttribute="top" secondItem="u5d-Qz-Qx3" secondAttribute="bottom" constant="8" id="Y5x-iM-sMR"/>
-                            <constraint firstItem="6a2-Tr-If3" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="YuW-Mb-7NV"/>
-                            <constraint firstItem="d0N-dE-3va" firstAttribute="top" secondItem="6a2-Tr-If3" secondAttribute="bottom" constant="4" id="btq-ed-MYK"/>
-                            <constraint firstItem="ESj-ri-SGV" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="cgn-mW-YeZ"/>
-                            <constraint firstItem="hDj-Ng-YtA" firstAttribute="top" secondItem="ESj-ri-SGV" secondAttribute="bottom" constant="4" id="ppN-hL-udf"/>
-                            <constraint firstItem="yry-om-InX" firstAttribute="top" secondItem="d0N-dE-3va" secondAttribute="bottom" constant="8" id="tgV-XH-5hg"/>
-                            <constraint firstItem="Dq5-u2-P46" firstAttribute="centerX" secondItem="vdh-ed-f5K" secondAttribute="centerX" id="vpy-FU-6wJ"/>
-                            <constraint firstItem="Dq5-u2-P46" firstAttribute="top" secondItem="yry-om-InX" secondAttribute="bottom" constant="4" id="xht-le-VzT"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="leftyMode" destination="Dq5-u2-P46" id="iWK-rQ-Grk"/>
-                        <outlet property="playMusic" destination="hDj-Ng-YtA" id="RIe-W1-h8X"/>
-                        <outlet property="playSounds" destination="d0N-dE-3va" id="NUC-D2-Fxs"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PVm-vd-9Pq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="575" y="-738"/>
         </scene>

@@ -36,6 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var selectedDropItem:Int = 0
     var stats: SKSpriteNode?
     var playSounds:Bool = false
+    var playerClass:String = "Basic"
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
