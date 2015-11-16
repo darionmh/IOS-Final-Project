@@ -29,9 +29,8 @@ class Monster {
     
     func toString() -> String {
         var toString:String = ""
-        toString+="--Monster--"
-        toString+="Health: \(health)"
-        toString+="Level: \(level)"
+        toString+="Health: \(health)\n"
+        toString+="Level: \(level)\n"
         toString+="Strength: \(strength)"
         return toString
     }

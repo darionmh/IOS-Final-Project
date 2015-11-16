@@ -2,6 +2,45 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Classes</key>
+	<array>
+		<array>
+			<string>Basic</string>
+			<integer>0</integer>
+			<integer>0</integer>
+			<integer>0</integer>
+			<integer>0</integer>
+			<integer>0</integer>
+			<integer>0</integer>
+		</array>
+		<array>
+			<string>Warrior</string>
+			<integer>4</integer>
+			<integer>4</integer>
+			<integer>-2</integer>
+			<integer>-2</integer>
+			<integer>0</integer>
+			<integer>2</integer>
+		</array>
+		<array>
+			<string>Priest</string>
+			<integer>-2</integer>
+			<integer>-2</integer>
+			<integer>3</integer>
+			<integer>2</integer>
+			<integer>1</integer>
+			<integer>4</integer>
+		</array>
+		<array>
+			<string>Explorer</string>
+			<integer>1</integer>
+			<integer>1</integer>
+			<integer>2</integer>
+			<integer>3</integer>
+			<integer>3</integer>
+			<integer>-4</integer>
+		</array>
+	</array>
 	<key>Room</key>
 	<array>
 		<string>Anteroom</string>
@@ -92,71 +131,160 @@
 	<key>Happening</key>
 	<array>
 		<array>
-			<true/>
-			<string>The Blessing</string>
-			<string>The Gods grant you strength in this horrid place.</string>
-			<string>+1 Attack</string>
+			<string>Sneaky Monkey</string>
+			<string>A monkey! He stole one of your items!</string>
+			<string>Lose an item</string>
 		</array>
 		<array>
-			<false/>
-			<string>The Curse</string>
-			<string>The Gods punish you for disturbing this place.</string>
-			<string>-1 Attack</string>
-		</array>
-		<array>
-			<false/>
-			<string>The Sighting</string>
-			<string>You see a spirit in the room with you. It looks like you and frightens you.</string>
-			<string>-1 Sanity</string>
-		</array>
-		<array>
-			<true/>
-			<string>Crystal Ball</string>
-			<string>You find a crystal ball. Looking into you see your future.</string>
-			<string>+1 Luck</string>
-		</array>
-		<array>
-			<false/>
-			<string>Loose Floorboard</string>
-			<string>You trip on a loose board in the floor. As you fall you head a crack.</string>
+			<string>Sticky Trap</string>
+			<string>You walk into the room and step in something sticky.</string>
 			<string>-1 Evasion</string>
 		</array>
 		<array>
-			<true/>
-			<string>New Shoes</string>
-			<string>You see a pair of the old tenants shoes. You try them on and they are extremely light on your feet.</string>
-			<string>+1 Evasion</string>
+			<string>Cobwebs</string>
+			<string>You would expect nothing less in a house this creepy.</string>
+			<string>-1 Evasion</string>
 		</array>
 		<array>
-			<true/>
-			<string>Old Photographs</string>
-			<string>You stumble upon a box of pictures. Looking at them calms you down.</string>
-			<string>+1 Sanity</string>
+			<string>Ankle Sprain</string>
+			<string>You step funny. Thats going to make it hard to run.</string>
+			<string>-1 Evasion</string>
 		</array>
 		<array>
-			<false/>
-			<string>Low Hanging Chanelier</string>
-			<string>As you walk into the room you hit your head on the chanedelier.</string>
+			<string>Hole in the Floor</string>
+			<string>You step in a hole.</string>
+			<string>-1 Evasion</string>
+		</array>
+		<array>
+			<string>Nails</string>
+			<string>Ow! Why would someone leave these all over the floor!</string>
+			<string>-1 Evasion</string>
+		</array>
+		<array>
+			<string>Weapon Malfunction</string>
+			<string>Your weapon seems to have a problem.</string>
+			<string>-1 Attack</string>
+		</array>
+		<array>
+			<string>Cut</string>
+			<string>You cut your hand on the doorway.</string>
+			<string>-1 Attack</string>
+		</array>
+		<array>
+			<string>Spider Bite</string>
+			<string>You feel a little woozy.</string>
+			<string>-1 Attack</string>
+		</array>
+		<array>
+			<string>Trap</string>
+			<string>Its a trap!</string>
+			<string>-1 Attack</string>
+		</array>
+		<array>
+			<string>Cramp</string>
+			<string>The weight of your sword hurts your hand.</string>
+			<string>-1 Attack</string>
+		</array>
+		<array>
+			<string>Wet Floor</string>
+			<string>Where&apos;s the wet floor sign?!</string>
+			<string>-1 Defense</string>
+		</array>
+		<array>
+			<string>Marble</string>
+			<string>A fun game, but not when your in battle.</string>
+			<string>-1 Defense</string>
+		</array>
+		<array>
+			<string>Clock</string>
+			<string>Tick, tock, tick, tock. You&apos;ve been hypnotized slowing your reflexes.</string>
+			<string>-1 Defense</string>
+		</array>
+		<array>
+			<string>Over encumbered</string>
+			<string>Your backpack is very very heavy after all this walking around.</string>
+			<string>-1 Defense</string>
+		</array>
+		<array>
+			<string>Cracked Shield</string>
+			<string>Well, this is pretty much useless now.</string>
+			<string>-1 Defense</string>
+		</array>
+		<array>
+			<string>Yourself?!</string>
+			<string>You enter the room, and there you are looking back.</string>
+			<string>-1 Sanity</string>
+		</array>
+		<array>
+			<string>Body Parts</string>
+			<string>Blood on the walls, arms in the corner, and legs hanging from the ceiling.</string>
+			<string>-1 Sanity</string>
+		</array>
+		<array>
+			<string>Missed Call</string>
+			<string>You were supposed to be home hours ago...</string>
+			<string>-1 Sanity</string>
+		</array>
+		<array>
+			<string>Shreaks</string>
+			<string>Bone chilling screams ring out through the house.</string>
+			<string>-1 Sanity</string>
+		</array>
+		<array>
+			<string>Spirit</string>
+			<string>You believe in ghosts, but never thought one would confront you.</string>
+			<string>-1 Sanity</string>
+		</array>
+		<array>
+			<string>Mouse Trap</string>
+			<string>You reach for what you think is an item. It&apos;s not.</string>
+			<string>-1 Luck</string>
+		</array>
+		<array>
+			<string>Black Cat</string>
+			<string>Oh great. Exactly what you didn&apos;t need right now.</string>
+			<string>-1 Luck</string>
+		</array>
+		<array>
+			<string>Latter</string>
+			<string>You walk under a latter... oops.</string>
+			<string>-1 Luck</string>
+		</array>
+		<array>
+			<string>Broken Mirror</string>
+			<string>Mirror, mirror on the wall. Why did you have to fall?</string>
+			<string>-1 Luck</string>
+		</array>
+		<array>
+			<string>Crow</string>
+			<string>You spot crows circling overhead. Better watch yourself.</string>
+			<string>-1 Luck</string>
+		</array>
+		<array>
+			<string>Net</string>
+			<string>You get tangled in a net.</string>
 			<string>-1 Stealth</string>
 		</array>
-	</array>
-	<key>GoodEffect</key>
-	<array>
-		<string>+1 Evasion</string>
-		<string>+1 Attack</string>
-		<string>+1 Defense</string>
-		<string>+1 Sanity</string>
-		<string>+1 Luck</string>
-		<string>+1 Stealth</string>
-	</array>
-	<key>BadEffect</key>
-	<array>
-		<string>-1 Evasion</string>
-		<string>-1 Attack</string>
-		<string>-1 Defense</string>
-		<string>-1 Sanity</string>
-		<string>-1 Luck</string>
-		<string>-1 Stealth</string>
+		<array>
+			<string>Bear Trap</string>
+			<string>You didn&apos;t loose your foot, but it made a big noise.</string>
+			<string>-1 Stealth</string>
+		</array>
+		<array>
+			<string>Creeky Floor</string>
+			<string>Is there anything in this house that doesn&apos;t creek?</string>
+			<string>-1 Stealth</string>
+		</array>
+		<array>
+			<string>Creeky Door</string>
+			<string>That will draw the monsters attention.</string>
+			<string>-1 Stealth</string>
+		</array>
+		<array>
+			<string>Sticks</string>
+			<string>Sticks and stones may break my bones, but so will monsters.</string>
+			<string>-1 Stealth</string>
+		</array>
 	</array>
 	<key>Music</key>
 	<true/>
@@ -232,12 +360,6 @@
 			<string>Aspirin</string>
 			<string>You find some Aspirin.</string>
 			<string>+1 Health</string>
-			<string>Other</string>
-		</array>
-		<array>
-			<string>Ring</string>
-			<string>You find a ring with ancient symbols on it.</string>
-			<string>You cannot receive de-buffs from items.</string>
 			<string>Other</string>
 		</array>
 		<array>
@@ -423,7 +545,7 @@
 		<array>
 			<string>Extra Bag</string>
 			<string>Another backpack, sweet</string>
-			<string>+3 inventory spaces</string>
+			<string>3 more inventory spaces</string>
 			<string>Other</string>
 		</array>
 		<array>

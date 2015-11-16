@@ -14,15 +14,11 @@ public class IOSApp {
     var currentRoom:Room
     var player:Player
     var itemCount:Int = 0
-    var goodEffectCount:Int = 0
-    var badEffectCount:Int = 0
     var roomCount:Int = 0
     var happeningCount:Int = 0
     var newEffects:[Effect] = []
     var rooms:[String]
     var happenings:Array<Array<AnyObject>>
-    var goodEffects:[String]
-    var badEffects:[String]
     var items:Array<Array<String>>
     var roomCounter:Int = 0
     var monstersInGame:[Monster]
@@ -35,10 +31,6 @@ public class IOSApp {
         self.roomCount = self.rooms.count
         self.happenings = properties!.objectForKey("Happening") as! Array<Array<AnyObject>>
         self.happeningCount = self.happenings.count
-        self.goodEffects = properties!.objectForKey("GoodEffect") as! [String]
-        self.goodEffectCount = self.goodEffects.count
-        self.badEffects = properties!.objectForKey("BadEffect") as! [String]
-        self.badEffectCount = self.badEffects.count
         self.items = properties!.objectForKey("Item") as! Array<Array<String>>
         self.itemCount = self.items.count
         // empty 15x15 room matrix
@@ -81,31 +73,40 @@ public class IOSApp {
     }
     
     func createRoom(door:Int) {
+        print("in create room")
         let room:Int = Int(arc4random_uniform(UInt32(roomCount)))
+        print("room")
         let openedRoom = Room(name: rooms[room] ,previousRoom: currentRoom ,item: generateItem(), happening: generateHappening(), heading: player.headingNum)
+        print("generated room")
         houseLayout[openedRoom.location.y+7][openedRoom.location.x+7] = openedRoom
+        print("placed room")
         currentRoom.setAttachedRoom(door, room: openedRoom)
+        print("attached room")
         currentRoom = openedRoom
+        print("updated current room")
         roomCounter++
+        print("room counter inc")
         unopenedDoors += openedRoom.numAttachedRooms
         print("adding \(openedRoom.numAttachedRooms) to doors")
     }
     
     func generateItem() -> Item? {
+        print("gen item")
         var item:Item?
-        var luck:UInt32 = UInt32(20-player.skills["Luck"]!) // subtracting luck increases chance of items
-        if(luck <= 0){luck = 1}
+        var luck:UInt32 = 0
+        if(20-player.skills["Luck"]! <= 0){luck = 1}
+        else{luck = UInt32(20-player.skills["Luck"]!)} // subtracting luck increases chance of items
         let chance:Int = Int(arc4random_uniform(luck))
         if(chance < 3){
             var itemData:Array<String>
-            var count:Int = 0
             repeat{
                 let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount)))
                 itemData = items[itemNumber]
                 item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]), type: itemData[3])
-                count--
-            }while((player.items.indexOf(item!) != nil || (itemData[0] == "Key" && roomCounter < 10)) && count > 0)
-            if(player.items.indexOf(item!) == nil) {
+            }while((player.items.indexOf(item!) != nil || item!.type == "Other" || (itemData[0] == "Key" && roomCounter < 10)))
+            if(player.items.indexOf(item!) == nil || item!.type == "Other") {
+                print("checking item")
+                print("\(item!.description) \(item!.name) \(item!.effect.description) \(item!.type)")
                 if(item!.type == "Other"){
                     if(item!.name == "Key"){
                         if(roomCounter >= 10){
@@ -116,12 +117,8 @@ public class IOSApp {
                             // to early for key!
                             item = nil
                         }
-                    }else if(item!.name == "Ring"){
-                        player.itemImmunity = true
-                        player.items.append(item!)
-                        newEffects.append(Effect(description: itemData[2]))
                     }
-                    else if(item!.name == "Bag"){
+                    else if(item!.name == "Extra Bag"){
                         player.inventorySpace += 3
                         player.items.append(item!)
                         newEffects.append(Effect(description: itemData[2]))
@@ -141,15 +138,17 @@ public class IOSApp {
     }
     
     func generateHappening() -> Happening? {
+        print("gen happening")
         var happening:Happening?
-        var sanity:UInt32 = UInt32(player.skills["Sanity"]!+5) // adding sanity decreases chance of happening
-        if(sanity <= 0){sanity = 1}
+        var sanity:UInt32 = 0
+        if(player.skills["Sanity"]!+5 <= 0){sanity = 1}
+        else{sanity = UInt32(player.skills["Sanity"]!+5) }// adding sanity decreases chance of happening
         let chance:Int = Int(arc4random_uniform(sanity))
         if(chance == 0){
             let happeningNum:Int = Int(arc4random_uniform(UInt32(happeningCount)))
             var happeningData:Array<AnyObject> = happenings[happeningNum]
-            let effect:String = happeningData[3] as! String
-            happening = Happening(good: happeningData[0] as! Bool, name: happeningData[1] as! String, description: happeningData[2] as! String, effect: Effect(description: effect))
+            let effect:String = happeningData[2] as! String
+            happening = Happening(name: happeningData[0] as! String, description: happeningData[1] as! String, effect: Effect(description: effect))
             player.currentHappenings.append(happening!)
             newEffects.append(Effect(description: effect))
             
@@ -160,9 +159,13 @@ public class IOSApp {
     func processEffects() {
         for effect in newEffects {
             let parts:[String] = effect.description.componentsSeparatedByString(" ")
+            print(parts)
             let skill:String = parts[1]
             let char:String = parts[0][0]
-            let num:String = parts[0][1]
+            var num:String = ""
+            if(parts[0].characters.count > 1){
+                num = parts[0][1]
+            }
             let buff:Bool = char == "+"
             let deBuff:Bool = char == "-"
             if(buff){
@@ -303,8 +306,9 @@ public class IOSApp {
     
     func generateMonster() -> Monster? {
         var monster:Monster?
-        var stealth:UInt32 = UInt32(player.skills["Stealth"]!+10) // adding stealth decreases chance of a monster
-        if(stealth <= 0){stealth = 1}
+        var stealth:UInt32 = 0
+        if(UInt32(player.skills["Stealth"]!+10) <= 0){stealth = 1}
+        else{stealth = UInt32(player.skills["Stealth"]!+10)} // adding stealth decreases chance of a monster
         let chance:Int = Int(arc4random_uniform(stealth))
         if(chance == 0){
             monster = Monster(location: currentRoom)
@@ -358,11 +362,11 @@ public class IOSApp {
         var dodge:Bool
         print("attacking: \(attack)")
         if(attack){
-            playerAction = Double((Int(arc4random_uniform(6)) + player.skills["Attack"]!))*player.fightMultiplier
+            playerAction = Double((Int(arc4random_uniform(6)) + player.skills["Attack"]!*3/5))*player.fightMultiplier
             monsterAttack = Double(arc4random_uniform(6))
             dodge = false
         }else{
-            playerAction = Double(Int(arc4random_uniform(6)) + player.skills["Defense"]!)
+            playerAction = Double(Int(arc4random_uniform(6)) + player.skills["Defense"]!*3/5)
             monsterAttack = Double(arc4random_uniform(6))
             dodge = true
         }

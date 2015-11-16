@@ -17,14 +17,13 @@ enum BodyType: UInt32 {
     case room = 8
 }
 
-class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    weak var gameViewController:GameViewController?
+class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
     var player: SKSpriteNode?
     var removed: Bool = false
     let roomName = SKLabelNode(text: "")
     let unopenedDoors = SKLabelNode(text: "")
     let livesText = SKLabelNode(text: "0")
-    let console = SKMultilineLabel(text: "Welcome to Madness Manor", labelWidth: 600, pos: CGPoint(x: 0, y: 0))
+    var console = SKMultilineLabel(text: "Welcome to Madness Manor", labelWidth: 600, pos: CGPoint(x: 0, y: 0))
     var door:Int = 0
     var app:IOSApp = IOSApp()
     var doorX:CGFloat = 0
@@ -77,17 +76,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     let moveAnalogStick = AnalogStick(diameter: kAnalogStickdiameter)
     
     override func didMoveToView(view: SKView) {
-        self.view?.viewWithTag(1)?.hidden = true
-        self.view?.viewWithTag(2)?.hidden = true
-        self.view?.viewWithTag(3)?.hidden = true
-        self.view?.viewWithTag(4)?.hidden = true
-        self.view?.viewWithTag(5)?.hidden = true
         /* Setup your scene here */
         showInstructions(self)
         backgroundColor = UIColor.blackColor()
         
-        
         let defaults = NSUserDefaults.standardUserDefaults()
+        print(defaults.boolForKey("Music"))
         if(defaults.boolForKey("Music")){
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
         }
@@ -126,10 +120,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         isSetJoystickStickImage = _isSetJoystickStickImage
         isSetJoystickSubstrateImage = _isSetJoystickSubstrateImage
         
-        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1))
-        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2))
-        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.75),value: 3))
-        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4))
+        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1, undiscovered:  false))
+        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2, undiscovered:  true))
+        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.75),value: 3, undiscovered:  true))
+        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4, undiscovered:  true))
         
         addChild(addBattleButton(lefty))
         addChild(addRunButton(lefty))
@@ -142,6 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         
         physicsWorld.contactDelegate = self
         setupLabels()
+        updatePlayerClass()
     }
     
     func addLives(lefty:Bool) -> SKSpriteNode{
@@ -254,7 +249,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
        return room
     }
     
-    func addDoor(position: CGPoint, value: Int) -> SKSpriteNode {
+    func addDoor(position: CGPoint, value: Int, undiscovered: Bool) -> SKSpriteNode {
         let doorImage = UIImage(named: "apple")
         let texture = SKTexture(image: doorImage!)
         let door = SKSpriteNode(texture: texture)
@@ -266,6 +261,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         door.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         door.physicsBody?.collisionBitMask = 0
         door.name = "\(value)"
+        if(undiscovered){
+            door.anchorPoint = CGPointMake(0.5, 0.5)
+            let glow:SKSpriteNode = door.copy() as! SKSpriteNode
+            glow.size = door.size
+            glow.color = UIColor.blueColor()
+            glow.texture = nil
+            glow.anchorPoint = door.anchorPoint
+            glow.position = CGPoint(x: 0, y: 0)
+            glow.alpha = 0.5
+            glow.blendMode = .Add
+            door.addChild(glow)
+        }
         return door
     }
     
@@ -353,7 +360,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func showInstructions(controller: GameScene) {
         let alert = UIAlertView(title: "Instructions:", message: "", delegate: self, cancelButtonTitle: "OK")
-        alert.message = "Enter \"exit\" to quit.\nEnter \"stats\" to show player stats.\nEnter \"items\" to show current items.\nEnter \"happenings\" to show current happenings.\nEnter \"effects\" to show current effects.\nEnter \"layout\" to show house layout"
+        alert.message = "Madness Manor\nThe goal is simple. Escape\nYou are in the entry of the house. To escape you need to find the key. It is hidden in one of the rooms in this house. Find it. Avoid the monsters. Pick up items. Some rooms you will experience happenings. They are not good, avoid them the best you can.\nGood luck"
         alert.show()
     }
     
@@ -370,16 +377,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         mapButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.8 - size.height)
         mapButton.name = "MapButton"
         
-        let instructionsButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
+        let inventoryButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
         //instructionsButton.position = CGPoint(x: mapButton.frame.midX, y: mapButton.frame.minY - CGRectGetMaxX(self.frame) * 0.01 - size.height/2)
-        instructionsButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.6 - size.height)
-        instructionsButton.name = "InstructionsButton"
+        inventoryButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.6 - size.height)
+        inventoryButton.name = "InventoryButton"
         
         let exitButton = SKSpriteNode(color: UIColor.blueColor(), size: size)
         exitButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) - size.height)
         exitButton.name = "ExitButton"
         
-        return [mapButton, instructionsButton, exitButton]
+        return [mapButton, inventoryButton, exitButton]
     }
     
     func addBattleButton(lefty:Bool) -> SKSpriteNode {
@@ -512,6 +519,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }
                 else if name == "AttackButton"
                 {
+                    let health:Int = app.player.skills["Health"]!
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: true, console: console)
                     
                     //See if life changed. If it did, damamge was taken
@@ -528,9 +536,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     }
                     
                     livesText.text = "\(app.player.skills["Health"]!)"
+                    if(health > app.player.skills["Health"]!){
+                        let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                        let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                        let wait = SKAction.waitForDuration(0.5)
+                        livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                    }
                 }
                 else if name == "DefenseButton"
                 {
+                    let health:Int = app.player.skills["Health"]!
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: false, console: console)
                     
                     //See if life changed. If it did, damamge was taken
@@ -547,15 +562,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     }
                     
                     livesText.text = "\(app.player.skills["Health"]!)"
+                    if(health > app.player.skills["Health"]!){
+                        let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                        let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                        let wait = SKAction.waitForDuration(0.5)
+                        livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                    }
                 }
                 else if name == "MapButton"
                 {
                     displayMap()
                 }
+                else if name == "InventoryButton"
+                {
+                    displayInventory()
+                }
                 else if name == "ExitButton"
                 {
-                    print("exiting")
-                    self.gameViewController?.performSegueWithIdentifier("undo", sender: self)
+                    let alert = UIAlertView(title: "Quit", message: "Are you sure you want to quit?", delegate: self, cancelButtonTitle: "No", otherButtonTitles: "Yes")
+                    alert.tag = 94
+                    alert.show()
                 }
             }
             // start battle
@@ -575,8 +601,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }
     }
     
+    override func willMoveFromView(view: SKView) {
+        scene?.removeAllActions()
+        scene?.removeAllChildren()
+        scene?.removeFromParent()
+    }
+    
     func displayMap(){
-        let alert = UIAlertView(title: "Map:", message: "", delegate: self, cancelButtonTitle: "Done")
+        let alert = UIAlertView(title: "Map", message: "", delegate: self, cancelButtonTitle: "Done")
         let message = UILabel()
         message.font = UIFont(name: "Courier New", size: 13)
         message.numberOfLines = 0
@@ -586,29 +618,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         alert.show()
     }
     
+    func displayInventory(){
+        let alert = UIAlertView(title: "Inventory", message: "", delegate: self, cancelButtonTitle: "Done")
+        let tableView = UITableView(frame: CGRectMake(0, 0, 320, 200), style: .Plain)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        alert.setValue(tableView, forKey: "accessoryView")
+        alert.show()
+    }
+    
     func handleDoor(door: Int) -> Bool{
+        print("handling door method")
         var validDoor = true
         if(app.currentRoom.attachedRooms[door-1] == nil){
             // door is value
             app.player.headingNum = (door+1)%4
             app.player.setHeading()
+            print("")
             let location:Point = app.calcLocation()
+            print("got location")
             if(location.x <= 7 && location.x >= -7 && location.y <= 7 && location.y >= -7){
+                print("in house")
                 // inside the house layout
                 if(app.houseLayout[location.y+7][location.x+7] == nil){
                     // door leads to undiscovered room
+                    print("here")// error in here
                     app.createRoom(door-1)
+                    print("created room")
                     let newRoom:Room = app.houseLayout[location.y+7][location.x+7]! as Room
+                    print("items?")
                     swapItem(newRoom)
+                    print("done items")
                     if(newRoom.happening != nil){
-                        console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description), \(newRoom.happening!.effect.description)"
+                        console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description) \(newRoom.happening!.effect.description)"
+                        print(newRoom.happening!.effect.description)
+                        if(newRoom.happening!.effect.description == "Lose an item" && app.player.currentItems.count > 0){
+                            loseItem()
+                        }
                     }else{
                        console.text = "No Happening"
                     }
+                    print("effects")
                     app.processEffects()
+                    print("done effects")
                     activeMonster = app.generateMonster()
+                    print("gen monster")
                     app.unopenedDoors--
+                    print("doors changed")
                 }else{
+                    print("room exists")
                     // a room exists at this location
                     let roomAtLocation:Room = app.houseLayout[location.y+7][location.x+7]!
                     if(roomAtLocation.name == "EMPTY" || (roomAtLocation.attachedRooms[(door+1)%4] != nil && roomAtLocation.attachedRooms[(door+1)%4]!.name == "EMPTY")){
@@ -619,6 +678,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         validDoor = false
                         app.unopenedDoors--
                     }else{
+                        print("room visited")
                         // room has been visited and is not a special room
                         app.applyVisitedRoom(roomAtLocation, door: door-1)
                         print("This room looks oddly familiar.")
@@ -629,6 +689,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }
             }else{
                 // outside of range of house
+                print("outside house")
                 print("The door opens... to a brick wall.")
                 console.text = "The door opens... to a brick wall."
                 app.updateFalseDoor(door-1)
@@ -651,6 +712,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             }
         }else{
             // room already discovered
+            print("already discovered 2")
             app.currentRoom = app.currentRoom.attachedRooms[door-1]!
             app.player.headingNum = (door+1)%4
             app.player.setHeading()
@@ -658,7 +720,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             console.text = ""
         }
         if(activeMonster != nil){
+            print("monster?")
             handleMonster()
+            print("after monster")
         }
         if(app.unopenedDoors == 0){
             print("out of doors!")
@@ -670,6 +734,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         generateDoors()
         updateSkills()
         unopenedDoors.text = "Unopened Doors: \(app.unopenedDoors)"
+        print("done handling door method")
         return validDoor
     }
     
@@ -746,7 +811,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         addChild(addMonster())
         print("prompting for monster")
         print(activeMonster!.toString())
-        
+        console.text = "You encounter a monster! \(activeMonster!.toString())"
     }
     
     func battleDone(){
@@ -792,28 +857,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 self.removeChildrenInArray([child])
             }
         }
-        self.view?.viewWithTag(1)?.hidden = false
-        self.view?.viewWithTag(2)?.hidden = false
-        self.view?.viewWithTag(3)?.hidden = false
-        self.view?.viewWithTag(4)?.hidden = false
-        self.view?.viewWithTag(5)?.hidden = false
+        SKTAudio.sharedInstance().pauseBackgroundMusic()
+        let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+        
+        let nextScene = GameOverScene(fileNamed: "GameOverScene")
         
         if(app.hasWon){
             print("----- YOU WIN! -----")
-            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU WIN! -----"
             print("Thank you for playing!")
-            (self.view?.viewWithTag(5) as? UILabel)?.text = "Thank you for playing!"
+            nextScene?.winningMessage = "YOU WIN!"
+            nextScene?.message = "Thank you for playing!"
         }else if(app.player.hasKey){
             print("You die attempting to escape the house.")
-            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
             print("----- YOU LOSE -----")
-            (self.view?.viewWithTag(5) as? UILabel)?.text = "You die attempting to escape the house."
+            nextScene?.winningMessage = "YOU LOSE"
+            nextScene?.message = "You die attempting to escape the house."
         }else{
             print("You die searching. Maybe the key was never there.")
-            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
             print("----- YOU LOSE -----")
-            (self.view?.viewWithTag(5) as? UILabel)?.text = "You die searching. Maybe the key was never there."
+            nextScene?.winningMessage = "YOU LOSE"
+            nextScene?.message = "You die searching. Maybe the key was never there."
         }
+        
+        
+        nextScene!.scaleMode = .AspectFill
+        
+        scene?.view?.presentScene(nextScene!, transition: transition)
         
     }
     
@@ -827,7 +896,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             }
             
             let alert:UIAlertView
-            print(app.player.currentItems.count)
+            print("Count: \(app.player.currentItems.count)")
+            let type = currentItem!.type as String
+            var color:UIColor = UIColor.orangeColor()
+            switch(type){
+                case "Attack"://red
+                    color = UIColor(red: 255.0/255, green: 105.0/255, blue: 97.0/255, alpha: 1.0)
+                case "Defense"://blue
+                    color = UIColor(red: 174.0/255, green: 198.0/255, blue: 203.0/255, alpha: 1.0)
+                case "Stealth"://grey
+                    color = UIColor(red: 207.0/255, green: 207.0/255, blue: 196.0/255, alpha: 1.0)
+                case "Luck"://green
+                    color = UIColor(red: 119.0/255, green: 190.0/255, blue: 119.0/255, alpha: 1.0)
+                case "Evasion"://purple
+                    color = UIColor(red: 179.0/255, green: 158.0/255, blue: 181.0/255, alpha: 1.0)
+                case "Sanity"://yellow
+                    color = UIColor(red: 253.0/255, green: 253.0/255, blue: 150.0/255, alpha: 1.0)
+                default://pink
+                    color = UIColor(red: 255.0/255, green: 209.0/255, blue: 220.0/255, alpha: 1.0)
+            }
             if(app.player.currentItems.count >= app.player.inventorySpace && currentItem!.type != "Other"){
                 // must drop an item
                 alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "Drop", otherButtonTitles: "Keep")
@@ -849,6 +936,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 v.addSubview(itemEffect)
                 v.translatesAutoresizingMaskIntoConstraints = true
                 v.sizeToFit()
+                v.backgroundColor = color
                 alert.setValue(v, forKey: "accessoryView")
             }else{
                 alert = UIAlertView(title: "Item Found!", message: "", delegate: self, cancelButtonTitle: "OK" )
@@ -868,6 +956,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 v.addSubview(itemName)
                 v.addSubview(itemEffect)
                 v.sizeToFit()
+                v.backgroundColor = color
                 v.translatesAutoresizingMaskIntoConstraints = true
                 alert.setValue(v, forKey: "accessoryView")
                 if(currentItem!.type != "Other"){
@@ -876,11 +965,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 app.player.items.append(currentItem!)
                 app.newEffects.append(currentItem!.effect)
                 currentItem = nil
+                let health:Int = app.player.skills["Health"]!
                 livesText.text = "\(app.player.skills["Health"]!)"
-                
+                if(health < app.player.skills["Health"]!){
+                    let action1 = SKAction.runBlock({self.livesText.fontColor = UIColor.whiteColor()})
+                    let action2 = SKAction.runBlock({self.livesText.fontColor = UIColor.blackColor()})
+                    let wait = SKAction.waitForDuration(0.5)
+                    livesText.runAction(SKAction.sequence([action1,wait,action2]))
+                }
             }
             alert.show()
         }
+    }
+    
+    func loseItem(){
+        let alert = UIAlertView(title: "Inventory", message: "Discard an item", delegate: self, cancelButtonTitle: "Drop")
+        let picker = UIPickerView()
+        picker.delegate = self
+        if(currentItem != nil){
+            app.player.currentItems.append(currentItem!)
+            app.player.items.append(currentItem!)
+            app.newEffects.append(currentItem!.effect)
+        }
+        picker.dataSource = self
+        alert.setValue(picker, forKey: "accessoryView")
+        alert.tag = 888
+        alert.show()
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
@@ -892,23 +1002,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 currentItem = nil
             }else{
                 // keep button -- must discard an item
-                let alert = UIAlertView(title: "Inventory", message: "Discard an item", delegate: self, cancelButtonTitle: "Drop")
-                let picker = UIPickerView()
-                picker.delegate = self
-                app.player.currentItems.append(currentItem!)
-                app.player.items.append(currentItem!)
-                app.newEffects.append(currentItem!.effect)
-                picker.dataSource = self
-                alert.setValue(picker, forKey: "accessoryView")
-                alert.tag = 888
-                alert.show()
+                loseItem()
             }
                 print(buttonIndex)
         }else if(alertView.tag == 888){
             print(selectedDropItem)
             print(app.player.currentItems)
-            print(app.player.currentItems[selectedDropItem]?.toString())
-            let removedItem:Item = app.player.currentItems[selectedDropItem]!
+            print(app.player.currentItems[selectedDropItem].toString())
+            let removedItem:Item = app.player.currentItems[selectedDropItem]
             app.player.currentItems.removeAtIndex(selectedDropItem)
             let index:Int? = app.player.items.indexOf(removedItem)
             print(index)
@@ -923,6 +1024,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             }
             currentItem = nil
             updateSkills()
+        }else if(alertView.tag == 94){
+            print("exiting?")
+            if(buttonIndex == 0){
+                // nothing, do not exit
+            }else{
+                // exiting
+                SKTAudio.sharedInstance().pauseBackgroundMusic()
+                let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+                
+                let nextScene = MainMenuScene(fileNamed: "MainMenuScene")
+                nextScene!.scaleMode = .AspectFill
+                
+                scene?.view?.presentScene(nextScene!, transition: transition)
+            }
         }
     }
     
@@ -933,11 +1048,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return app.player.currentItems.count
     }
-    
-//    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-//    {
-//        return "\(app.player.currentItems[row]!.name): \(app.player.currentItems[row]!.effect.toString())"
-//    }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("row selected: \(row)")
@@ -965,10 +1075,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         itemImage.image = UIImage(named: "apple")
         
         let itemName:UILabel = v.viewWithTag(111) as! UILabel
-        itemName.text = app.player.currentItems[row]!.name
+        itemName.text = app.player.currentItems[row].name
         
         let itemEffect:UILabel = v.viewWithTag(222) as! UILabel
-        itemEffect.text = app.player.currentItems[row]!.effect.description
+        itemEffect.text = app.player.currentItems[row].effect.description
         
         v.sizeToFit()
         
@@ -990,23 +1100,95 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func generateDoors(){
+        print("generating doors")
         for child in self.children as [SKNode] {
             if (child.name == "1" || child.name == "2" || child.name == "3" || child.name == "4") {
                 self.removeChildrenInArray([child])
             }
         }
         if(app.currentRoom.attachedRooms[0] == nil || app.currentRoom.attachedRooms[0]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1))
+            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1, undiscovered: app.currentRoom.attachedRooms[0] == nil))
         }
         if(app.currentRoom.attachedRooms[1] == nil || app.currentRoom.attachedRooms[1]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2))
+            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2, undiscovered: app.currentRoom.attachedRooms[1] == nil))
         }
         if(app.currentRoom.attachedRooms[2] == nil || app.currentRoom.attachedRooms[2]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75),value: 3))
+            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75),value: 3, undiscovered: app.currentRoom.attachedRooms[2] == nil))
         }
         if(app.currentRoom.attachedRooms[3] == nil || app.currentRoom.attachedRooms[3]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4))
+            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4, undiscovered: app.currentRoom.attachedRooms[3] == nil))
         }
+        print("Done generating")
+    }
+    
+    func updatePlayerClass(){
+        print(playerClass)
+        let path = NSBundle.mainBundle().pathForResource("gameData", ofType: "plist")
+        let properties = NSDictionary(contentsOfFile: path!)
+        let classes = properties!.objectForKey("Classes") as! Array<Array<AnyObject>>
+        var pClass = Array<AnyObject>()
+        for class1 in classes{
+            if(class1[0] as! String == playerClass){
+                pClass = class1
+                break
+            }
+        }
+        app.player.skills["Attack"]! = Int(pClass[1] as! NSNumber)
+        app.player.skills["Defense"]! = Int(pClass[2] as! NSNumber)
+        app.player.skills["Stealth"]! = Int(pClass[3] as! NSNumber)
+        app.player.skills["Evasion"]! = Int(pClass[4] as! NSNumber)
+        app.player.skills["Luck"]! = Int(pClass[5] as! NSNumber)
+        app.player.skills["Sanity"]! = Int(pClass[6] as! NSNumber)
+        updateSkills()
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return app.player.currentItems.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cellIdentifier = "cell"
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)! as UITableViewCell
+        cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: cellIdentifier)
+        
+        let item = app.player.currentItems[indexPath.row]
+        
+        cell.textLabel?.text = item.name
+        cell.detailTextLabel?.text = item.effect.description
+        
+        let type = item.type
+        var color:UIColor = UIColor.whiteColor()
+        switch(type){
+            case "Attack"://red
+                color = UIColor(red: 255.0/255, green: 105.0/255, blue: 97.0/255, alpha: 1.0)
+            case "Defense"://blue
+                color = UIColor(red: 174.0/255, green: 198.0/255, blue: 203.0/255, alpha: 1.0)
+            case "Stealth"://grey
+                color = UIColor(red: 207.0/255, green: 207.0/255, blue: 196.0/255, alpha: 1.0)
+            case "Luck"://green
+                color = UIColor(red: 119.0/255, green: 190.0/255, blue: 119.0/255, alpha: 1.0)
+            case "Evasion"://purple
+                color = UIColor(red: 179.0/255, green: 158.0/255, blue: 181.0/255, alpha: 1.0)
+            case "Sanity"://yellow
+                color = UIColor(red: 253.0/255, green: 253.0/255, blue: 150.0/255, alpha: 1.0)
+            default://pink
+                color = UIColor(red: 255.0/255, green: 209.0/255, blue: 220.0/255, alpha: 1.0)
+            
+        }
+        cell.backgroundColor = color
+        return cell
+        
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("You selected cell #\(indexPath.row)!")
+    }
+    
+    deinit {
+        // store game?
+        print("game gone")
     }
 }
 

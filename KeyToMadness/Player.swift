@@ -12,7 +12,7 @@ public class Player {
     var skills:Dictionary<String, Int>
     var currentEffects:[Effect]
     var items:[Item]
-    var currentItems:Array<Item?>
+    var currentItems:[Item]
     var currentHappenings:[Happening]
     var itemImmunity:Bool
     var hasKey:Bool
