@@ -99,14 +99,14 @@ public class IOSApp {
         let chance:Int = Int(arc4random_uniform(luck))
         if(chance < 3){
             var itemData:Array<String>
-            var count:Int = 0
             repeat{
                 let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount)))
                 itemData = items[itemNumber]
                 item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]), type: itemData[3])
-                count--
-            }while((player.items.indexOf(item!) != nil || (itemData[0] == "Key" && roomCounter < 10)) && count > 0)
-            if(player.items.indexOf(item!) == nil) {
+            }while((player.items.indexOf(item!) != nil || item!.type == "Other" || (itemData[0] == "Key" && roomCounter < 10)))
+            if(player.items.indexOf(item!) == nil || item!.type == "Other") {
+                print("checking item")
+                print("\(item!.description) \(item!.name) \(item!.effect.description) \(item!.type)")
                 if(item!.type == "Other"){
                     if(item!.name == "Key"){
                         if(roomCounter >= 10){
@@ -117,10 +117,6 @@ public class IOSApp {
                             // to early for key!
                             item = nil
                         }
-                    }else if(item!.name == "Ring"){
-                        player.itemImmunity = true
-                        player.items.append(item!)
-                        newEffects.append(Effect(description: itemData[2]))
                     }
                     else if(item!.name == "Extra Bag"){
                         player.inventorySpace += 3

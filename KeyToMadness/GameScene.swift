@@ -825,24 +825,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         
         if(app.hasWon){
             print("----- YOU WIN! -----")
-            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU WIN! -----"
             print("Thank you for playing!")
-            (self.view?.viewWithTag(5) as? UILabel)?.text = "Thank you for playing!"
-            nextScene?.winningMessage = "----- YOU WIN! -----"
+            nextScene?.winningMessage = "YOU WIN!"
             nextScene?.message = "Thank you for playing!"
         }else if(app.player.hasKey){
             print("You die attempting to escape the house.")
-            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
             print("----- YOU LOSE -----")
-            (self.view?.viewWithTag(5) as? UILabel)?.text = "You die attempting to escape the house."
-            nextScene?.winningMessage = "----- YOU LOSE -----"
+            nextScene?.winningMessage = "YOU LOSE"
             nextScene?.message = "You die attempting to escape the house."
         }else{
             print("You die searching. Maybe the key was never there.")
-            (self.view?.viewWithTag(4) as? UILabel)?.text = "----- YOU LOSE -----"
             print("----- YOU LOSE -----")
-            (self.view?.viewWithTag(5) as? UILabel)?.text = "You die searching. Maybe the key was never there."
-            nextScene?.winningMessage = "----- YOU LOSE -----"
+            nextScene?.winningMessage = "YOU LOSE"
             nextScene?.message = "You die searching. Maybe the key was never there."
         }
         
@@ -970,8 +964,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }else if(alertView.tag == 888){
             print(selectedDropItem)
             print(app.player.currentItems)
-            print(app.player.currentItems[selectedDropItem]?.toString())
-            let removedItem:Item = app.player.currentItems[selectedDropItem]!
+            print(app.player.currentItems[selectedDropItem].toString())
+            let removedItem:Item = app.player.currentItems[selectedDropItem]
             app.player.currentItems.removeAtIndex(selectedDropItem)
             let index:Int? = app.player.items.indexOf(removedItem)
             print(index)
@@ -1037,10 +1031,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         itemImage.image = UIImage(named: "apple")
         
         let itemName:UILabel = v.viewWithTag(111) as! UILabel
-        itemName.text = app.player.currentItems[row]!.name
+        itemName.text = app.player.currentItems[row].name
         
         let itemEffect:UILabel = v.viewWithTag(222) as! UILabel
-        itemEffect.text = app.player.currentItems[row]!.effect.description
+        itemEffect.text = app.player.currentItems[row].effect.description
         
         v.sizeToFit()
         
@@ -1115,7 +1109,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)! as UITableViewCell
         cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: cellIdentifier)
         
-        let item = app.player.currentItems[indexPath.row]!
+        let item = app.player.currentItems[indexPath.row]
         
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.effect.description

@@ -28,6 +28,13 @@ class GameOverScene: SKScene {
         mainMenuBTN.name = "MainMenu"
         playAgainBTN.name = "PlayAgain"
         
+        mainMenuBTN.fontSize = 40
+        playAgainBTN.fontSize = 40
+        gameOverLabel.fontSize = 75
+        gameOverLabel.fontName = "AvenirNext-Bold"
+        winnerLBL.fontSize = 60
+        messageLBL.fontSize = 45
+        
         addChild(mainMenuBTN)
         addChild(playAgainBTN)
         addChild(gameOverLabel)
