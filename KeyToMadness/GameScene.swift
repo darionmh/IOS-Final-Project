@@ -36,6 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var currentItem:Item?
     var selectedDropItem:Int = 0
     var stats: SKSpriteNode?
+    var playSounds:Bool = false
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
@@ -90,6 +91,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(defaults.boolForKey("Music")){
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
         }
+        
+        playSounds = defaults.boolForKey("Sounds")
         
         addChild(addRoom())
         let jRadius = kAnalogStickdiameter / 2
@@ -303,6 +306,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             let heading = app.player.heading
             var newPos = CGPointZero
             if(validDoor){
+                //Added code for sound effect, but need a sound
+                if(playSounds){
+                    //SKTAudio.sharedInstance().playSoundEffect("door.wav")
+                }
                 if(heading == "North"){
                     newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "character")!.size.height)
                 }else if(heading == "East"){
@@ -506,11 +513,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 else if name == "AttackButton"
                 {
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: true, console: console)
+                    
+                    //See if life changed. If it did, damamge was taken
+                    if("\(app.player.skills["Health"]!)" != livesText.text){
+                        //Need audio
+                        if(playSounds){
+                            //SKTAudio.sharedInstance().playSoundEffect("damageTaken.wav")
+                        }
+                    }else{
+                        //Need audio
+                        if(playSounds){
+                            //SKTAudio.sharedInstance().playSoundEffect("attack.wav")
+                        }
+                    }
+                    
                     livesText.text = "\(app.player.skills["Health"]!)"
                 }
                 else if name == "DefenseButton"
                 {
                     fightOver = app.fightMonsterIOS(activeMonster!, attack: false, console: console)
+                    
+                    //See if life changed. If it did, damamge was taken
+                    if("\(app.player.skills["Health"]!)" != livesText.text){
+                        //Need audio
+                        if(playSounds){
+                            //SKTAudio.sharedInstance().playSoundEffect("damageTaken.wav")
+                        }
+                    }else{
+                        //Need audio
+                        if(playSounds){
+                            //SKTAudio.sharedInstance().playSoundEffect("defend.wav")
+                        }
+                    }
+                    
                     livesText.text = "\(app.player.skills["Health"]!)"
                 }
                 else if name == "MapButton"
@@ -689,6 +724,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var tryToAttack = false
     var tryToRun = false
     func handleMonster(){
+        //Code for monster sound, need to find file
+        if(playSounds){
+           //SKTAudio.sharedInstance().playSoundEffect("monster.wav")
+        }
+        
         moveAnalogStick.trackingHandler = { analogStick in
             
             guard let aN = self.player else { return }
@@ -781,6 +821,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         // prompt user for item pickup if room contains item
         currentItem = room.item
         if(currentItem != nil){
+            //Need audio file
+            if(playSounds){
+                //SKTAudio.sharedInstance().playSoundEffect("itemFound.wav")
+            }
+            
             let alert:UIAlertView
             print(app.player.currentItems.count)
             if(app.player.currentItems.count >= app.player.inventorySpace && currentItem!.type != "Other"){
