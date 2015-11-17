@@ -12,6 +12,7 @@ class MainMenuScene: SKScene {
     let defaults = NSUserDefaults.standardUserDefaults()
     let leftySwitch = UISwitch()
     let musicSwitch = UISwitch()
+    let soundSwitch = UISwitch()
     
     override func didMoveToView(view: SKView) {
         backgroundColor = UIColor.blackColor()
@@ -21,14 +22,16 @@ class MainMenuScene: SKScene {
         start.fontName = "AvenirNext-Bold"
         start.name = "playButton"
         addChild(start)
-        leftySwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.6, 0, 0)
+        
+        leftySwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.8, 0, 0)
         leftySwitch.on = defaults.boolForKey("Lefty")
-        leftySwitch.tag = 26
+        leftySwitch.tag = 27
         leftySwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(leftySwitch)
         let leftyLabel = SKLabelNode(text: "Left Mode: ")
-        leftyLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-leftySwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.4-leftySwitch.frame.height)
+        leftyLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-leftySwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.2-leftySwitch.frame.height)
         addChild(leftyLabel)
+        
         musicSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.4, 0, 0)
         musicSwitch.on = defaults.boolForKey("Music")
         musicSwitch.tag = 25
@@ -37,14 +40,26 @@ class MainMenuScene: SKScene {
         let musicLabel = SKLabelNode(text: "Music: ")
         musicLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-musicSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.6-musicSwitch.frame.height)
         addChild(musicLabel)
+        
+        soundSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.6, 0, 0)
+        soundSwitch.on = defaults.boolForKey("Sounds")
+        soundSwitch.tag = 26
+        soundSwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
+        self.view!.addSubview(soundSwitch)
+        let soundLabel = SKLabelNode(text: "Sounds: ")
+        soundLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-soundSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.4 - soundSwitch.frame.height )
+        addChild(soundLabel)
     }
     
     func switches(sender:UISwitch!){
         if(sender.tag == 26){
-            defaults.setBool(sender.on, forKey: "Lefty")
+            defaults.setBool(sender.on, forKey: "Sounds")
         }
         if(sender.tag == 25){
             defaults.setBool(sender.on, forKey: "Music")
+        }
+        if(sender.tag == 27){
+            defaults.setBool(sender.on, forKey: "Lefty")
         }
     }
     
@@ -63,6 +78,7 @@ class MainMenuScene: SKScene {
             removeAllChildren()
             leftySwitch.removeFromSuperview()
             musicSwitch.removeFromSuperview()
+            soundSwitch.removeFromSuperview()
         }
     }
     
