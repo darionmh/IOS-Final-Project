@@ -287,18 +287,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         case BodyType.player.rawValue | BodyType.door.rawValue:
             let firstNode = contact.bodyA.node
             let secondNode = contact.bodyB.node
-            if(contact.bodyA.categoryBitMask == BodyType.player.rawValue){
-                secondNode?.removeFromParent()
-                door = Int((secondNode?.name!)!)!
-                doorX = (secondNode?.position.x)!
-                doorY = (secondNode?.position.y)!
-                firstNode?.removeFromParent()
-            }else{
-                firstNode?.removeFromParent()
-                door = Int((firstNode?.name!)!)!
-                doorX = (firstNode?.position.x)!
-                doorY = (firstNode?.position.y)!
-                secondNode?.removeFromParent()
+            if(firstNode != nil && secondNode != nil){
+                if(contact.bodyA.categoryBitMask == BodyType.player.rawValue){
+                    secondNode?.removeFromParent()
+                    door = Int((secondNode?.name!)!)!
+                    doorX = (secondNode?.position.x)!
+                    doorY = (secondNode?.position.y)!
+                    firstNode?.removeFromParent()
+                }else{
+                    firstNode?.removeFromParent()
+                    door = Int((firstNode?.name!)!)!
+                    doorX = (firstNode?.position.x)!
+                    doorY = (firstNode?.position.y)!
+                    secondNode?.removeFromParent()
+                }
             }
             removed = true;
         default:
