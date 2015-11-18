@@ -38,6 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var playSounds:Bool = false
     var playerClass:String = "Basic"
     var key:SKSpriteNode = SKSpriteNode()
+    var herbsAction:Bool = false
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
@@ -140,6 +141,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         physicsWorld.contactDelegate = self
         setupLabels()
         updatePlayerClass()
+    }
+    
+    func addCircles() {
+        var count = 0;
+        var remove = 0;
+        let action1 = SKAction.runBlock({
+            let viewMidX = self.view!.bounds.midX
+            let viewMidY = self.view!.bounds.midY
+            
+            let currentBall = SKShapeNode(circleOfRadius: CGFloat(arc4random_uniform(90)+10))
+            currentBall.fillColor = UIColor(red: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, green: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, blue: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, alpha: 0.4)
+            currentBall.lineWidth = 0
+            
+            let xPosition = self.view!.scene!.frame.midX - viewMidX + CGFloat(arc4random_uniform(UInt32(viewMidX*2)))
+            let yPosition = self.view!.scene!.frame.midY - viewMidY + CGFloat(arc4random_uniform(UInt32(viewMidY*2)))
+            
+            currentBall.position = CGPointMake(xPosition,yPosition)
+            currentBall.name = "ball\(count++)"
+            self.addChild(currentBall)
+            print("bubble")
+            if(count == 999999999){
+                count = 11;
+            }
+        })
+        let wait = SKAction.waitForDuration(0.5)
+        let action2 = SKAction.runBlock({
+            if(count > 10){
+                let currentBall = self.childNodeWithName("ball\(remove++)")
+                currentBall!.removeFromParent()
+                if(remove == 999999999){
+                    remove = 11;
+                }
+            }
+        })
+        self.runAction(SKAction.repeatActionForever(SKAction.sequence([action1,wait,action2])), withKey: "herbs")
     }
     
     func addLives(lefty:Bool) -> SKSpriteNode{
@@ -652,8 +688,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         alert.show()
     }
     
+    func checkForHerbs(){
+        var herbs:Bool = false;
+        for item in app.player.currentItems {
+            if(item.name == "\"Herbs\""){
+                if(!herbsAction){addCircles()}
+                herbs = true
+                herbsAction = true
+                break
+            }
+        }
+        if(!herbs && herbsAction){
+            removeActionForKey("herbs")
+            for child in children {
+                if(child.name?.rangeOfString("ball") != nil){
+                    child.removeFromParent()
+                    let wait = SKAction.waitForDuration(0.5)
+                    runAction(wait)
+                    herbsAction = false
+                }
+            }
+        }
+    }
+    
     func handleDoor(door: Int) -> Bool{
         print("handling door method")
+        checkForHerbs()
         updateSkills()
         var validDoor = true
         if(app.currentRoom.attachedRooms[door-1] == nil){
