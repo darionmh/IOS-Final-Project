@@ -748,7 +748,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     app.processEffects()
                     updateSkills()
                     print("done effects")
-                    activeMonster = app.generateMonster()
+                    if(app.unopenedDoors != 0){
+                        activeMonster = app.generateMonster()
+                    }
                     print("gen monster")
                     app.unopenedDoors--
                     print("doors changed")
@@ -1187,6 +1189,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func restartGame(){
+        let action1 = SKAction.runBlock({
+            self.moveAnalogStick.trackingHandler = { analogStick in
+                
+                guard let aN = self.player else { return }
+                
+                aN.position = aN.position
+            }
+            let cover:SKShapeNode = SKShapeNode(rect: CGRectMake(0, 0, self.frame.width, self.frame.height))
+            cover.name = "cover"
+            cover.fillColor = UIColor.blackColor()
+            cover.zPosition = 100
+            cover.alpha = 0;
+            self.addChild(cover)
+        })
+        let action2 = SKAction.runBlock({self.removeChildrenInArray([self.childNodeWithName("cover")!])
+            self.moveAnalogStick.trackingHandler = { analogStick in
+                
+                guard let aN = self.player else { return }
+                
+                aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.08), aN.position.y + (analogStick.data.velocity.y * 0.08))
+                aN.zRotation = analogStick.data.angular
+            }})
+        let fadeIn = SKAction.runBlock({self.childNodeWithName("cover")?.runAction(SKAction.fadeInWithDuration(0.5))})
+        let wait = SKAction.waitForDuration(2.0)
+        let fadeOut = SKAction.runBlock({self.childNodeWithName("cover")?.runAction(SKAction.fadeOutWithDuration(2.0))})
+        self.runAction(SKAction.sequence([action1,fadeIn,wait,fadeOut,wait,action2]))
+        
         let player = app.player
         app = IOSApp()
         app.player = player
@@ -1194,6 +1223,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         app.player.headingNum = 0
         app.player.heading = "North"
         app.unopenedDoors = 3
+        
+        
     }
     
     func generateDoors(){
