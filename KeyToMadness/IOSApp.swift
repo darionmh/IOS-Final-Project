@@ -97,7 +97,7 @@ public class IOSApp {
         if(20-player.skills["Luck"]! <= 0){luck = 1}
         else{luck = UInt32(20-player.skills["Luck"]!)} // subtracting luck increases chance of items
         let chance:Int = Int(arc4random_uniform(luck))
-        if(chance < 3){
+        if(chance < 3 || true){
             var itemData:Array<String>
             repeat{
                 let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount)))
@@ -144,7 +144,7 @@ public class IOSApp {
         if(player.skills["Sanity"]!+5 <= 0){sanity = 1}
         else{sanity = UInt32(player.skills["Sanity"]!+5) }// adding sanity decreases chance of happening
         let chance:Int = Int(arc4random_uniform(sanity))
-        if(chance == 0){
+        if(chance == 0 && false){
             let happeningNum:Int = Int(arc4random_uniform(UInt32(happeningCount)))
             var happeningData:Array<AnyObject> = happenings[happeningNum]
             let effect:String = happeningData[2] as! String

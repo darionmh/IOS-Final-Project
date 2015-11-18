@@ -37,6 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var stats: SKSpriteNode?
     var playSounds:Bool = false
     var playerClass:String = "Basic"
+    var key:SKSpriteNode = SKSpriteNode()
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
@@ -130,6 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         addChild(addRunButton(lefty))
         addChild(addAttackButton(lefty))
         addChild(addDefenseButton(lefty))
+        addChild(addKeyIcon(lefty))
         
         for b in addMenuButtons(lefty){
             addChild(b)
@@ -442,6 +444,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         return monster
     }
     
+    func addKeyIcon(lefty:Bool) -> SKSpriteNode{
+        let keyImage = UIImage(named: "apple")
+        let texture = SKTexture(image: keyImage!)
+        let keyIcon = SKSpriteNode(texture: texture)
+        
+        var x:CGFloat = 0
+        if(lefty){
+            x = 40
+        }else{
+            x = CGRectGetMaxX(self.frame)-CGFloat(40)
+        }
+        keyIcon.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame)*0.85)
+        keyIcon.name = "keyIcon"
+        keyIcon.size = CGSize(width: keyIcon.size.width/2, height: keyIcon.size.height/2)
+        key = keyIcon
+        
+        return keyIcon
+    }
+    
     func addAttackButton(lefty:Bool) -> SKSpriteNode{
         let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
@@ -633,6 +654,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func handleDoor(door: Int) -> Bool{
         print("handling door method")
+        updateSkills()
         var validDoor = true
         if(app.currentRoom.attachedRooms[door-1] == nil){
             // door is value
@@ -664,6 +686,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     }
                     print("effects")
                     app.processEffects()
+                    updateSkills()
                     print("done effects")
                     activeMonster = app.generateMonster()
                     print("gen monster")
@@ -967,6 +990,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }
                 app.player.items.append(currentItem!)
                 app.newEffects.append(currentItem!.effect)
+                if(currentItem!.name == "Key"){
+                    keyFound()
+                }
                 currentItem = nil
                 let health:Int = app.player.skills["Health"]!
                 livesText.text = "\(app.player.skills["Health"]!)"
@@ -982,18 +1008,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func loseItem(){
-        let alert = UIAlertView(title: "Inventory", message: "Discard an item", delegate: self, cancelButtonTitle: "Drop")
+        let alert = UIAlertView(title: "Inventory", message: "Pick an item to give up.", delegate: self, cancelButtonTitle: "Drop")
         let picker = UIPickerView()
         picker.delegate = self
         if(currentItem != nil){
             app.player.currentItems.append(currentItem!)
             app.player.items.append(currentItem!)
             app.newEffects.append(currentItem!.effect)
+            app.processEffects()
+            updateSkills()
         }
         picker.dataSource = self
         alert.setValue(picker, forKey: "accessoryView")
         alert.tag = 888
         alert.show()
+    }
+    
+    func keyFound(){
+        key.texture = SKTexture(image: UIImage(named: "character")!)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
@@ -1007,7 +1039,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 // keep button -- must discard an item
                 loseItem()
             }
-                print(buttonIndex)
+            updateSkills()
         }else if(alertView.tag == 888){
             print(selectedDropItem)
             print(app.player.currentItems)
@@ -1026,6 +1058,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 app.player.skills[removedItem.type]! -= Int.init(effect.description.componentsSeparatedByString(" ")[0][1])!
             }
             currentItem = nil
+            selectedDropItem = 0
             updateSkills()
         }else if(alertView.tag == 94){
             print("exiting?")
@@ -1042,6 +1075,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 scene?.view?.presentScene(nextScene!, transition: transition)
             }
         }
+        updateSkills()
     }
     
     func numberOfComponentsInPickerView(colorPicker: UIPickerView) -> Int {
