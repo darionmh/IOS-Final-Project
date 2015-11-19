@@ -37,6 +37,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var stats: SKSpriteNode?
     var playSounds:Bool = false
     var playerClass:String = "Basic"
+    var key:SKSpriteNode = SKSpriteNode()
+    var herbsAction:Bool = false
     
     private var _isSetJoystickStickImage = false, _isSetJoystickSubstrateImage = false
     
@@ -130,6 +132,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         addChild(addRunButton(lefty))
         addChild(addAttackButton(lefty))
         addChild(addDefenseButton(lefty))
+        addChild(addKeyIcon(lefty))
         
         for b in addMenuButtons(lefty){
             addChild(b)
@@ -138,6 +141,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         physicsWorld.contactDelegate = self
         setupLabels()
         updatePlayerClass()
+    }
+    
+    func addCircles() {
+        var count = 0;
+        var remove = 0;
+        let action1 = SKAction.runBlock({
+            let viewMidX = self.view!.bounds.midX
+            let viewMidY = self.view!.bounds.midY
+            
+            let currentBall = SKShapeNode(circleOfRadius: CGFloat(arc4random_uniform(90)+10))
+            currentBall.fillColor = UIColor(red: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, green: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, blue: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, alpha: 0.4)
+            currentBall.lineWidth = 0
+            
+            let xPosition = self.view!.scene!.frame.midX - viewMidX + CGFloat(arc4random_uniform(UInt32(viewMidX*2)))
+            let yPosition = self.view!.scene!.frame.midY - viewMidY + CGFloat(arc4random_uniform(UInt32(viewMidY*2)))
+            
+            currentBall.position = CGPointMake(xPosition,yPosition)
+            currentBall.name = "ball\(count++)"
+            self.addChild(currentBall)
+            print("bubble")
+            if(count == 999999999){
+                count = 11;
+            }
+        })
+        let wait = SKAction.waitForDuration(0.5)
+        let action2 = SKAction.runBlock({
+            if(count > 10){
+                let currentBall = self.childNodeWithName("ball\(remove++)")
+                currentBall!.removeFromParent()
+                if(remove == 999999999){
+                    remove = 11;
+                }
+            }
+        })
+        self.runAction(SKAction.repeatActionForever(SKAction.sequence([action1,wait,action2])), withKey: "herbs")
     }
     
     func addLives(lefty:Bool) -> SKSpriteNode{
@@ -287,18 +325,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         case BodyType.player.rawValue | BodyType.door.rawValue:
             let firstNode = contact.bodyA.node
             let secondNode = contact.bodyB.node
-            if(contact.bodyA.categoryBitMask == BodyType.player.rawValue){
-                secondNode?.removeFromParent()
-                door = Int((secondNode?.name!)!)!
-                doorX = (secondNode?.position.x)!
-                doorY = (secondNode?.position.y)!
-                firstNode?.removeFromParent()
-            }else{
-                firstNode?.removeFromParent()
-                door = Int((firstNode?.name!)!)!
-                doorX = (firstNode?.position.x)!
-                doorY = (firstNode?.position.y)!
-                secondNode?.removeFromParent()
+            if(firstNode != nil && secondNode != nil){
+                if(contact.bodyA.categoryBitMask == BodyType.player.rawValue){
+                    secondNode?.removeFromParent()
+                    door = Int((secondNode?.name!)!)!
+                    doorX = (secondNode?.position.x)!
+                    doorY = (secondNode?.position.y)!
+                    firstNode?.removeFromParent()
+                }else{
+                    firstNode?.removeFromParent()
+                    door = Int((firstNode?.name!)!)!
+                    doorX = (firstNode?.position.x)!
+                    doorY = (firstNode?.position.y)!
+                    secondNode?.removeFromParent()
+                }
             }
             removed = true;
         default:
@@ -438,6 +478,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         monster.size = CGSize(width: monster.size.width/2, height: monster.size.height/2)
         
         return monster
+    }
+    
+    func addKeyIcon(lefty:Bool) -> SKSpriteNode{
+        let keyImage = UIImage(named: "apple")
+        let texture = SKTexture(image: keyImage!)
+        let keyIcon = SKSpriteNode(texture: texture)
+        
+        var x:CGFloat = 0
+        if(lefty){
+            x = 40
+        }else{
+            x = CGRectGetMaxX(self.frame)-CGFloat(40)
+        }
+        keyIcon.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame)*0.85)
+        keyIcon.name = "keyIcon"
+        keyIcon.size = CGSize(width: keyIcon.size.width/2, height: keyIcon.size.height/2)
+        key = keyIcon
+        
+        return keyIcon
     }
     
     func addAttackButton(lefty:Bool) -> SKSpriteNode{
@@ -629,8 +688,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         alert.show()
     }
     
+    func checkForHerbs(){
+        var herbs:Bool = false;
+        for item in app.player.currentItems {
+            if(item.name == "\"Herbs\""){
+                if(!herbsAction){addCircles()}
+                herbs = true
+                herbsAction = true
+                break
+            }
+        }
+        if(!herbs && herbsAction){
+            removeActionForKey("herbs")
+            for child in children {
+                if(child.name?.rangeOfString("ball") != nil){
+                    child.removeFromParent()
+                    let wait = SKAction.waitForDuration(0.5)
+                    runAction(wait)
+                    herbsAction = false
+                }
+            }
+        }
+    }
+    
     func handleDoor(door: Int) -> Bool{
         print("handling door method")
+        checkForHerbs()
+        updateSkills()
         var validDoor = true
         if(app.currentRoom.attachedRooms[door-1] == nil){
             // door is value
@@ -666,8 +750,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     }
                     print("effects")
                     app.processEffects()
+                    updateSkills()
                     print("done effects")
-                    activeMonster = app.generateMonster()
+                    if(app.unopenedDoors != 0){
+                        activeMonster = app.generateMonster()
+                    }
                     print("gen monster")
                     app.unopenedDoors--
                     print("doors changed")
@@ -969,6 +1056,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 }
                 app.player.items.append(currentItem!)
                 app.newEffects.append(currentItem!.effect)
+                if(currentItem!.name == "Key"){
+                    keyFound()
+                }
                 currentItem = nil
                 let health:Int = app.player.skills["Health"]!
                 livesText.text = "\(app.player.skills["Health"]!)"
@@ -984,18 +1074,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func loseItem(){
-        let alert = UIAlertView(title: "Inventory", message: "Discard an item", delegate: self, cancelButtonTitle: "Drop")
+        let alert = UIAlertView(title: "Inventory", message: "Pick an item to give up.", delegate: self, cancelButtonTitle: "Drop")
         let picker = UIPickerView()
         picker.delegate = self
         if(currentItem != nil){
             app.player.currentItems.append(currentItem!)
             app.player.items.append(currentItem!)
             app.newEffects.append(currentItem!.effect)
+            app.processEffects()
+            updateSkills()
         }
         picker.dataSource = self
         alert.setValue(picker, forKey: "accessoryView")
         alert.tag = 888
         alert.show()
+    }
+    
+    func keyFound(){
+        key.texture = SKTexture(image: UIImage(named: "character")!)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
@@ -1009,7 +1105,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 // keep button -- must discard an item
                 loseItem()
             }
-                print(buttonIndex)
+            updateSkills()
         }else if(alertView.tag == 888){
             print(selectedDropItem)
             print(app.player.currentItems)
@@ -1028,6 +1124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 app.player.skills[removedItem.type]! -= Int.init(effect.description.componentsSeparatedByString(" ")[0][1])!
             }
             currentItem = nil
+            selectedDropItem = 0
             updateSkills()
         }else if(alertView.tag == 94){
             print("exiting?")
@@ -1044,6 +1141,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 scene?.view?.presentScene(nextScene!, transition: transition)
             }
         }
+        updateSkills()
     }
     
     func numberOfComponentsInPickerView(colorPicker: UIPickerView) -> Int {
@@ -1095,6 +1193,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func restartGame(){
+        let action1 = SKAction.runBlock({
+            self.moveAnalogStick.trackingHandler = { analogStick in
+                
+                guard let aN = self.player else { return }
+                
+                aN.position = aN.position
+            }
+            let cover:SKShapeNode = SKShapeNode(rect: CGRectMake(0, 0, self.frame.width, self.frame.height))
+            cover.name = "cover"
+            cover.fillColor = UIColor.blackColor()
+            cover.zPosition = 100
+            cover.alpha = 0;
+            self.addChild(cover)
+        })
+        let action2 = SKAction.runBlock({self.removeChildrenInArray([self.childNodeWithName("cover")!])
+            self.moveAnalogStick.trackingHandler = { analogStick in
+                
+                guard let aN = self.player else { return }
+                
+                aN.position = CGPointMake(aN.position.x + (analogStick.data.velocity.x * 0.08), aN.position.y + (analogStick.data.velocity.y * 0.08))
+                aN.zRotation = analogStick.data.angular
+            }})
+        let fadeIn = SKAction.runBlock({self.childNodeWithName("cover")?.runAction(SKAction.fadeInWithDuration(0.5))})
+        let wait = SKAction.waitForDuration(2.0)
+        let fadeOut = SKAction.runBlock({self.childNodeWithName("cover")?.runAction(SKAction.fadeOutWithDuration(2.0))})
+        self.runAction(SKAction.sequence([action1,fadeIn,wait,fadeOut,wait,action2]))
+        
         let player = app.player
         app = IOSApp()
         app.player = player
@@ -1102,6 +1227,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         app.player.headingNum = 0
         app.player.heading = "North"
         app.unopenedDoors = 3
+        
+        
     }
     
     func generateDoors(){
