@@ -87,6 +87,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         print(defaults.boolForKey("Music"))
         if(defaults.boolForKey("Music")){
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
+            SKTAudio.sharedInstance().pauseBackgroundMusic()
+            SKTAudio.sharedInstance().backgroundMusicPlayer!.volume = 0.2
+            SKTAudio.sharedInstance().resumeBackgroundMusic()
         }
         
         playSounds = defaults.boolForKey("Sounds")
@@ -876,9 +879,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var tryToAttack = false
     var tryToRun = false
     func handleMonster(){
-        if(playSounds){
-           SKTAudio.sharedInstance().playSoundEffect("monster.wav")
-        }
+        
         
         moveAnalogStick.trackingHandler = { analogStick in
             
@@ -898,6 +899,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         print("prompting for monster")
         print(activeMonster!.toString())
         console.text = "You encounter a monster! \(activeMonster!.toString())"
+        
+        if(playSounds){
+            SKTAudio.sharedInstance().playSoundEffect("monster.wav")
+        }
     }
     
     func battleDone(){
