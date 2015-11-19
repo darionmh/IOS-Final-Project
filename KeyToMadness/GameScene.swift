@@ -655,6 +655,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description) \(newRoom.happening!.effect.description)"
                         print(newRoom.happening!.effect.description)
                         if(newRoom.happening!.effect.description == "Lose an item" && app.player.currentItems.count > 0){
+                            if(playSounds){
+                                //Need audio
+                                //SKTAudio.sharedInstance().playSoundEffect("monkey.wav")
+                            }
                             loseItem()
                         }
                     }else{
