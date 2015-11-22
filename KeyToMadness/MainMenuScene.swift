@@ -15,30 +15,37 @@ class MainMenuScene: SKScene {
     let soundSwitch = UISwitch()
     
     override func didMoveToView(view: SKView) {
-        backgroundColor = UIColor.blackColor()
+        let bgImage = SKSpriteNode(imageNamed: "splash-Screen.png")
+        bgImage.size.width = self.frame.width
+        bgImage.size.height = self.frame.height
+        bgImage.position = CGPointMake(self.size.width/2, self.size.height/2)
+        bgImage.zPosition = -100
+        self.addChild(bgImage)
         let start:SKLabelNode = SKLabelNode(text: "Play Game")
-        start.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame)*0.8)
+        start.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame)*0.65)
         start.fontSize = 75
         start.fontName = "AvenirNext-Bold"
         start.name = "playButton"
         addChild(start)
         
-        leftySwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.8, 0, 0)
+        leftySwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.53, 0, 0)
         leftySwitch.on = defaults.boolForKey("Lefty")
         leftySwitch.tag = 27
         leftySwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(leftySwitch)
         let leftyLabel = SKLabelNode(text: "Left Mode: ")
-        leftyLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-leftySwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.2-leftySwitch.frame.height)
+        leftyLabel.fontName = "AvenirNext-Bold"
+        leftyLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-leftySwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.475-leftySwitch.frame.height)
         addChild(leftyLabel)
         
-        musicSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.4, 0, 0)
+        musicSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.46, 0, 0)
         musicSwitch.on = defaults.boolForKey("Music")
         musicSwitch.tag = 25
         musicSwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(musicSwitch)
         let musicLabel = SKLabelNode(text: "Music: ")
-        musicLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-musicSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.6-musicSwitch.frame.height)
+        musicLabel.fontName = "AvenirNext-Bold"
+        musicLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-musicSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.55-musicSwitch.frame.height)
         addChild(musicLabel)
         
         soundSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.6, 0, 0)
@@ -47,6 +54,7 @@ class MainMenuScene: SKScene {
         soundSwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(soundSwitch)
         let soundLabel = SKLabelNode(text: "Sounds: ")
+        soundLabel.fontName = "AvenirNext-Bold"
         soundLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-soundSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.4 - soundSwitch.frame.height )
         addChild(soundLabel)
     }
