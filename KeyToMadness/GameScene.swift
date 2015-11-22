@@ -433,7 +433,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addBattleButton(lefty:Bool) -> SKSpriteNode {
-        let attackImage = UIImage(named: "sword")
+        let attackImage = UIImage(named: "swordButton")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         
@@ -483,7 +483,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addKeyIcon(lefty:Bool) -> SKSpriteNode{
-        let keyImage = UIImage(named: "apple")
+        let keyImage = UIImage(named: "keyshadow")
         let texture = SKTexture(image: keyImage!)
         let keyIcon = SKSpriteNode(texture: texture)
         
@@ -502,7 +502,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addAttackButton(lefty:Bool) -> SKSpriteNode{
-        let attackImage = UIImage(named: "sword")
+        let attackImage = UIImage(named: "swordButton")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         attackButton.size.width = CGRectGetMaxX(self.frame)/10
@@ -1013,7 +1013,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 let itemImage:UIImageView = UIImageView(frame: CGRectMake(0, 0, 50, 50))
                 let itemName:UILabel = UILabel(frame: CGRectMake(55,0,200,24))
                 let itemEffect:UILabel = UILabel(frame: CGRectMake(55,30,200,24))
-                itemImage.image = UIImage(named: "apple")
+                itemImage.image = UIImage(named: currentItem!.name)
                 itemImage.sizeToFit()
                 itemName.text = currentItem!.name
                 itemName.sizeToFit()
@@ -1034,7 +1034,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 let itemImage:UIImageView = UIImageView(frame: CGRectMake(0, 0, 50, 50))
                 let itemName:UILabel = UILabel(frame: CGRectMake(60,0,200,24))
                 let itemEffect:UILabel = UILabel(frame: CGRectMake(60,30,200,24))
-                itemImage.image = UIImage(named: "apple")
+                itemImage.image = UIImage(named: currentItem!.name)
                 itemImage.sizeToFit()
                 itemName.text = currentItem!.name
                 itemName.sizeToFit()
@@ -1089,7 +1089,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func keyFound(){
-        key.texture = SKTexture(image: UIImage(named: "character")!)
+        key.texture = SKTexture(image: UIImage(named: "Key")!)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
@@ -1173,7 +1173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             v.translatesAutoresizingMaskIntoConstraints = true
         }
         let itemImage:UIImageView = v.viewWithTag(333) as! UIImageView
-        itemImage.image = UIImage(named: "apple")
+        itemImage.image = UIImage(named: app.player.currentItems[row].name)
         
         let itemName:UILabel = v.viewWithTag(111) as! UILabel
         itemName.text = app.player.currentItems[row].name
