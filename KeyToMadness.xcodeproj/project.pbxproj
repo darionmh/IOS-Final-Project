@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		1E3ADB121BDAF1D30053FD5F /* theme.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E3ADB111BDAF1D30053FD5F /* theme.wav */; };
 		1E3ADB141BDC51D40053FD5F /* SKAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3ADB131BDC51D40053FD5F /* SKAudio.swift */; };
+		1E3B504A1BFE47E00081A32D /* monkey.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E3B50491BFE47E00081A32D /* monkey.wav */; };
+		1E3B504C1BFE48910081A32D /* itemFound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1E3B504B1BFE48910081A32D /* itemFound.mp3 */; };
+		1E3B504E1BFE490F0081A32D /* damageTaken.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E3B504D1BFE490F0081A32D /* damageTaken.wav */; };
+		1E3B50501BFE498D0081A32D /* defend.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E3B504F1BFE498D0081A32D /* defend.wav */; };
+		1E3B50521BFE4A080081A32D /* attack.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E3B50511BFE4A080081A32D /* attack.wav */; };
+		1E3B50541BFE4A830081A32D /* monster.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E3B50531BFE4A830081A32D /* monster.wav */; };
+		1E3B50561BFE4ACC0081A32D /* door.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E3B50551BFE4ACC0081A32D /* door.wav */; };
 		473F3F5D1BC7481D00D42327 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F5C1BC7481D00D42327 /* AppDelegate.swift */; };
 		473F3F5F1BC7481D00D42327 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 473F3F5E1BC7481D00D42327 /* GameScene.sks */; };
 		473F3F611BC7481D00D42327 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473F3F601BC7481D00D42327 /* GameScene.swift */; };
@@ -58,6 +65,13 @@
 /* Begin PBXFileReference section */
 		1E3ADB111BDAF1D30053FD5F /* theme.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = theme.wav; sourceTree = "<group>"; };
 		1E3ADB131BDC51D40053FD5F /* SKAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKAudio.swift; sourceTree = "<group>"; };
+		1E3B50491BFE47E00081A32D /* monkey.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = monkey.wav; sourceTree = "<group>"; };
+		1E3B504B1BFE48910081A32D /* itemFound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = itemFound.mp3; sourceTree = "<group>"; };
+		1E3B504D1BFE490F0081A32D /* damageTaken.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = damageTaken.wav; sourceTree = "<group>"; };
+		1E3B504F1BFE498D0081A32D /* defend.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = defend.wav; sourceTree = "<group>"; };
+		1E3B50511BFE4A080081A32D /* attack.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack.wav; sourceTree = "<group>"; };
+		1E3B50531BFE4A830081A32D /* monster.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = monster.wav; sourceTree = "<group>"; };
+		1E3B50551BFE4ACC0081A32D /* door.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = door.wav; sourceTree = "<group>"; };
 		473F3F591BC7481D00D42327 /* KeyToMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KeyToMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		473F3F5C1BC7481D00D42327 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		473F3F5E1BC7481D00D42327 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -153,6 +167,13 @@
 				473F3F671BC7481D00D42327 /* Assets.xcassets */,
 				473F3F691BC7481D00D42327 /* LaunchScreen.storyboard */,
 				1E3ADB111BDAF1D30053FD5F /* theme.wav */,
+				1E3B50491BFE47E00081A32D /* monkey.wav */,
+				1E3B504B1BFE48910081A32D /* itemFound.mp3 */,
+				1E3B504D1BFE490F0081A32D /* damageTaken.wav */,
+				1E3B504F1BFE498D0081A32D /* defend.wav */,
+				1E3B50511BFE4A080081A32D /* attack.wav */,
+				1E3B50531BFE4A830081A32D /* monster.wav */,
+				1E3B50551BFE4ACC0081A32D /* door.wav */,
 				473F3F6C1BC7481D00D42327 /* Info.plist */,
 				473F3F8E1BC7484400D42327 /* Item.swift */,
 				473F3F901BC7484D00D42327 /* Player.swift */,
@@ -299,14 +320,21 @@
 			files = (
 				1E3ADB121BDAF1D30053FD5F /* theme.wav in Resources */,
 				473F3F5F1BC7481D00D42327 /* GameScene.sks in Resources */,
+				1E3B504C1BFE48910081A32D /* itemFound.mp3 in Resources */,
+				1E3B50521BFE4A080081A32D /* attack.wav in Resources */,
 				473F3F6B1BC7481D00D42327 /* LaunchScreen.storyboard in Resources */,
 				47C4CE081BD4363800074668 /* gameData.plist in Resources */,
 				47C4CE001BD4349200074668 /* apple.png in Resources */,
 				477890441BF1A49F00F4608E /* MainMenuScene.sks in Resources */,
+				1E3B504E1BFE490F0081A32D /* damageTaken.wav in Resources */,
 				473F3F681BC7481D00D42327 /* Assets.xcassets in Resources */,
 				473F3F661BC7481D00D42327 /* Main.storyboard in Resources */,
+				1E3B50501BFE498D0081A32D /* defend.wav in Resources */,
+				1E3B504A1BFE47E00081A32D /* monkey.wav in Resources */,
 				47CF914B1BF41026006C5FDB /* GameOverScene.sks in Resources */,
 				479145431BF91264005C71C5 /* ClassPickerScene.sks in Resources */,
+				1E3B50561BFE4ACC0081A32D /* door.wav in Resources */,
+				1E3B50541BFE4A830081A32D /* monster.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

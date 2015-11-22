@@ -87,6 +87,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         print(defaults.boolForKey("Music"))
         if(defaults.boolForKey("Music")){
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
+            SKTAudio.sharedInstance().pauseBackgroundMusic()
+            SKTAudio.sharedInstance().backgroundMusicPlayer!.volume = 0.2
+            SKTAudio.sharedInstance().resumeBackgroundMusic()
         }
         
         playSounds = defaults.boolForKey("Sounds")
@@ -354,9 +357,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             let heading = app.player.heading
             var newPos = CGPointZero
             if(validDoor){
-                //Added code for sound effect, but need a sound
                 if(playSounds){
-                    //SKTAudio.sharedInstance().playSoundEffect("door.wav")
+                    SKTAudio.sharedInstance().playSoundEffect("door.wav")
                 }
                 if(heading == "North"){
                     newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "character")!.size.height)
@@ -584,14 +586,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     
                     //See if life changed. If it did, damamge was taken
                     if("\(app.player.skills["Health"]!)" != livesText.text){
-                        //Need audio
+
                         if(playSounds){
-                            //SKTAudio.sharedInstance().playSoundEffect("damageTaken.wav")
+                            SKTAudio.sharedInstance().playSoundEffect("damageTaken.wav")
                         }
                     }else{
-                        //Need audio
                         if(playSounds){
-                            //SKTAudio.sharedInstance().playSoundEffect("attack.wav")
+                            SKTAudio.sharedInstance().playSoundEffect("attack.wav")
                         }
                     }
                     
@@ -610,14 +611,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     
                     //See if life changed. If it did, damamge was taken
                     if("\(app.player.skills["Health"]!)" != livesText.text){
-                        //Need audio
                         if(playSounds){
-                            //SKTAudio.sharedInstance().playSoundEffect("damageTaken.wav")
+                            SKTAudio.sharedInstance().playSoundEffect("damageTaken.wav")
                         }
                     }else{
-                        //Need audio
                         if(playSounds){
-                            //SKTAudio.sharedInstance().playSoundEffect("defend.wav")
+                            SKTAudio.sharedInstance().playSoundEffect("defend.wav")
                         }
                     }
                     
@@ -739,6 +738,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         console.text = "\(newRoom.happening!.name): \(newRoom.happening!.description) \(newRoom.happening!.effect.description)"
                         print(newRoom.happening!.effect.description)
                         if(newRoom.happening!.effect.description == "Lose an item" && app.player.currentItems.count > 0){
+                            if(playSounds){
+                                SKTAudio.sharedInstance().playSoundEffect("monkey.wav")
+                            }
                             loseItem()
                         }
                     }else{
@@ -877,10 +879,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var tryToAttack = false
     var tryToRun = false
     func handleMonster(){
-        //Code for monster sound, need to find file
-        if(playSounds){
-           //SKTAudio.sharedInstance().playSoundEffect("monster.wav")
-        }
+        
         
         moveAnalogStick.trackingHandler = { analogStick in
             
@@ -900,6 +899,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         print("prompting for monster")
         print(activeMonster!.toString())
         console.text = "You encounter a monster! \(activeMonster!.toString())"
+        
+        if(playSounds){
+            SKTAudio.sharedInstance().playSoundEffect("monster.wav")
+        }
     }
     
     func battleDone(){
@@ -978,9 +981,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         // prompt user for item pickup if room contains item
         currentItem = room.item
         if(currentItem != nil){
-            //Need audio file
             if(playSounds){
-                //SKTAudio.sharedInstance().playSoundEffect("itemFound.wav")
+                SKTAudio.sharedInstance().playSoundEffect("itemFound.mp3")
             }
             
             let alert:UIAlertView
