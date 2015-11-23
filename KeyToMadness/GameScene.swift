@@ -486,7 +486,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         let keyImage = UIImage(named: "keyshadow")
         let texture = SKTexture(image: keyImage!)
         let keyIcon = SKSpriteNode(texture: texture)
-        
+        keyIcon.zPosition = 100
         var x:CGFloat = 0
         if(lefty){
             x = 40
@@ -495,7 +495,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         }
         keyIcon.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame)*0.85)
         keyIcon.name = "keyIcon"
-        keyIcon.size = CGSize(width: keyIcon.size.width/2, height: keyIcon.size.height/2)
+        keyIcon.size = CGSize(width: keyIcon.size.width, height: keyIcon.size.height)
         key = keyIcon
         
         return keyIcon
@@ -1181,6 +1181,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         let itemEffect:UILabel = v.viewWithTag(222) as! UILabel
         itemEffect.text = app.player.currentItems[row].effect.description
         
+        var color:UIColor = UIColor.orangeColor()
+        switch(app.player.currentItems[row].type){
+        case "Attack"://red
+            color = UIColor(red: 255.0/255, green: 105.0/255, blue: 97.0/255, alpha: 1.0)
+        case "Defense"://blue
+            color = UIColor(red: 174.0/255, green: 198.0/255, blue: 203.0/255, alpha: 1.0)
+        case "Stealth"://grey
+            color = UIColor(red: 207.0/255, green: 207.0/255, blue: 196.0/255, alpha: 1.0)
+        case "Luck"://green
+            color = UIColor(red: 119.0/255, green: 190.0/255, blue: 119.0/255, alpha: 1.0)
+        case "Evasion"://purple
+            color = UIColor(red: 179.0/255, green: 158.0/255, blue: 181.0/255, alpha: 1.0)
+        case "Sanity"://yellow
+            color = UIColor(red: 253.0/255, green: 253.0/255, blue: 150.0/255, alpha: 1.0)
+        default://pink
+            color = UIColor(red: 255.0/255, green: 209.0/255, blue: 220.0/255, alpha: 1.0)
+        }
+        
+        v.backgroundColor = color
         v.sizeToFit()
         
         return v
