@@ -574,15 +574,15 @@
 		</array>
 		<array>
 			<string>Potion</string>
-			<string>Bottoms up</string>
-			<string>+1 Luck</string>
+			<string>You can almost see through it, or through you</string>
+			<string>+1 Stealth</string>
 			<string>Other</string>
 		</array>
 		<array>
 			<string>Potion</string>
-			<string>You can almost see through it, or through you</string>
-			<string>+1 Stealth</string>
-			<string>Other</string>
+			<string>Bottoms up</string>
+			<string>+1 Luck</string>
+			<string>Others</string>
 		</array>
 	</array>
 </dict>
