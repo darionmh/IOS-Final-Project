@@ -97,7 +97,7 @@ public class IOSApp {
         if(20-player.skills["Luck"]! <= 0){luck = 1}
         else{luck = UInt32(20-player.skills["Luck"]!)} // subtracting luck increases chance of items
         let chance:Int = Int(arc4random_uniform(luck))
-        if(chance < 3){
+        if(chance < 3 || true){
             var itemData:Array<String>
             repeat{
                 let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount)))
@@ -310,7 +310,7 @@ public class IOSApp {
         if(UInt32(player.skills["Stealth"]!+10) <= 0){stealth = 1}
         else{stealth = UInt32(player.skills["Stealth"]!+10)} // adding stealth decreases chance of a monster
         let chance:Int = Int(arc4random_uniform(stealth))
-        if(chance == 0){
+        if(chance == 0 && false){
             monster = Monster(location: currentRoom)
             monstersInGame.append(monster!)
             foundMonster = true
