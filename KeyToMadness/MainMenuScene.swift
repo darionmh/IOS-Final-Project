@@ -13,32 +13,45 @@ class MainMenuScene: SKScene {
     let leftySwitch = UISwitch()
     let musicSwitch = UISwitch()
     let soundSwitch = UISwitch()
+    var bgImage = SKSpriteNode()
+    var start = SKLabelNode()
+    var leftyLabel = SKLabelNode()
+    var musicLabel = SKLabelNode()
+    var soundLabel = SKLabelNode()
     
     override func didMoveToView(view: SKView) {
         backgroundColor = UIColor.blackColor()
-        let start:SKLabelNode = SKLabelNode(text: "Play Game")
-        start.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame)*0.8)
+        bgImage = SKSpriteNode(imageNamed: "splash-Screen.png")
+        bgImage.size.width = self.frame.width
+        bgImage.size.height = self.frame.height
+        bgImage.position = CGPointMake(self.size.width/2, self.size.height/2)
+        bgImage.zPosition = -100
+        self.addChild(bgImage)
+        start = SKLabelNode(text: "Play Game")
+        start.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame)*0.65)
         start.fontSize = 75
         start.fontName = "AvenirNext-Bold"
         start.name = "playButton"
         addChild(start)
         
-        leftySwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.8, 0, 0)
+        leftySwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.53, 0, 0)
         leftySwitch.on = defaults.boolForKey("Lefty")
         leftySwitch.tag = 27
         leftySwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(leftySwitch)
-        let leftyLabel = SKLabelNode(text: "Left Mode: ")
-        leftyLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-leftySwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.2-leftySwitch.frame.height)
+        leftyLabel = SKLabelNode(text: "Left Mode: ")
+        leftyLabel.fontName = "AvenirNext-Bold"
+        leftyLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-leftySwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.475-leftySwitch.frame.height)
         addChild(leftyLabel)
         
-        musicSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.4, 0, 0)
+        musicSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.46, 0, 0)
         musicSwitch.on = defaults.boolForKey("Music")
         musicSwitch.tag = 25
         musicSwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(musicSwitch)
-        let musicLabel = SKLabelNode(text: "Music: ")
-        musicLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-musicSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.6-musicSwitch.frame.height)
+        musicLabel = SKLabelNode(text: "Music: ")
+        musicLabel.fontName = "AvenirNext-Bold"
+        musicLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-musicSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.55-musicSwitch.frame.height)
         addChild(musicLabel)
         
         soundSwitch.frame = CGRectMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.6, 0, 0)
@@ -46,7 +59,8 @@ class MainMenuScene: SKScene {
         soundSwitch.tag = 26
         soundSwitch.addTarget(self, action: "switches:", forControlEvents: .ValueChanged)
         self.view!.addSubview(soundSwitch)
-        let soundLabel = SKLabelNode(text: "Sounds: ")
+        soundLabel = SKLabelNode(text: "Sounds: ")
+        soundLabel.fontName = "AvenirNext-Bold"
         soundLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-soundSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.4 - soundSwitch.frame.height )
         addChild(soundLabel)
     }
@@ -69,16 +83,30 @@ class MainMenuScene: SKScene {
         let touchedNode = self.nodeAtPoint(location)
         
         if touchedNode.name == "playButton"{
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
-            
-            let nextScene = ClassPickerScene(fileNamed: "ClassPickerScene")
-            nextScene!.scaleMode = .AspectFill
-            
-            scene?.view?.presentScene(nextScene!, transition: transition)
-            removeAllChildren()
+            //removeAllChildren()
             leftySwitch.removeFromSuperview()
             musicSwitch.removeFromSuperview()
             soundSwitch.removeFromSuperview()
+            leftyLabel.removeFromParent()
+            musicLabel.removeFromParent()
+            soundLabel.removeFromParent()
+            start.removeFromParent()
+            
+            let action = SKAction.runBlock({
+                //removeAllChildren()
+                let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+                
+                let nextScene = ClassPickerScene(fileNamed: "ClassPickerScene")
+                nextScene!.scaleMode = .AspectFill
+                
+                self.scene?.view?.presentScene(nextScene!, transition: transition)
+            })
+
+            let fadeIn = SKAction.runBlock({self.bgImage.runAction(SKAction.scaleBy(10, duration: 3.0))})
+            let wait = SKAction.waitForDuration(2.0)
+            let fadeOut = SKAction.runBlock({self.runAction(SKAction.fadeOutWithDuration(2.0))})
+            self.runAction(SKAction.sequence([fadeIn,wait,fadeOut,wait,action]))
+            
         }
     }
     

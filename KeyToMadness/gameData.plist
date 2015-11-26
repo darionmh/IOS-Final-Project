@@ -381,13 +381,13 @@
 			<string>Evasion</string>
 		</array>
 		<array>
-			<string>Flash Bang Grenade</string>
+			<string>Flashbang</string>
 			<string>Military issue flash bang</string>
 			<string>+4 Evasion</string>
 			<string>Evasion</string>
 		</array>
 		<array>
-			<string>Jet Pack</string>
+			<string>Jetpack</string>
 			<string>Seriously!? A Jet Pack!</string>
 			<string>+5 Evasion</string>
 			<string>Evasion</string>
@@ -447,13 +447,13 @@
 			<string>Defense</string>
 		</array>
 		<array>
-			<string>Suit of Knights Armor</string>
+			<string>Suit of Armor</string>
 			<string>It might be fake, but it should help</string>
 			<string>+5 Defense</string>
 			<string>Defense</string>
 		</array>
 		<array>
-			<string>A Flower</string>
+			<string>Flower</string>
 			<string>Roses are red, Violets are blue</string>
 			<string>+1 Sanity</string>
 			<string>Sanity</string>
@@ -549,40 +549,40 @@
 			<string>Other</string>
 		</array>
 		<array>
-			<string>Purple Potion</string>
+			<string>Potion</string>
 			<string>You should drink it</string>
 			<string>+1 Evasion</string>
 			<string>Other</string>
 		</array>
 		<array>
-			<string>Red Potion</string>
+			<string>Potion</string>
 			<string>This will make me strong</string>
 			<string>+1 Attack</string>
 			<string>Other</string>
 		</array>
 		<array>
-			<string>Blue Potion</string>
+			<string>Potion</string>
 			<string>You feel your skin harden</string>
 			<string>+1 Defense</string>
 			<string>Other</string>
 		</array>
 		<array>
-			<string>Yellow Potion</string>
+			<string>Potion</string>
 			<string>To stay sane or go insane</string>
 			<string>+1 Sanity</string>
 			<string>Other</string>
 		</array>
 		<array>
-			<string>Green Potion</string>
-			<string>Bottoms up</string>
-			<string>+1 Luck</string>
-			<string>Other</string>
-		</array>
-		<array>
-			<string>Gray Potion</string>
+			<string>Potion</string>
 			<string>You can almost see through it, or through you</string>
 			<string>+1 Stealth</string>
 			<string>Other</string>
+		</array>
+		<array>
+			<string>Potion</string>
+			<string>Bottoms up</string>
+			<string>+1 Luck</string>
+			<string>Others</string>
 		</array>
 	</array>
 </dict>

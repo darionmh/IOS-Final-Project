@@ -103,7 +103,7 @@ public class IOSApp {
                 let itemNumber:Int = Int(arc4random_uniform(UInt32(itemCount)))
                 itemData = items[itemNumber]
                 item = Item(name: itemData[0], description: itemData[1], effect: Effect(description: itemData[2]), type: itemData[3])
-            }while((player.items.indexOf(item!) != nil || item!.type == "Other" || (itemData[0] == "Key" && roomCounter < 10)))
+            }while((player.items.indexOf(item!) != nil || (itemData[0] == "Key" && roomCounter < 10)))
             if(player.items.indexOf(item!) == nil || item!.type == "Other") {
                 print("checking item")
                 print("\(item!.description) \(item!.name) \(item!.effect.description) \(item!.type)")
