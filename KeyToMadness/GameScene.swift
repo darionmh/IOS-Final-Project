@@ -433,7 +433,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addBattleButton(lefty:Bool) -> SKSpriteNode {
-        let attackImage = UIImage(named: "swordButton")
+        let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         
@@ -483,7 +483,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addKeyIcon(lefty:Bool) -> SKSpriteNode{
-        let keyImage = UIImage(named: "keyshadow")
+        //need to change
+        let keyImage = UIImage(named: "sword")
         let texture = SKTexture(image: keyImage!)
         let keyIcon = SKSpriteNode(texture: texture)
         keyIcon.zPosition = 100
@@ -502,7 +503,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addAttackButton(lefty:Bool) -> SKSpriteNode{
-        let attackImage = UIImage(named: "swordButton")
+        let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         attackButton.size.width = CGRectGetMaxX(self.frame)/10
@@ -1086,8 +1087,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         alert.show()
     }
     
+    //change
     func keyFound(){
-        key.texture = SKTexture(image: UIImage(named: "Key")!)
+        key.texture = SKTexture(image: UIImage(named: "apple")!)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
