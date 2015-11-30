@@ -34,6 +34,16 @@ public class SKTAudio {
         return SKTAudioInstance
     }
     
+    public class func privateInstance() -> SKTAudio {
+        return SKTAudio()
+    }
+    
+    public func stopSoundEffect() {
+        soundEffectPlayer?.stop()
+    }
+    
+    
+    
     public func playBackgroundMusic(filename: String) {
         let url = NSBundle.mainBundle().URLForResource(filename, withExtension: nil)
         if (url == nil) {

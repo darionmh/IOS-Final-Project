@@ -357,7 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             let heading = app.player.heading
             var newPos = CGPointZero
             if(validDoor){
-                if(playSounds){
+                if(playSounds && SKTAudio.sharedInstance().soundEffectPlayer?.playing == false){
                     SKTAudio.sharedInstance().playSoundEffect("door.wav")
                 }
                 if(heading == "North"){
@@ -478,13 +478,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         monster.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
         monster.name = "Monster"
         monster.size = CGSize(width: monster.size.width/2, height: monster.size.height/2)
+        if(playSounds){
+           SKTAudio.sharedInstance().playSoundEffect("monster.wav")
+        }
+        
         
         return monster
     }
     
     func addKeyIcon(lefty:Bool) -> SKSpriteNode{
         //need to change
-        let keyImage = UIImage(named: "sword")
+        let keyImage = UIImage(named: "keyshadow")
         let texture = SKTexture(image: keyImage!)
         let keyIcon = SKSpriteNode(texture: texture)
         keyIcon.zPosition = 100
@@ -521,7 +525,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addDefenseButton(lefty:Bool) -> SKSpriteNode{
-        let defenseImage = UIImage(named: "DefenseButton")
+        let defenseImage = UIImage(named: "shield")
         let texture = SKTexture(image: defenseImage!)
         let defenseButton = SKSpriteNode(texture: texture)
         defenseButton.size.width = CGRectGetMaxX(self.frame)/10
@@ -880,9 +884,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var tryToAttack = false
     var tryToRun = false
     func handleMonster(){
-        if(playSounds){
-            SKTAudio.sharedInstance().playSoundEffect("monster.wav")
-        }
         
         moveAnalogStick.trackingHandler = { analogStick in
             
@@ -1089,7 +1090,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     //change
     func keyFound(){
-        key.texture = SKTexture(image: UIImage(named: "apple")!)
+        key.texture = SKTexture(image: UIImage(named: "key")!)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
