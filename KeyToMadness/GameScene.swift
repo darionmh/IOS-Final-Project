@@ -80,10 +80,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        showInstructions(self)
+        //showInstructions(self)
         backgroundColor = UIColor.blackColor()
         
         let defaults = NSUserDefaults.standardUserDefaults()
+        print("here")
         print(defaults.boolForKey("Music"))
         if(defaults.boolForKey("Music")){
             SKTAudio.sharedInstance().playBackgroundMusic("theme.wav")
@@ -441,7 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addBattleButton(lefty:Bool) -> SKSpriteNode {
-        let attackImage = UIImage(named: "sword")
+        let attackImage = UIImage(named: "swordButton")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         
@@ -515,7 +516,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addAttackButton(lefty:Bool) -> SKSpriteNode{
-        let attackImage = UIImage(named: "sword")
+        let attackImage = UIImage(named: "swordButton")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         attackButton.size.width = CGRectGetMaxX(self.frame)/10
@@ -533,7 +534,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addDefenseButton(lefty:Bool) -> SKSpriteNode{
-        let defenseImage = UIImage(named: "shield")
+        let defenseImage = UIImage(named: "defenseButton")
         let texture = SKTexture(image: defenseImage!)
         let defenseButton = SKSpriteNode(texture: texture)
         defenseButton.size.width = CGRectGetMaxX(self.frame)/10
