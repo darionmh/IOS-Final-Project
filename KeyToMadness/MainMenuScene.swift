@@ -96,7 +96,7 @@ class MainMenuScene: SKScene {
                 //removeAllChildren()
                 let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
                 
-                let nextScene = ClassPickerScene(fileNamed: "ClassPickerScene")
+                let nextScene = InstructionScene(fileNamed: "InstructionScene")
                 nextScene!.scaleMode = .AspectFill
                 
                 self.scene?.view?.presentScene(nextScene!, transition: transition)

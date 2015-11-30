@@ -33,8 +33,10 @@ class ClassPickerScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         
         let playBTN:SKLabelNode = SKLabelNode(text: "Start Game")
         playBTN.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)*0.2)
-        playBTN.fontSize = 40
+        playBTN.fontSize = 65
         playBTN.name = "playBTN"
+        playBTN.fontName = "AvenirNext-Bold"
+        playBTN.fontColor = UIColor.greenColor()
         addChild(playBTN)
     }
     

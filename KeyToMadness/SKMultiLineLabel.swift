@@ -25,7 +25,7 @@ class SKMultilineLabel: SKNode {
     var rect:SKShapeNode?
     var labels:[SKLabelNode] = []
     
-    init(text:String, labelWidth:Int, pos:CGPoint, fontName:String="ChalkboardSE-Regular",fontSize:CGFloat=20,fontColor:UIColor=UIColor.blackColor(),leading:Int=10, alignment:SKLabelHorizontalAlignmentMode = .Center, shouldShowBorder:Bool = false)
+    init(text:String, labelWidth:Int, pos:CGPoint, fontName:String="ChalkboardSE-Regular",fontSize:CGFloat=20,fontColor:UIColor=UIColor.blackColor(),leading:Int=20, alignment:SKLabelHorizontalAlignmentMode = .Center, shouldShowBorder:Bool = false)
     {
         self.text = text
         self.labelWidth = labelWidth
@@ -105,7 +105,7 @@ class SKMultilineLabel: SKNode {
                 } else if (alignment == .Right) {
                     linePos.x += CGFloat(labelWidth / 2)
                 }
-                linePos.y += CGFloat(-leading * lineCount)
+                linePos.y += CGFloat(-leading * lineCount+leading)
                 if(lineCount == 1){linePos.y = 5}
                 label.position = CGPointMake( linePos.x , linePos.y )
                 self.addChild(label)
