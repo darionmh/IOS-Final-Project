@@ -415,17 +415,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             x = CGRectGetMaxX(self.frame) * 0.99 - size.width/2
         }
         
-        let mapButton = SKSpriteNode(color: UIColor.grayColor(), size: size)
+        
+        let mapButton = SKSpriteNode(imageNamed: "map")
+        mapButton.size = size
         //mapButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.99 - size.height)
         mapButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.8 - size.height)
         mapButton.name = "MapButton"
         
-        let inventoryButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
+        //let inventoryButton = SKSpriteNode(color: UIColor.greenColor(), size: size)
+        let inventoryButton = SKSpriteNode(imageNamed: "Extra Bag")
+        inventoryButton.size = size
         //instructionsButton.position = CGPoint(x: mapButton.frame.midX, y: mapButton.frame.minY - CGRectGetMaxX(self.frame) * 0.01 - size.height/2)
         inventoryButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) * 0.6 - size.height)
         inventoryButton.name = "InventoryButton"
         
-        let exitButton = SKSpriteNode(color: UIColor.blueColor(), size: size)
+        //let exitButton = SKSpriteNode(color: UIColor.grayColor(), size: size)
+        let exitButton = SKSpriteNode(imageNamed: "exit")
+        //exitButton.color = UIColor.grayColor()
+        //exit.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) - size.height)
+        exitButton.size = size
         exitButton.position = CGPoint(x: x, y: CGRectGetMaxY(self.frame) - size.height)
         exitButton.name = "ExitButton"
         
