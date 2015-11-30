@@ -357,7 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             let heading = app.player.heading
             var newPos = CGPointZero
             if(validDoor){
-                if(playSounds){
+                if(playSounds && SKTAudio.sharedInstance().soundEffectPlayer?.playing == false){
                     SKTAudio.sharedInstance().playSoundEffect("door.wav")
                 }
                 if(heading == "North"){
@@ -441,7 +441,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addBattleButton(lefty:Bool) -> SKSpriteNode {
-        let attackImage = UIImage(named: "swordButton")
+        let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         
@@ -486,11 +486,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         monster.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
         monster.name = "Monster"
         monster.size = CGSize(width: monster.size.width/2, height: monster.size.height/2)
+        if(playSounds){
+           SKTAudio.sharedInstance().playSoundEffect("monster.wav")
+        }
+        
         
         return monster
     }
     
     func addKeyIcon(lefty:Bool) -> SKSpriteNode{
+        //need to change
         let keyImage = UIImage(named: "keyshadow")
         let texture = SKTexture(image: keyImage!)
         let keyIcon = SKSpriteNode(texture: texture)
@@ -510,7 +515,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addAttackButton(lefty:Bool) -> SKSpriteNode{
-        let attackImage = UIImage(named: "swordButton")
+        let attackImage = UIImage(named: "sword")
         let texture = SKTexture(image: attackImage!)
         let attackButton = SKSpriteNode(texture: texture)
         attackButton.size.width = CGRectGetMaxX(self.frame)/10
@@ -528,7 +533,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addDefenseButton(lefty:Bool) -> SKSpriteNode{
-        let defenseImage = UIImage(named: "DefenseButton")
+        let defenseImage = UIImage(named: "shield")
         let texture = SKTexture(image: defenseImage!)
         let defenseButton = SKSpriteNode(texture: texture)
         defenseButton.size.width = CGRectGetMaxX(self.frame)/10
@@ -888,7 +893,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     var tryToRun = false
     func handleMonster(){
         
-        
         moveAnalogStick.trackingHandler = { analogStick in
             
             guard let aN = self.player else { return }
@@ -907,10 +911,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         print("prompting for monster")
         print(activeMonster!.toString())
         console.text = "You encounter a monster! \(activeMonster!.toString())"
-        
-        if(playSounds){
-            SKTAudio.sharedInstance().playSoundEffect("monster.wav")
-        }
     }
     
     func battleDone(){
@@ -1096,8 +1096,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         alert.show()
     }
     
+    //change
     func keyFound(){
-        key.texture = SKTexture(image: UIImage(named: "Key")!)
+        key.texture = SKTexture(image: UIImage(named: "key")!)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
