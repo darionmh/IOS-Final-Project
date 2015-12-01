@@ -498,7 +498,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func addKeyIcon(lefty:Bool) -> SKSpriteNode{
         //need to change
-        let keyImage = UIImage(named: "Keyshadow")
+        let keyImage = UIImage(named: "keyshadow")
         let texture = SKTexture(image: keyImage!)
         let keyIcon = SKSpriteNode(texture: texture)
         keyIcon.zPosition = 100
