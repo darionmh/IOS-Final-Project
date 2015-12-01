@@ -1119,7 +1119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     //change
     func keyFound(){
-        key.texture = SKTexture(image: UIImage(named: "key")!)
+        key.texture = SKTexture(image: UIImage(named: "Key")!)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
