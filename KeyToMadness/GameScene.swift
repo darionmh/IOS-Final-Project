@@ -158,13 +158,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             currentBall.fillColor = UIColor(red: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, green: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, blue: CGFloat(Float(arc4random()) / Float(UINT32_MAX))*255.0/255, alpha: 0.4)
             currentBall.lineWidth = 0
             
-            let xPosition = self.view!.scene!.frame.midX - viewMidX + CGFloat(arc4random_uniform(UInt32(viewMidX*2)))
-            let yPosition = self.view!.scene!.frame.midY - viewMidY + CGFloat(arc4random_uniform(UInt32(viewMidY*2)))
+            let xPosition = self.view!.scene!.frame.midX - viewMidX + CGFloat(arc4random_uniform(UInt32(viewMidX*2)))*0.9
+            let yPosition = self.view!.scene!.frame.midY - viewMidY + CGFloat(arc4random_uniform(UInt32(viewMidY*2)))*0.9
             
             currentBall.position = CGPointMake(xPosition,yPosition)
             currentBall.name = "ball\(count++)"
             self.addChild(currentBall)
-            print("bubble")
             if(count == 999999999){
                 count = 11;
             }
@@ -1120,7 +1119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     //change
     func keyFound(){
-        key.texture = SKTexture(image: UIImage(named: "key")!)
+        key.texture = SKTexture(image: UIImage(named: "Key")!)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
