@@ -360,6 +360,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             if(validDoor){
                 if(playSounds && SKTAudio.sharedInstance().soundEffectPlayer?.playing == false){
                     SKTAudio.sharedInstance().playSoundEffect("door.wav")
+                }else if(playSounds && SKTAudio.sharedInstance().soundEffectPlayer == nil){
+                    SKTAudio.sharedInstance().playSoundEffect("door.wav")
                 }
                 if(heading == "North"){
                     newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "character")!.size.height)
@@ -756,6 +758,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                                 SKTAudio.sharedInstance().playSoundEffect("monkey.wav")
                             }
                             loseItem()
+                        }
+                        
+                        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+                        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                            // do some task
+                            
+                            let effect = newRoom.happening!.effect
+                            let data = effect.description.componentsSeparatedByString(" ")
+                            let newDesc = "+"+data[0][1]+" "+data[1]
+                            let newEffect = Effect(description: newDesc)
+                            
+                            sleep(3)
+                            
+                            self.app.newEffects.append(newEffect)
+                            self.app.processEffects()
+                            dispatch_async(dispatch_get_main_queue()) {
+                                // update some UI
+                                self.updateSkills()
+                            }
                         }
                     }else{
                        console.text = "No Happening"
