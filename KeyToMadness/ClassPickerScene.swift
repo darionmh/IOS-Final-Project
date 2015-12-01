@@ -83,8 +83,6 @@ class ClassPickerScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
             v.layer.cornerRadius = 20;
             v.layer.masksToBounds = true;
         }
-        let classImage:UIImageView = v.viewWithTag(333) as! UIImageView
-        classImage.image = UIImage(named: "apple")
         
         let className:UILabel = v.viewWithTag(111) as! UILabel
         className.text = "  \(classes[row][0])"

@@ -35,6 +35,14 @@ class GameOverScene: SKScene {
         winnerLBL.fontSize = 60
         messageLBL.fontSize = 45
         
+        mainMenuBTN.fontSize = 65
+        mainMenuBTN.fontName = "AvenirNext-Bold"
+        mainMenuBTN.fontColor = UIColor.purpleColor()
+        
+        playAgainBTN.fontSize = 65
+        playAgainBTN.fontName = "AvenirNext-Bold"
+        playAgainBTN.fontColor = UIColor.greenColor()
+        
         addChild(mainMenuBTN)
         addChild(playAgainBTN)
         addChild(gameOverLabel)
