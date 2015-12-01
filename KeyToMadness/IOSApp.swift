@@ -123,7 +123,7 @@ public class IOSApp {
                         player.items.append(item!)
                         newEffects.append(Effect(description: itemData[2]))
                     }
-                    else if(item!.effect.description[0] == "+" && item!.effect.description[3...8] == "Health"){
+                    else if(item!.effect.description[0] == "+" && item!.effect.description[3...5] == "Hea"){
                         //health item
                         player.skills["Health"]! += Int.init(item!.effect.description[1])!
                     }
