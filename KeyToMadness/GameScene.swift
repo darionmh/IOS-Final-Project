@@ -410,7 +410,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addMenuButtons(lefty: Bool) -> [SKSpriteNode]{
-        let size = CGSize(width: CGRectGetMaxX(self.frame)/8, height: CGRectGetMaxX(self.frame)/8)
+        let size = CGSize(width: CGRectGetMaxX(self.frame)/12, height: CGRectGetMaxX(self.frame)/12)
         var x = CGRectGetMaxX(self.frame) * 0.01 + size.width/2
         
         if(lefty){

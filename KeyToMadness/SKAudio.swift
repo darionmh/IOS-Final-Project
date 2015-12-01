@@ -87,14 +87,13 @@ public class SKTAudio {
             return
         }
         
-        var soundPlayer:AVAudioPlayer?
         do{
-            soundPlayer = try AVAudioPlayer(contentsOfURL: url!)
+            soundEffectPlayer = try AVAudioPlayer(contentsOfURL: url!)
         }catch{
             print("Error with \(filename)")
         }
         
-        if let player = soundPlayer {
+        if let player = soundEffectPlayer {
             player.numberOfLoops = 0
             player.prepareToPlay()
             player.play()
