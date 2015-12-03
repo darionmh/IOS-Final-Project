@@ -161,7 +161,7 @@ public class IOSApp {
             let parts:[String] = effect.description.componentsSeparatedByString(" ")
             print(parts)
             let skill:String = parts[1]
-            if(skill == "an"){
+            if(skill == "an" || skill == "Health"){
                 continue
             }
             let char:String = parts[0][0]
