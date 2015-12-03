@@ -18,8 +18,8 @@ class MainMenuSceneController: UIViewController {
         if let scene = MainMenuScene(fileNamed: "MainMenuScene"){
             // Configure the view.
             let skView = self.view as! SKView
-            skView.showsPhysics = true
-            skView.showsFPS = true
+            //skView.showsPhysics = true
+            //skView.showsFPS = true
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             

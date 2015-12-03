@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         set {
             
             _isSetJoystickStickImage = newValue
-            let image = UIImage(named: "magic_ball")
+            let image = UIImage(named: "joystick")
             moveAnalogStick.stickImage = image
         }
     }
@@ -127,10 +127,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         isSetJoystickStickImage = _isSetJoystickStickImage
         isSetJoystickSubstrateImage = _isSetJoystickSubstrateImage
         
-        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1, undiscovered:  false))
-        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2, undiscovered:  true))
-        addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.75),value: 3, undiscovered:  true))
-        addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4, undiscovered:  true))
+        addChild(addDoor(1, undiscovered:  false))
+        addChild(addDoor(2, undiscovered:  true))
+        addChild(addDoor(3, undiscovered:  true))
+        addChild(addDoor(4, undiscovered:  true))
         
         addChild(addBattleButton(lefty))
         addChild(addRunButton(lefty))
@@ -291,12 +291,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
        return room
     }
     
-    func addDoor(position: CGPoint, value: Int, undiscovered: Bool) -> SKSpriteNode {
-        let doorImage = UIImage(named: "apple")
+    func addDoor(value: Int, undiscovered: Bool) -> SKSpriteNode {
+        let doorImage = UIImage(named: "door")
         let texture = SKTexture(image: doorImage!)
         let door = SKSpriteNode(texture: texture)
         door.physicsBody = SKPhysicsBody(texture: texture, size: door.size)
-        door.position = position
+        switch(value){
+        case 2:
+            if(undiscovered){
+                door.position = CGPointMake(CGRectGetMaxX(self.frame) * 0.295, CGRectGetMidY(self.frame))
+                door.zRotation = CGFloat(M_PI_2)
+            }else{
+                door.position = CGPointMake(CGRectGetMaxX(self.frame) * 0.295, CGRectGetMidY(self.frame)-door.size.width)
+                door.zRotation = CGFloat(M_PI_2*3)
+                door.yScale = door.yScale * -1;
+            }
+        case 1:
+            if(undiscovered || app.currentRoom.name == "Start"){
+                door.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.23)
+                door.zRotation = CGFloat(M_PI_2*2)
+            }else{
+                door.position = CGPointMake(CGRectGetMidX(self.frame)+door.size.width, CGRectGetMaxY(self.frame) * 0.23)
+                door.xScale = door.xScale * -1;
+            }
+        case 4:
+            if(undiscovered){
+                door.position = CGPointMake(CGRectGetMaxX(self.frame) * 0.705, CGRectGetMidY(self.frame))
+                door.zRotation = CGFloat(M_PI_2*3)
+            }else{
+                door.position = CGPointMake(CGRectGetMaxX(self.frame) * 0.705, CGRectGetMidY(self.frame)+door.size.width)
+                door.zRotation = CGFloat(M_PI_2)
+                door.yScale = door.yScale * -1;
+            }
+        default:
+            if(undiscovered){
+                door.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.77)
+            }else{
+                door.position = CGPointMake(CGRectGetMidX(self.frame)-door.size.width, CGRectGetMaxY(self.frame) * 0.77)
+                door.zRotation = CGFloat(M_PI_2*2)
+                door.xScale = door.xScale * -1;
+            }
+        }
         door.physicsBody?.allowsRotation = false
         door.physicsBody?.affectedByGravity = false
         door.physicsBody?.categoryBitMask = BodyType.door.rawValue
@@ -306,7 +341,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
         if(undiscovered){
             door.anchorPoint = CGPointMake(0.5, 0.5)
             let glow:SKSpriteNode = door.copy() as! SKSpriteNode
-            glow.size = door.size
+            glow.size = CGSize(width: door.size.width*1.1, height: door.size.height*1.1)
+            glow.physicsBody = nil
+            glow.zRotation = 0;
             glow.color = UIColor.blueColor()
             glow.texture = nil
             glow.anchorPoint = door.anchorPoint
@@ -314,6 +351,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             glow.alpha = 0.5
             glow.blendMode = .Add
             door.addChild(glow)
+        }else if((app.currentRoom.name != "Start" || value != 1) && !undiscovered){
+            let hall:SKSpriteNode = door.copy() as! SKSpriteNode
+            hall.size = CGSize(width: door.size.width, height: door.size.height)
+            hall.zRotation = 0;
+            let doorImage = UIImage(named: "doorBlack")
+            let texture = SKTexture(image: doorImage!)
+            hall.texture = texture
+            hall.anchorPoint = door.anchorPoint
+            hall.zPosition = -2
+            hall.position = CGPoint(x: -door.size.width*0.9, y: 0)
+            door.addChild(hall)
         }
         return door
     }
@@ -363,13 +411,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     SKTAudio.sharedInstance().playSoundEffect("door.wav")
                 }
                 if(heading == "North"){
-                    newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "character")!.size.height)
+                    newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.27 + UIImage(named: "character")!.size.height)
                 }else if(heading == "East"){
-                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.25 + UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
+                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.27 + UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
                 }else if(heading == "South"){
-                    newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75 - UIImage(named: "character")!.size.height)
+                    newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.73 - UIImage(named: "character")!.size.height)
                 }else{
-                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.75 - UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
+                    newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.73 - UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
                 }
             }else{
                 if(Int(door.value) == 3){
@@ -482,7 +530,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     }
     
     func addMonster() -> SKSpriteNode{
-        let monsterImage = UIImage(named: "Spaceship")
+        let monsterImage = UIImage(named: "monster\(activeMonster!.level)")
         let texture = SKTexture(image: monsterImage!)
         let monster = SKSpriteNode(texture: texture)
         monster.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
@@ -498,7 +546,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
     
     func addKeyIcon(lefty:Bool) -> SKSpriteNode{
         //need to change
-        let keyImage = UIImage(named: "keyshadow")
+        let keyImage = UIImage(named: "keyshadow2")
         let texture = SKTexture(image: keyImage!)
         let keyIcon = SKSpriteNode(texture: texture)
         keyIcon.zPosition = 100
@@ -578,14 +626,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         app.player.setHeading()
                         let heading = app.player.heading
                         let newPos:CGPoint
-                        if(heading == "South"){
-                            newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25 + UIImage(named: "character")!.size.height)
-                        }else if(heading == "West"){
-                            newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.25 + UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
-                        }else if(heading == "North"){
-                            newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75 - UIImage(named: "character")!.size.height)
+                        if(heading == "North"){
+                            newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.27 + UIImage(named: "character")!.size.height)
+                        }else if(heading == "East"){
+                            newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.27 + UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
+                        }else if(heading == "South"){
+                            newPos = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.73 - UIImage(named: "character")!.size.height)
                         }else{
-                            newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.75 - UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
+                            newPos = CGPointMake(CGRectGetMaxX(self.frame) * 0.73 - UIImage(named: "character")!.size.width, CGRectGetMidY(self.frame))
                         }
                         player!.position = newPos
                     }
@@ -1286,16 +1334,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             }
         }
         if(app.currentRoom.attachedRooms[0] == nil || app.currentRoom.attachedRooms[0]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.25),value: 1, undiscovered: app.currentRoom.attachedRooms[0] == nil))
+            addChild(addDoor(1, undiscovered: app.currentRoom.attachedRooms[0] == nil))
         }
         if(app.currentRoom.attachedRooms[1] == nil || app.currentRoom.attachedRooms[1]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.3, CGRectGetMidY(self.frame)),value: 2, undiscovered: app.currentRoom.attachedRooms[1] == nil))
+            addChild(addDoor(2, undiscovered: app.currentRoom.attachedRooms[1] == nil))
         }
         if(app.currentRoom.attachedRooms[2] == nil || app.currentRoom.attachedRooms[2]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) * 0.75),value: 3, undiscovered: app.currentRoom.attachedRooms[2] == nil))
+            addChild(addDoor(3, undiscovered: app.currentRoom.attachedRooms[2] == nil))
         }
         if(app.currentRoom.attachedRooms[3] == nil || app.currentRoom.attachedRooms[3]!.name != "EMPTY"){
-            addChild(addDoor(CGPointMake(CGRectGetMaxX(self.frame) * 0.7, CGRectGetMidY(self.frame)),value: 4, undiscovered: app.currentRoom.attachedRooms[3] == nil))
+            addChild(addDoor(4, undiscovered: app.currentRoom.attachedRooms[3] == nil))
         }
         print("Done generating")
     }

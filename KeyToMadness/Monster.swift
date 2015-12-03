@@ -19,7 +19,7 @@ class Monster {
     
     init(location:Room){
         self.name = "Monster"
-        self.health = Int(arc4random_uniform(3))+1
+        self.health = Int(arc4random_uniform(4))+1
         self.level = health
         self.strength = level*2
         self.encountered = false
