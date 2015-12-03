@@ -621,7 +621,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                     run = !fight
                     if(!run){console.text = "You try to run, but the monster blocks your path."}
                     else{
-                        // change player heading for running direction
+                        // change player heading for running directions
                         app.player.headingNum = app.player.headingNum+2%4
                         app.player.setHeading()
                         let heading = app.player.heading
