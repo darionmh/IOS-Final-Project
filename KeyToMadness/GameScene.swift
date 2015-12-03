@@ -811,7 +811,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
                         dispatch_async(dispatch_get_global_queue(priority, 0)) {
                             // do some task
-                            let time = UInt32(drand48() * 6) * 10
+                            let time = UInt32(drand48() * 5 + 1) * 10
                             let effect = newRoom.happening!.effect
                             let data = effect.description.componentsSeparatedByString(" ")
                             let newDesc = "+"+data[0][1]+" "+data[1]
