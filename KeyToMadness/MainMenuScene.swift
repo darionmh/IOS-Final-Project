@@ -18,6 +18,7 @@ class MainMenuScene: SKScene {
     var leftyLabel = SKLabelNode()
     var musicLabel = SKLabelNode()
     var soundLabel = SKLabelNode()
+    var helpLabel = SKLabelNode()
     
     override func didMoveToView(view: SKView) {
         backgroundColor = UIColor.blackColor()
@@ -63,6 +64,13 @@ class MainMenuScene: SKScene {
         soundLabel.fontName = "AvenirNext-Bold"
         soundLabel.position = CGPoint(x: CGRectGetMidX(self.frame)-soundSwitch.frame.width*2, y:CGRectGetMaxY(self.frame)*0.4 - soundSwitch.frame.height )
         addChild(soundLabel)
+        
+        helpLabel = SKLabelNode(text: "Help")
+        helpLabel.position = CGPoint(x: CGRectGetMaxX(self.frame)*0.05, y: CGRectGetMaxY(self.frame)*0.05)
+        helpLabel.fontSize = 22
+        helpLabel.fontName = "AvenirNext-Bold"
+        helpLabel.name = "helpButton"
+        addChild(helpLabel)
     }
     
     func switches(sender:UISwitch!){
@@ -83,7 +91,6 @@ class MainMenuScene: SKScene {
         let touchedNode = self.nodeAtPoint(location)
         
         if touchedNode.name == "playButton"{
-            //removeAllChildren()
             leftySwitch.removeFromSuperview()
             musicSwitch.removeFromSuperview()
             soundSwitch.removeFromSuperview()
@@ -93,7 +100,6 @@ class MainMenuScene: SKScene {
             start.removeFromParent()
             
             let action = SKAction.runBlock({
-                //removeAllChildren()
                 let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
                 
                 let nextScene = InstructionScene(fileNamed: "InstructionScene")
@@ -107,6 +113,20 @@ class MainMenuScene: SKScene {
             let fadeOut = SKAction.runBlock({self.runAction(SKAction.fadeOutWithDuration(2.0))})
             self.runAction(SKAction.sequence([fadeIn,wait,fadeOut,wait,action]))
             
+        }else if touchedNode.name == "helpButton"{
+            leftySwitch.removeFromSuperview()
+            musicSwitch.removeFromSuperview()
+            soundSwitch.removeFromSuperview()
+            leftyLabel.removeFromParent()
+            musicLabel.removeFromParent()
+            soundLabel.removeFromParent()
+            start.removeFromParent()
+            let transition = SKTransition.revealWithDirection(.Right, duration: 0.5)
+            
+            let nextScene = HelpScene(fileNamed: "HelpScene")
+            nextScene!.scaleMode = .AspectFill
+            
+            self.scene?.view?.presentScene(nextScene!, transition: transition)
         }
     }
     

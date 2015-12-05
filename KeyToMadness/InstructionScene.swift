@@ -19,15 +19,6 @@ class InstructionScene: SKScene {
         mainLBL.fontName = "AvenirNext-Bold"
         addChild(mainLBL)
         
-//        let instructions:SKMultilineLabel = SKMultilineLabel(text: "The goal is simple. Escape\nYou are in the entry of the house. To escape you need to find the key. It is hidden in one of the rooms in this house. Find it. Avoid the monsters. Pick up items. Some rooms you will experience happenings. They are not good, avoid them the best you can.\nGood luck", labelWidth: 600, pos: CGPoint(x: 0, y: 0))
-//        instructions.fontColor = UIColor.whiteColor()
-//        let instructionBackground = SKSpriteNode(color: UIColor.blackColor(), size: CGSizeMake(CGRectGetMaxX(self.frame)*0.7, CGRectGetMaxY(self.frame)*0.5))
-//        instructionBackground.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMaxY(self.frame)*0.7)
-//        instructionBackground.addChild(instructions)
-//        addChild(instructionBackground)
-//        instructions.fontSize = 35
-//        instructions.leading = 35
-        
         let label1:SKLabelNode = SKLabelNode(text: "The goal is simple… Escape.")
         let label2:SKLabelNode = SKLabelNode(text: "You start inside the entryway of the manor. You try to open the front door… Locked.")
         let label3:SKLabelNode = SKLabelNode(text: "The goal is a little bit more complicated.")
@@ -108,12 +99,26 @@ class InstructionScene: SKScene {
         let touchedNode = self.nodeAtPoint(location)
         
         if touchedNode.name == "playBTN"{
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
-            
-            let nextScene = ClassPickerScene(fileNamed: "ClassPickerScene")
-            nextScene!.scaleMode = .AspectFill
-            removeAllChildren()
-            scene?.view?.presentScene(nextScene!, transition: transition)
+            let defaults = NSUserDefaults.standardUserDefaults()
+            let isPreloaded = defaults.boolForKey("isPreloaded")
+            if(!isPreloaded){
+                defaults.setBool(true, forKey: "isPreloaded")
+                
+                let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+                
+                let nextScene = HelpScene(fileNamed: "HelpScene")
+                nextScene!.firstTime = true
+                nextScene!.scaleMode = .AspectFill
+                removeAllChildren()
+                scene?.view?.presentScene(nextScene!, transition: transition)
+            }else{
+                let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+                
+                let nextScene = ClassPickerScene(fileNamed: "ClassPickerScene")
+                nextScene!.scaleMode = .AspectFill
+                removeAllChildren()
+                scene?.view?.presentScene(nextScene!, transition: transition)
+            }
         }
     }
 }
