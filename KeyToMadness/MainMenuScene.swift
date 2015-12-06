@@ -22,7 +22,7 @@ class MainMenuScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         backgroundColor = UIColor.blackColor()
-        bgImage = SKSpriteNode(imageNamed: "splash-Screen.png")
+        bgImage = SKSpriteNode(imageNamed: "main")
         bgImage.size.width = self.frame.width
         bgImage.size.height = self.frame.height
         bgImage.position = CGPointMake(self.size.width/2, self.size.height/2)
