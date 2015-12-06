@@ -98,6 +98,7 @@ class MainMenuScene: SKScene {
             musicLabel.removeFromParent()
             soundLabel.removeFromParent()
             start.removeFromParent()
+            helpLabel.removeFromParent()
             
             let action = SKAction.runBlock({
                 let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
@@ -121,6 +122,7 @@ class MainMenuScene: SKScene {
             musicLabel.removeFromParent()
             soundLabel.removeFromParent()
             start.removeFromParent()
+            helpLabel.removeFromParent()
             let transition = SKTransition.revealWithDirection(.Right, duration: 0.5)
             
             let nextScene = HelpScene(fileNamed: "HelpScene")
