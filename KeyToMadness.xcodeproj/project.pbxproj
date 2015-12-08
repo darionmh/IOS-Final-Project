@@ -38,8 +38,9 @@
 		477890441BF1A49F00F4608E /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 477890431BF1A49F00F4608E /* MainMenuScene.sks */; };
 		479145431BF91264005C71C5 /* ClassPickerScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 479145421BF91264005C71C5 /* ClassPickerScene.sks */; };
 		479145451BF91278005C71C5 /* ClassPickerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479145441BF91278005C71C5 /* ClassPickerScene.swift */; };
-		47A209A81C10C3AB00ACF931 /* Sword.png in Resources */ = {isa = PBXBuildFile; fileRef = 47A209A71C10C3AB00ACF931 /* Sword.png */; };
 		47B381DD1BF698970077E150 /* MainMenuSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B381DC1BF698970077E150 /* MainMenuSceneController.swift */; };
+		47B67CE61C12780300F00659 /* HelpScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 47B67CE51C12780300F00659 /* HelpScene.sks */; };
+		47B67CE81C12781F00F00659 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B67CE71C12781F00F00659 /* HelpScene.swift */; };
 		47C4CDFE1BD4337C00074668 /* AnalogStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C4CDFD1BD4337C00074668 /* AnalogStick.swift */; };
 		47C4CE001BD4349200074668 /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = 47C4CDFF1BD4349200074668 /* apple.png */; };
 		47C4CE081BD4363800074668 /* gameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47C4CE071BD4363800074668 /* gameData.plist */; };
@@ -103,8 +104,9 @@
 		477890431BF1A49F00F4608E /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
 		479145421BF91264005C71C5 /* ClassPickerScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ClassPickerScene.sks; sourceTree = "<group>"; };
 		479145441BF91278005C71C5 /* ClassPickerScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassPickerScene.swift; sourceTree = "<group>"; };
-		47A209A71C10C3AB00ACF931 /* Sword.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sword.png; sourceTree = "<group>"; };
 		47B381DC1BF698970077E150 /* MainMenuSceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuSceneController.swift; sourceTree = "<group>"; };
+		47B67CE51C12780300F00659 /* HelpScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HelpScene.sks; sourceTree = "<group>"; };
+		47B67CE71C12781F00F00659 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
 		47C4CDFD1BD4337C00074668 /* AnalogStick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogStick.swift; sourceTree = "<group>"; };
 		47C4CDFF1BD4349200074668 /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple.png; sourceTree = "<group>"; };
 		47C4CE071BD4363800074668 /* gameData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gameData.plist; sourceTree = "<group>"; };
@@ -173,7 +175,6 @@
 				473F3F671BC7481D00D42327 /* Assets.xcassets */,
 				473F3F691BC7481D00D42327 /* LaunchScreen.storyboard */,
 				1E3ADB111BDAF1D30053FD5F /* theme.wav */,
-				47A209A71C10C3AB00ACF931 /* Sword.png */,
 				1E3B50491BFE47E00081A32D /* monkey.wav */,
 				1E3B504B1BFE48910081A32D /* itemFound.mp3 */,
 				1E3B504D1BFE490F0081A32D /* damageTaken.wav */,
@@ -199,6 +200,8 @@
 				479145441BF91278005C71C5 /* ClassPickerScene.swift */,
 				47482AA61C0CF983001714A9 /* InstructionScene.swift */,
 				47482AA81C0CF996001714A9 /* InstructionScene.sks */,
+				47B67CE51C12780300F00659 /* HelpScene.sks */,
+				47B67CE71C12781F00F00659 /* HelpScene.swift */,
 			);
 			path = KeyToMadness;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				1E3ADB121BDAF1D30053FD5F /* theme.wav in Resources */,
 				473F3F5F1BC7481D00D42327 /* GameScene.sks in Resources */,
 				1E3B504C1BFE48910081A32D /* itemFound.mp3 in Resources */,
+				47B67CE61C12780300F00659 /* HelpScene.sks in Resources */,
 				1E3B50521BFE4A080081A32D /* attack.wav in Resources */,
 				473F3F6B1BC7481D00D42327 /* LaunchScreen.storyboard in Resources */,
 				47C4CE081BD4363800074668 /* gameData.plist in Resources */,
@@ -341,7 +345,6 @@
 				47482AA91C0CF996001714A9 /* InstructionScene.sks in Resources */,
 				1E3B50501BFE498D0081A32D /* defend.wav in Resources */,
 				1E3B504A1BFE47E00081A32D /* monkey.wav in Resources */,
-				47A209A81C10C3AB00ACF931 /* Sword.png in Resources */,
 				47CF914B1BF41026006C5FDB /* GameOverScene.sks in Resources */,
 				479145431BF91264005C71C5 /* ClassPickerScene.sks in Resources */,
 				1E3B50561BFE4ACC0081A32D /* door.wav in Resources */,
@@ -371,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				473F3F8F1BC7484400D42327 /* Item.swift in Sources */,
+				47B67CE81C12781F00F00659 /* HelpScene.swift in Sources */,
 				473F3F611BC7481D00D42327 /* GameScene.swift in Sources */,
 				473F3F991BC7489000D42327 /* Effect.swift in Sources */,
 				47C933D91BEAFACF00129DCD /* SKMultiLineLabel.swift in Sources */,
