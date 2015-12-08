@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "473F3F581BC7481D00D42327"
-               BuildableName = "KeyToMadness.app"
-               BlueprintName = "KeyToMadness"
-               ReferencedContainer = "container:KeyToMadness.xcodeproj">
+               BuildableName = "Madness Manor.app"
+               BlueprintName = "Madness Manor"
+               ReferencedContainer = "container:Madness Manor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "473F3F701BC7481D00D42327"
-               BuildableName = "KeyToMadnessTests.xctest"
-               BlueprintName = "KeyToMadnessTests"
-               ReferencedContainer = "container:KeyToMadness.xcodeproj">
+               BuildableName = "Madness Manor.xctest"
+               BlueprintName = "Madness ManorTests"
+               ReferencedContainer = "container:Madness Manor.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "473F3F7B1BC7481D00D42327"
-               BuildableName = "KeyToMadnessUITests.xctest"
-               BlueprintName = "KeyToMadnessUITests"
-               ReferencedContainer = "container:KeyToMadness.xcodeproj">
+               BuildableName = "Madness Manor.xctest"
+               BlueprintName = "Madness ManorUITests"
+               ReferencedContainer = "container:Madness Manor.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "473F3F581BC7481D00D42327"
-            BuildableName = "KeyToMadness.app"
-            BlueprintName = "KeyToMadness"
-            ReferencedContainer = "container:KeyToMadness.xcodeproj">
+            BuildableName = "Madness Manor.app"
+            BlueprintName = "Madness Manor"
+            ReferencedContainer = "container:Madness Manor.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "473F3F581BC7481D00D42327"
-            BuildableName = "KeyToMadness.app"
-            BlueprintName = "KeyToMadness"
-            ReferencedContainer = "container:KeyToMadness.xcodeproj">
+            BuildableName = "Madness Manor.app"
+            BlueprintName = "Madness Manor"
+            ReferencedContainer = "container:Madness Manor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "473F3F581BC7481D00D42327"
-            BuildableName = "KeyToMadness.app"
-            BlueprintName = "KeyToMadness"
-            ReferencedContainer = "container:KeyToMadness.xcodeproj">
+            BuildableName = "Madness Manor.app"
+            BlueprintName = "Madness Manor"
+            ReferencedContainer = "container:Madness Manor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

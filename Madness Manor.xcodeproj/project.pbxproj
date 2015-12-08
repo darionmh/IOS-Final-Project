@@ -76,7 +76,7 @@
 		1E3B50511BFE4A080081A32D /* attack.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack.wav; sourceTree = "<group>"; };
 		1E3B50531BFE4A830081A32D /* monster.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = monster.wav; sourceTree = "<group>"; };
 		1E3B50551BFE4ACC0081A32D /* door.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = door.wav; sourceTree = "<group>"; };
-		473F3F591BC7481D00D42327 /* KeyToMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KeyToMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		473F3F591BC7481D00D42327 /* Madness Manor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Madness Manor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		473F3F5C1BC7481D00D42327 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		473F3F5E1BC7481D00D42327 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		473F3F601BC7481D00D42327 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -84,10 +84,10 @@
 		473F3F671BC7481D00D42327 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		473F3F6A1BC7481D00D42327 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		473F3F6C1BC7481D00D42327 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		473F3F711BC7481D00D42327 /* KeyToMadnessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyToMadnessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		473F3F711BC7481D00D42327 /* Madness Manor.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Madness Manor.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		473F3F751BC7481D00D42327 /* KeyToMadnessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyToMadnessTests.swift; sourceTree = "<group>"; };
 		473F3F771BC7481D00D42327 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		473F3F7C1BC7481D00D42327 /* KeyToMadnessUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyToMadnessUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		473F3F7C1BC7481D00D42327 /* Madness Manor.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Madness Manor.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		473F3F801BC7481D00D42327 /* KeyToMadnessUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyToMadnessUITests.swift; sourceTree = "<group>"; };
 		473F3F821BC7481D00D42327 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		473F3F8E1BC7484400D42327 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -152,9 +152,9 @@
 		473F3F5A1BC7481D00D42327 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				473F3F591BC7481D00D42327 /* KeyToMadness.app */,
-				473F3F711BC7481D00D42327 /* KeyToMadnessTests.xctest */,
-				473F3F7C1BC7481D00D42327 /* KeyToMadnessUITests.xctest */,
+				473F3F591BC7481D00D42327 /* Madness Manor.app */,
+				473F3F711BC7481D00D42327 /* Madness Manor.xctest */,
+				473F3F7C1BC7481D00D42327 /* Madness Manor.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -227,9 +227,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		473F3F581BC7481D00D42327 /* KeyToMadness */ = {
+		473F3F581BC7481D00D42327 /* Madness Manor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 473F3F851BC7481D00D42327 /* Build configuration list for PBXNativeTarget "KeyToMadness" */;
+			buildConfigurationList = 473F3F851BC7481D00D42327 /* Build configuration list for PBXNativeTarget "Madness Manor" */;
 			buildPhases = (
 				473F3F551BC7481D00D42327 /* Sources */,
 				473F3F561BC7481D00D42327 /* Frameworks */,
@@ -239,14 +239,14 @@
 			);
 			dependencies = (
 			);
-			name = KeyToMadness;
+			name = "Madness Manor";
 			productName = KeyToMadness;
-			productReference = 473F3F591BC7481D00D42327 /* KeyToMadness.app */;
+			productReference = 473F3F591BC7481D00D42327 /* Madness Manor.app */;
 			productType = "com.apple.product-type.application";
 		};
-		473F3F701BC7481D00D42327 /* KeyToMadnessTests */ = {
+		473F3F701BC7481D00D42327 /* Madness ManorTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 473F3F881BC7481D00D42327 /* Build configuration list for PBXNativeTarget "KeyToMadnessTests" */;
+			buildConfigurationList = 473F3F881BC7481D00D42327 /* Build configuration list for PBXNativeTarget "Madness ManorTests" */;
 			buildPhases = (
 				473F3F6D1BC7481D00D42327 /* Sources */,
 				473F3F6E1BC7481D00D42327 /* Frameworks */,
@@ -257,14 +257,14 @@
 			dependencies = (
 				473F3F731BC7481D00D42327 /* PBXTargetDependency */,
 			);
-			name = KeyToMadnessTests;
+			name = "Madness ManorTests";
 			productName = KeyToMadnessTests;
-			productReference = 473F3F711BC7481D00D42327 /* KeyToMadnessTests.xctest */;
+			productReference = 473F3F711BC7481D00D42327 /* Madness Manor.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		473F3F7B1BC7481D00D42327 /* KeyToMadnessUITests */ = {
+		473F3F7B1BC7481D00D42327 /* Madness ManorUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 473F3F8B1BC7481D00D42327 /* Build configuration list for PBXNativeTarget "KeyToMadnessUITests" */;
+			buildConfigurationList = 473F3F8B1BC7481D00D42327 /* Build configuration list for PBXNativeTarget "Madness ManorUITests" */;
 			buildPhases = (
 				473F3F781BC7481D00D42327 /* Sources */,
 				473F3F791BC7481D00D42327 /* Frameworks */,
@@ -275,9 +275,9 @@
 			dependencies = (
 				473F3F7E1BC7481D00D42327 /* PBXTargetDependency */,
 			);
-			name = KeyToMadnessUITests;
+			name = "Madness ManorUITests";
 			productName = KeyToMadnessUITests;
-			productReference = 473F3F7C1BC7481D00D42327 /* KeyToMadnessUITests.xctest */;
+			productReference = 473F3F7C1BC7481D00D42327 /* Madness Manor.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -305,7 +305,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 473F3F541BC7481D00D42327 /* Build configuration list for PBXProject "KeyToMadness" */;
+			buildConfigurationList = 473F3F541BC7481D00D42327 /* Build configuration list for PBXProject "Madness Manor" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -318,9 +318,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				473F3F581BC7481D00D42327 /* KeyToMadness */,
-				473F3F701BC7481D00D42327 /* KeyToMadnessTests */,
-				473F3F7B1BC7481D00D42327 /* KeyToMadnessUITests */,
+				473F3F581BC7481D00D42327 /* Madness Manor */,
+				473F3F701BC7481D00D42327 /* Madness ManorTests */,
+				473F3F7B1BC7481D00D42327 /* Madness ManorUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -416,12 +416,12 @@
 /* Begin PBXTargetDependency section */
 		473F3F731BC7481D00D42327 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 473F3F581BC7481D00D42327 /* KeyToMadness */;
+			target = 473F3F581BC7481D00D42327 /* Madness Manor */;
 			targetProxy = 473F3F721BC7481D00D42327 /* PBXContainerItemProxy */;
 		};
 		473F3F7E1BC7481D00D42327 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 473F3F581BC7481D00D42327 /* KeyToMadness */;
+			target = 473F3F581BC7481D00D42327 /* Madness Manor */;
 			targetProxy = 473F3F7D1BC7481D00D42327 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -538,8 +538,8 @@
 				INFOPLIST_FILE = KeyToMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = KeyToMadness1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "Madness-Manor";
+				PRODUCT_NAME = "Madness Manor";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -554,8 +554,8 @@
 				INFOPLIST_FILE = KeyToMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = KeyToMadness1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "Madness-Manor";
+				PRODUCT_NAME = "Madness Manor";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -569,8 +569,8 @@
 				INFOPLIST_FILE = KeyToMadnessTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.nwmissouri.KeyToMadnessTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeyToMadness.app/KeyToMadness";
+				PRODUCT_NAME = "Madness Manor";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Madness Manor.app/Madness Manor";
 			};
 			name = Debug;
 		};
@@ -581,8 +581,8 @@
 				INFOPLIST_FILE = KeyToMadnessTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.nwmissouri.KeyToMadnessTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeyToMadness.app/KeyToMadness";
+				PRODUCT_NAME = "Madness Manor";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Madness Manor.app/Madness Manor";
 			};
 			name = Release;
 		};
@@ -593,7 +593,7 @@
 				INFOPLIST_FILE = KeyToMadnessUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.nwmissouri.KeyToMadnessUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Madness Manor";
 				TEST_TARGET_NAME = KeyToMadness;
 				USES_XCTRUNNER = YES;
 			};
@@ -605,7 +605,7 @@
 				INFOPLIST_FILE = KeyToMadnessUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.nwmissouri.KeyToMadnessUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Madness Manor";
 				TEST_TARGET_NAME = KeyToMadness;
 				USES_XCTRUNNER = YES;
 			};
@@ -614,7 +614,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		473F3F541BC7481D00D42327 /* Build configuration list for PBXProject "KeyToMadness" */ = {
+		473F3F541BC7481D00D42327 /* Build configuration list for PBXProject "Madness Manor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				473F3F831BC7481D00D42327 /* Debug */,
@@ -623,7 +623,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		473F3F851BC7481D00D42327 /* Build configuration list for PBXNativeTarget "KeyToMadness" */ = {
+		473F3F851BC7481D00D42327 /* Build configuration list for PBXNativeTarget "Madness Manor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				473F3F861BC7481D00D42327 /* Debug */,
@@ -632,7 +632,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		473F3F881BC7481D00D42327 /* Build configuration list for PBXNativeTarget "KeyToMadnessTests" */ = {
+		473F3F881BC7481D00D42327 /* Build configuration list for PBXNativeTarget "Madness ManorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				473F3F891BC7481D00D42327 /* Debug */,
@@ -641,7 +641,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		473F3F8B1BC7481D00D42327 /* Build configuration list for PBXNativeTarget "KeyToMadnessUITests" */ = {
+		473F3F8B1BC7481D00D42327 /* Build configuration list for PBXNativeTarget "Madness ManorUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				473F3F8C1BC7481D00D42327 /* Debug */,
