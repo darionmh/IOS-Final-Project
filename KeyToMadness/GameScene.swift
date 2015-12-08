@@ -405,11 +405,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
             let heading = app.player.heading
             var newPos = CGPointZero
             if(validDoor){
-                if(playSounds && SKTAudio.sharedInstance().soundEffectPlayer?.playing == false){
-                    SKTAudio.sharedInstance().playSoundEffect("door.wav")
-                }else if(playSounds && SKTAudio.sharedInstance().soundEffectPlayer == nil){
-                    SKTAudio.sharedInstance().playSoundEffect("door.wav")
-                }
                 if(heading == "North"){
                     newPos = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame) * 0.27 + UIImage(named: "character")!.size.height)
                 }else if(heading == "East"){
@@ -790,6 +785,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIAlertViewDelegate, UIPicke
                 // inside the house layout
                 if(app.houseLayout[location.y+7][location.x+7] == nil){
                     // door leads to undiscovered room
+                    if(playSounds && SKTAudio.sharedInstance().soundEffectPlayer?.playing == false){
+                        SKTAudio.sharedInstance().playSoundEffect("door.wav")
+                    }else if(playSounds && SKTAudio.sharedInstance().soundEffectPlayer == nil){
+                        SKTAudio.sharedInstance().playSoundEffect("door.wav")
+                    }
+                    
                     print("here")// error in here
                     app.createRoom(door-1)
                     print("created room")
